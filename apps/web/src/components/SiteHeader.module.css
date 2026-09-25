@@ -4,8 +4,8 @@
   z-index: 20;
   height: var(--header-h);
   border-bottom: 1px solid var(--rule);
-  background: rgb(255 255 255 / 0.92);
-  backdrop-filter: saturate(1.6) blur(10px);
+  /* Solid: a see-through header shows the page's boxes ghosting behind the logo. */
+  background: var(--bg);
 }
 
 .inner {
@@ -20,7 +20,8 @@
 }
 
 .home {
-  display: block;
+  /* Flex, so no line box adds space under the logo and it centres with the buttons. */
+  display: flex;
   text-decoration: none;
 }
 
@@ -141,9 +142,37 @@
 
   .inner {
     grid-template-columns: auto 1fr;
+    gap: 16px;
   }
 
   .actions {
     justify-self: end;
+    gap: 8px;
+  }
+
+  .logo {
+    gap: 8px;
+  }
+
+  .mark {
+    width: 30px;
+    height: 30px;
+  }
+
+  .word {
+    font-size: 21px;
+  }
+
+  /* Scoped to win over the button's own size. */
+  .actions .upgrade {
+    height: 34px;
+    padding: 0 14px;
+    font-size: 14px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 14px;
   }
 }

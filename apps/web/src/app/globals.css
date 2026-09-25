@@ -43,6 +43,13 @@
   color-scheme: light;
 }
 
+/* A shorter header on phones and tablets, where the menu collapses. */
+@media (max-width: 1000px) {
+  :root {
+    --header-h: 60px;
+  }
+}
+
 *,
 *::before,
 *::after {
