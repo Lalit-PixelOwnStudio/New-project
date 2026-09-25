@@ -5,11 +5,11 @@ import { PageHero, Section } from "@/components/Section";
 import { countryFromHeaders, priceFor } from "@/lib/pricing";
 import { MyHandTool } from "@/myhand/MyHandTool";
 import { YourHands } from "@/myhand/YourHands";
+import { googleEnabled } from "@/server/auth";
 
 export const metadata: Metadata = {
   title: "Turn your handwriting into a font",
-  description:
-    "Write one page by hand, take a photo, and Truehand turns it into your own handwriting for any text, with every letter a little different. Free to try.",
+  description: "Write one page by hand, take a photo, and Truehand turns it into your own handwriting for any text, with every letter a little different.",
   alternates: { canonical: "/my-handwriting" },
 };
 
@@ -20,18 +20,18 @@ export default async function MyHandwritingPage() {
       <PageHero
         eyebrow="Your own handwriting"
         title="Write one page. Get your own handwriting."
-        lede={`Fill in a one-page template by hand, take a photo, and Truehand turns it into your handwriting for any text you type. Free to make and try; ${price} once to download pages in it.`}
+        lede={`Fill in a one-page template by hand, take a photo, and Truehand turns it into your handwriting for any text you type. Sign up free, then ${price} once to download pages in it.`}
       />
       <Section tone="page">
-        <YourHands />
-        <MyHandTool priceLabel={price} />
+        <YourHands priceLabel={price} />
+        <MyHandTool priceLabel={price} google={googleEnabled} />
       </Section>
       <Section label="Questions" title="Good to know">
         <Faq
           items={[
             {
               q: "What do I need?",
-              a: "A printer, a dark pen and a phone camera. No printer? Choose Draw on screen and write each letter with your finger or a stylus instead.",
+              a: "A free account (sign in with Google or your email), a printer, a dark pen and a phone camera. No printer? Choose Draw on screen and write each letter with your finger or a stylus instead.",
             },
             {
               q: "Why write the small letters twice?",
@@ -43,7 +43,7 @@ export default async function MyHandwritingPage() {
             },
             {
               q: "What does it cost?",
-              a: `Making your handwriting and trying it in the editor is free. Downloading pages written in it is ${price} once, for good, and is included with every plan.`,
+              a: `Signing up and making your handwriting is free. When you save it, ${price} once unlocks downloads in it for good, for every handwriting you make. Every plan includes it too.`,
             },
             {
               q: "Some characters weren't found.",

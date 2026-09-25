@@ -57,6 +57,7 @@ export function BuyButton({
   variant = "primary",
   wide,
   size = "m",
+  onDone,
 }: {
   product: ProductId;
   /** Only honoured for India, which may pay in USD instead of INR. */
@@ -65,6 +66,8 @@ export function BuyButton({
   variant?: "primary" | "secondary";
   wide?: boolean;
   size?: "s" | "m" | "l";
+  /** Called once the purchase is confirmed and on the account. */
+  onDone?: () => void;
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -81,6 +84,7 @@ export function BuyButton({
     setDone(true);
     setPaypal(null);
     router.refresh();
+    onDone?.();
   };
 
   const start = async () => {
