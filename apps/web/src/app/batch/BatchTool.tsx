@@ -96,7 +96,7 @@ export function BatchTool() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ pages: rows.length, dpi: entitlements.limits.maxDpi, pro }),
       });
-      if (!res.ok) {
+      if (!res.ok && res.status < 500) {
         const body = (await res.json().catch(() => ({}))) as { message?: string };
         setMessage(body.message ?? "This batch isn't available on your plan.");
         return;

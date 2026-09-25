@@ -96,6 +96,8 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
         body: JSON.stringify({ pages: allowed, dpi, pro: [...proFeaturesUsed(settings), ...(transparent ? ["transparent"] : [])] }),
       });
       if (res.ok) return ((await res.json()) as { allowed: number }).allowed;
+      // Only a real "no" (limits, Pro) stops the download; a server hiccup doesn't.
+      if (res.status >= 500) return allowed;
       const body = (await res.json().catch(() => ({}))) as { error?: string; message?: string };
       setError(
         body.error === "daily_limit"
