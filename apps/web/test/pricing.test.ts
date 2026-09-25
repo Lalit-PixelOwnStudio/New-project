@@ -45,6 +45,7 @@ describe("regional pricing", () => {
   it("gives each plan its pages", () => {
     expect(PRODUCTS.pass_week.grant).toEqual({ plan: "week", credits: PLANS.week.pages });
     expect(PRODUCTS.pass_month.grant).toEqual({ plan: "month", credits: PLANS.month.pages });
-    expect(PRODUCTS.pass_year.grant).toEqual({ plan: "year", credits: PLANS.year.pages });
+    // Year has no page limit, so it needs no page credits.
+    expect(PRODUCTS.pass_year.grant).toEqual({ plan: "year" });
   });
 });

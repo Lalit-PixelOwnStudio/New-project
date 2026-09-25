@@ -5,7 +5,8 @@ import { createHmac, timingSafeEqual } from "node:crypto";
  * Razorpay Orders API over plain HTTPS. Used for payments from India in INR:
  * UPI, cards, net banking and wallets through Razorpay Checkout.
  */
-const API = "https://api.razorpay.com/v1";
+/** RAZORPAY_API_URL only points tests at a stand-in server; it is never set in production. */
+const api = () => process.env.RAZORPAY_API_URL?.trim() || "https://api.razorpay.com/v1";
 
 export const razorpayConfigured = () => Boolean(process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET);
 
@@ -17,7 +18,7 @@ function authHeader() {
 }
 
 export async function createRazorpayOrder(input: { amount: number; currency: "INR"; receipt: string; notes: Record<string, string> }) {
-  const res = await fetch(`${API}/orders`, {
+  const res = await fetch(`${api()}/orders`, {
     method: "POST",
     headers: { Authorization: authHeader(), "Content-Type": "application/json" },
     body: JSON.stringify({ ...input, payment_capture: 1 }),

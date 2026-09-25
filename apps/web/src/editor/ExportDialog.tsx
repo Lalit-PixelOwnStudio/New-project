@@ -269,7 +269,12 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
 
             <p className={s.summary}>
               <strong>{allowed}</strong> of {pages} {pages === 1 ? "page" : "pages"}
-              {truncated && <> · Free downloads include the first {limits.pagesPerExport} pages</>}
+              {truncated &&
+                (limits.ads ? (
+                  <> · Free downloads include the first {limits.pagesPerExport} pages</>
+                ) : (
+                  <> · Up to {limits.pagesPerExport + entitlements.credits} pages in one download</>
+                ))}
             </p>
 
             {(locked.length > 0 || qualityLocked || transparentLocked) && (

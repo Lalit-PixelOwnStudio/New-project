@@ -60,14 +60,15 @@ export const LIMITS: Record<PlanId, Limits> = {
   },
   week: { ...FULL, maxDpi: 200, effects: false, fatigue: false, transparent: false, batch: false },
   month: FULL,
-  year: FULL,
+  // Year has no page limit; these only stop abuse (fair use, stated on the pricing page).
+  year: { ...FULL, pagesPerExport: 300, pagesPerDay: 1000 },
 };
 
-/** What each paid plan includes. Prices live in pricing.ts. */
-export const PLANS: Record<PaidPlan, { name: string; days: number; pages: number }> = {
-  week: { name: "Week", days: 7, pages: 150 },
-  month: { name: "Month", days: 31, pages: 800 },
-  year: { name: "Year", days: 366, pages: 10_000 },
+/** What each paid plan includes; `pages: null` means no page limit. Prices live in pricing.ts. */
+export const PLANS: Record<PaidPlan, { name: string; days: number; pages: number | null; bestFor: string }> = {
+  week: { name: "Week", days: 7, pages: 150, bestFor: "One assignment, or a week of deadlines." },
+  month: { name: "Month", days: 31, pages: 800, bestFor: "A term of assignments, notes and lab records." },
+  year: { name: "Year", days: 366, pages: null, bestFor: "The whole school year, with no page limit." },
 };
 
 /** Higher wins when several plans are active at once. */

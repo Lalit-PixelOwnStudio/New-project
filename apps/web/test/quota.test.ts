@@ -51,4 +51,8 @@ describe("export quota", () => {
     expect(() => decide({ pages: 1, dpi: 200, pro: ["effect:scan"] }, week, 0)).toThrowError(/Pro/);
     expect(decide({ pages: 1, dpi: 300, pro: ["effect:scan", "transparent"] }, plan("year", 10), 0).allowed).toBe(1);
   });
+
+  it("gives Year pages without spending credits", () => {
+    expect(decide({ pages: 120, dpi: 300, pro: [] }, plan("year", 0), 400)).toMatchObject({ allowed: 120, creditsUsed: 0 });
+  });
 });

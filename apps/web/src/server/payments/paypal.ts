@@ -4,7 +4,9 @@ import "server-only";
  * PayPal Orders v2 over plain HTTPS, for everyone outside India, in USD.
  * PAYPAL_ENV=live switches from the sandbox to production.
  */
-const base = () => (process.env.PAYPAL_ENV?.trim() === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com");
+const base = () =>
+  // PAYPAL_API_URL only points tests at a stand-in server; it is never set in production.
+  process.env.PAYPAL_API_URL?.trim() || (process.env.PAYPAL_ENV?.trim() === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com");
 
 export const paypalConfigured = () => Boolean(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET);
 

@@ -21,28 +21,28 @@ export const metadata: Metadata = {
 const freeStyles = STYLES.filter((st) => st.tier === "free").length;
 const freePapers = PAPERS.filter((p) => p.tier === "free").length;
 const freePens = PENS.filter((p) => p.tier === "free").length;
-const pages = (n: number) => n.toLocaleString("en-US");
+const pages = (n: number | null) => (n === null ? "Unlimited" : n.toLocaleString("en-US"));
 
 const PLAN_CARDS: { plan: PaidPlan; product: ProductId; per: string; badge?: string; features: string[] }[] = [
   {
     plan: "week",
     product: "pass_week",
     per: "for 7 days",
-    features: [`All ${STYLES.length} handwritings`, `All ${PAPERS.length} papers and ${PENS.length} pens, any ink colour`, "No ads"],
+    features: [`Every handwriting (all ${STYLES.length})`, `Every paper and pen, any ink colour`, "No ads, no waiting after downloads"],
   },
   {
     plan: "month",
     product: "pass_month",
     per: "for a month",
     badge: "Most popular",
-    features: ["Everything in Week", "Scanned and phone-photo finishes", "Batch letters from a spreadsheet", "Transparent PNGs, fatigue control"],
+    features: ["Everything in Week", "Scanned and phone-photo looks", "Batch letters from a spreadsheet", "Transparent PNGs for cards and designs"],
   },
   {
     plan: "year",
     product: "pass_year",
     per: "for a year",
     badge: "Best value",
-    features: ["Everything in Month", "The whole school year", "Pages never run out mid-term"],
+    features: ["Everything in Month", "No page limit, all year", "The lowest price per month"],
   },
 ];
 
@@ -95,7 +95,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
               <p className={s.price}>
                 <span>{currency === "INR" ? "₹0" : "$0"}</span>
               </p>
-              <p className={s.planNote}>Paid for by a few quiet ads.</p>
+              <p className={s.planNote}>For trying it out and short pages. Paid for by a few quiet ads.</p>
             </header>
             <dl className={s.stats}>
               <div>
@@ -136,7 +136,9 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
                     <span>{p.display}</span>
                     <small>{c.per}</small>
                   </p>
-                  <p className={s.planNote}>{c.plan === "year" ? `About ${yearlyPerMonth(country, pay)} a month. Paid once.` : "Paid once. Doesn't renew."}</p>
+                  <p className={s.planNote}>
+                    {plan.bestFor} {c.plan === "year" ? `About ${yearlyPerMonth(country, pay)} a month, paid once.` : "Paid once, doesn't renew."}
+                  </p>
                 </header>
                 <dl className={s.stats}>
                   <div>
@@ -161,9 +163,9 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
           })}
         </PlanRow>
         <p className={s.footnote}>
-          Anything marked Pro in the editor comes with every plan; 4K, the scanned and photo finishes, batch letters and transparent PNGs come with Month and
-          Year. Every plan keeps the free {free.pagesPerDay} pages a day on top of its own pages, and pages you don&rsquo;t use stay on your account after the
-          plan ends.
+          Anything marked Pro in the editor comes with every plan; 4K, the scanned and photo looks, batch letters and transparent PNGs come with Month and Year.
+          Week and Month keep the free {free.pagesPerDay} pages a day on top of their own, and pages you don&rsquo;t use stay on your account after the plan
+          ends.
         </p>
       </Section>
 
@@ -245,8 +247,16 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
               a: "No. Every plan is a one-time payment. When your week, month or year ends, your account goes back to Free. Buying the same plan again adds time on top of what you have left.",
             },
             {
+              q: "Which plan should I pick?",
+              a: "One assignment or one busy week: Week. A term of assignments, notes and lab records: Month. The whole school year, or if you don't want to count pages at all: Year.",
+            },
+            {
+              q: "Is Year really unlimited?",
+              a: `Yes, for your own work there's no page limit. To stop abuse, one account can download up to ${LIMITS.year.pagesPerExport} pages at a time and ${pages(LIMITS.year.pagesPerDay)} pages a day, far more than any assignment needs.`,
+            },
+            {
               q: "What counts as a page?",
-              a: "One side of paper in your download. A 3-page PDF uses 3 pages. The free 10 pages a day are used first, then your plan's pages.",
+              a: "One side of paper in your download: a 3-page PDF uses 3 pages. On Week and Month, the free 10 pages a day are used first, then your plan's pages.",
             },
             {
               q: "What do Full HD, 2K and 4K mean here?",
@@ -258,7 +268,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
             },
             {
               q: "How can I pay?",
-              a: "In India, through Razorpay in rupees: UPI, cards, net banking and wallets. You can also switch to US dollars above and pay with PayPal. Everywhere else, through PayPal in US dollars, with a PayPal account or a card.",
+              a: "It's picked from where you are. In India, prices are in rupees and you pay through Razorpay: UPI, cards, net banking or wallets (you can also switch to US dollars above and use PayPal). Everywhere else, prices are in US dollars and you pay through PayPal, with a PayPal account or a card.",
             },
             {
               q: "Why are prices different in different countries?",

@@ -51,7 +51,7 @@ const UPDATED = "2026-09-25";
 /* Problems that come up in more than one guide. */
 const ONLY_THREE_PAGES = {
   q: "Why did only 3 pages download?",
-  a: "Free downloads include the first 3 pages, and 10 pages a day. For a longer file, download it in parts: keep your full text safe, paste in the first part and download, then paste the next part and download again. Or get a plan: Week adds 150 pages, Month 800.",
+  a: "Free downloads include the first 3 pages, and 10 pages a day. For a longer file, download it in parts: keep your full text safe, paste in the first part and download, then paste the next part and download again. Or get a plan: Week adds 150 pages, Month 800, and Year has no page limit.",
 };
 const PRO_SELECTED = {
   q: "The download window says I picked a Pro option. What do I do?",

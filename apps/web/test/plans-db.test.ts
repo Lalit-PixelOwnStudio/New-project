@@ -21,7 +21,7 @@ async function buy(userId: string, product: string) {
 
 beforeAll(async () => {
   await migrate(db as never, { migrationsFolder: join(import.meta.dirname, "..", "drizzle") });
-  for (const id of ["a", "b"]) await db.insert(schema.user).values({ id, name: id, email: `${id}@example.com` });
+  for (const id of ["a", "b", "c"]) await db.insert(schema.user).values({ id, name: id, email: `${id}@example.com` });
 });
 
 describe("plans", () => {
@@ -60,5 +60,13 @@ describe("plans", () => {
     const ent = await getEntitlements("b");
     expect(ent.plan).toBe("month");
     expect(new Date(ent.proUntil!).getTime()).toBe(week.endsAt.getTime());
+  });
+
+  it("gives Year unlimited pages without page credits", async () => {
+    await buy("c", "pass_year");
+    const ent = await getEntitlements("c");
+    expect(ent).toMatchObject({ plan: "year", credits: 0 });
+    expect(ent.limits.pagesPerDay).toBeGreaterThanOrEqual(1000);
+    expect(ent.limits.maxDpi).toBe(300);
   });
 });
