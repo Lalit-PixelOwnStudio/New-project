@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { EntitlementsProvider } from "@/lib/entitlements-client";
 import { SITE_URL } from "@/lib/site";
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <EntitlementsProvider>
           <SiteHeader />
           {children}
+          <SiteFooter />
         </EntitlementsProvider>
       </body>
     </html>

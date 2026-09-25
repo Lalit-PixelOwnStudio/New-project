@@ -1,0 +1,57 @@
+.error {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: #b0283a;
+}
+
+.done {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  margin: 0;
+  padding: 0 12px;
+  background: linear-gradient(176deg, transparent 12%, var(--hl) 12%, var(--hl) 86%, transparent 86%);
+  font-weight: 600;
+}
+
+.dialog {
+  width: min(420px, calc(100vw - 24px));
+  padding: 0;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-l);
+  box-shadow: 0 30px 80px -20px rgb(17 18 22 / 0.35);
+}
+
+.dialog::backdrop {
+  background: rgb(17 18 22 / 0.32);
+}
+
+.pay {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 15px;
+}
+
+.buttons {
+  min-height: 150px;
+}
+
+.cancel {
+  justify-self: center;
+  border: 0;
+  background: none;
+  font-size: 13.5px;
+  color: var(--ink-3);
+  cursor: pointer;
+  text-decoration: underline;
+}

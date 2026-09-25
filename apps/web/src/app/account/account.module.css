@@ -1,0 +1,93 @@
+.facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 0 28px;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.facts div {
+  padding: 16px 16px 16px 0;
+}
+
+.facts dt {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-stretch: 87.5%;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.facts dd {
+  margin: 6px 0 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+}
+
+.table th,
+.table td {
+  padding: 10px 12px 10px 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+
+.table th {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  font-stretch: 87.5%;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-stretch: 87.5%;
+  color: var(--ink-3);
+}
+
+.empty {
+  margin: 0;
+  color: var(--ink-3);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.danger {
+  display: grid;
+  gap: 12px;
+  max-width: 460px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--red);
+  background: #fdf0f2;
+}
+
+.danger p {
+  margin: 0;
+  font-size: 14px;
+}
+
+@media (max-width: 700px) {
+  .facts {
+    grid-template-columns: 1fr 1fr;
+  }
+}

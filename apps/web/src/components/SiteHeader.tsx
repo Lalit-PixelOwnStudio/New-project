@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ButtonLink } from "./ui/Button";
+import { HeaderAccount } from "./HeaderAccount";
 import { MobileNav } from "./MobileNav";
 import s from "./SiteHeader.module.css";
 
@@ -33,12 +33,7 @@ export function SiteHeader() {
         ))}
       </nav>
       <div className={s.actions}>
-        <Link href="/account" className={s.signin}>
-          Sign in
-        </Link>
-        <ButtonLink href="/pricing" size="s">
-          Get Pro
-        </ButtonLink>
+        <HeaderAccount />
         <MobileNav items={NAV} />
       </div>
     </header>

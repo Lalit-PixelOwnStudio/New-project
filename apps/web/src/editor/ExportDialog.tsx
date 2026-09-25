@@ -6,7 +6,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { ProTag } from "@/components/ui/ProTag";
 import { Segmented } from "@/components/ui/Segmented";
 import { canUseStyle, useEntitlements } from "@/lib/entitlements-client";
-import { toDocumentSpec, type EditorSettings } from "@/lib/settings";
+import { proFeaturesUsed, toDocumentSpec, type EditorSettings } from "@/lib/settings";
 import type { RendererClient } from "./client";
 import s from "./ExportDialog.module.css";
 
@@ -43,7 +43,7 @@ function fileTitle(text: string) {
 
 export function ExportDialog({ open, onClose, settings, patch, client, pages }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
-  const { entitlements } = useEntitlements();
+  const { entitlements, refresh } = useEntitlements();
   const limits = entitlements.limits;
   const [format, setFormat] = useState<Format>("pdf");
   const [dpi, setDpi] = useState<150 | 300>(150);
@@ -66,17 +66,41 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
   const blocked = locked.length > 0 || hdLocked || transparentLocked;
   const busy = progress !== null;
 
+  /** Asks the server how many pages this export may include (daily limits, credits). */
+  const reserve = async (): Promise<number | null> => {
+    try {
+      const res = await fetch("/api/exports", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pages: allowed, dpi, pro: [...proFeaturesUsed(settings), ...(transparent ? ["transparent"] : [])] }),
+      });
+      if (res.ok) return ((await res.json()) as { allowed: number }).allowed;
+      const body = (await res.json().catch(() => ({}))) as { error?: string; message?: string };
+      setError(
+        body.error === "daily_limit"
+          ? `You've used today's ${limits.pagesPerDay} free pages. They come back within 24 hours, or a page pack covers you now.`
+          : (body.message ?? "This download isn't available on your plan."),
+      );
+      return null;
+    } catch {
+      // Offline or the API is down: don't block the download over it.
+      return allowed;
+    }
+  };
+
   const run = async () => {
     if (!client || blocked) return;
     setError(null);
-    setProgress({ done: 0, total: allowed });
+    const granted = await reserve();
+    if (!granted) return;
+    setProgress({ done: 0, total: granted });
     try {
       const style = styleById(settings.styleId) ?? STYLES[0]!;
       const title = fileTitle(settings.text);
       const result = await client.export(
         toDocumentSpec(settings),
         style,
-        { format, dpi, maxPages: allowed, effect: settings.effect, transparent: transparent && format !== "pdf", title },
+        { format, dpi, maxPages: granted, effect: settings.effect, transparent: transparent && format !== "pdf", title },
         (done, total) => setProgress({ done, total }),
       );
       const ext = result.mime === "application/pdf" ? "pdf" : result.mime === "application/zip" ? "zip" : "png";
@@ -89,6 +113,7 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 10_000);
       onClose();
+      void refresh();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Export failed");
     } finally {

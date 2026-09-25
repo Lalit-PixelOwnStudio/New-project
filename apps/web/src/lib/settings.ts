@@ -101,6 +101,6 @@ export function proFeaturesUsed(s: EditorSettings): string[] {
   if (tierOf(penById(s.penId)?.tier)) used.push(`pen:${s.penId}`);
   if (s.inkColor) used.push("ink-color");
   if (s.effect !== "none") used.push(`effect:${s.effect}`);
-  if (s.fatigue !== DEFAULT_SETTINGS.fatigue) used.push("fatigue");
+  if (s.fatigue > DEFAULT_SETTINGS.fatigue + 1e-9) used.push("fatigue");
   return used;
 }

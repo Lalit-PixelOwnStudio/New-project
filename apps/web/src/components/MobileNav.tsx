@@ -22,7 +22,7 @@ export function MobileNav({ items }: { items: { href: string; label: string }[] 
         <span className={s.bars} data-open={open || undefined} aria-hidden="true" />
       </button>
       <nav id="mobile-nav" className={s.sheet} data-open={open || undefined} aria-label="Main" hidden={!open}>
-        {[{ href: "/", label: "Write" }, ...items, { href: "/account", label: "Sign in" }].map((n) => (
+        {[{ href: "/", label: "Write" }, ...items, { href: "/account", label: "Account" }].map((n) => (
           <Link key={n.href} href={n.href}>
             {n.label}
           </Link>

@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const config: NextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@truehand/engine", "@truehand/catalog"],
-  serverExternalPackages: ["@napi-rs/canvas"],
+  serverExternalPackages: ["@napi-rs/canvas", "@electric-sql/pglite", "postgres"],
   // harfbuzzjs has a Node-only branch that imports "module"; browsers never take it.
   turbopack: {
     resolveAlias: {
