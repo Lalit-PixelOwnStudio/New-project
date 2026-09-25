@@ -17,8 +17,8 @@ export default function GuidesPage() {
     <main>
       <PageHero
         eyebrow="Guides"
-        title="Handwriting, paper and getting it right"
-        lede="Short, practical articles on making pages that look written by hand, and on how Truehand does it."
+        title="How to use Truehand"
+        lede="Step-by-step help for assignments, journals, study notes, lab records, letters and more. Each guide takes a few minutes and ends in the editor, ready to go."
       />
       <AdBand placement="top" tone="page" />
       <Section tone="page">

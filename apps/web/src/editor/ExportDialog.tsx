@@ -3,6 +3,7 @@ import { DEFAULT_PAPER_ID, DEFAULT_PEN_ID, DEFAULT_STYLE_ID, STYLES, paperById, 
 import { CheckCircle2, Download } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { AdSlot } from "@/components/AdSlot";
+import { FeedbackForm, feedbackDue } from "@/components/FeedbackForm";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { ProTag } from "@/components/ui/ProTag";
 import { Segmented } from "@/components/ui/Segmented";
@@ -59,6 +60,7 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
   const [error, setError] = useState<string | null>(null);
   const [phase, setPhase] = useState<"options" | "working" | "ready">("options");
   const [file, setFile] = useState<{ url: string; name: string; pages: number } | null>(null);
+  const [askFeedback, setAskFeedback] = useState(false);
 
   useEffect(() => {
     const d = ref.current;
@@ -151,7 +153,11 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
       setFile(next);
       save(next);
       void refresh();
-      if (limits.ads) setPhase("ready");
+      // Free downloads always land on the ready view (it carries an ad); Pro
+      // only does when it's time to ask how the pages came out.
+      const ask = feedbackDue();
+      setAskFeedback(ask);
+      if (limits.ads || ask) setPhase("ready");
       else onClose();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Export failed");
@@ -163,7 +169,7 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
 
   return (
     <dialog ref={ref} className={s.dialog} onClose={onClose} onCancel={(e) => busy && e.preventDefault()} aria-labelledby="export-title">
-      <form method="dialog" className={s.body} onSubmit={(e) => e.preventDefault()}>
+      <div className={s.body}>
         <header className={s.head}>
           <h2 id="export-title">{phase === "working" ? "Writing your pages…" : phase === "ready" ? "Your download is ready" : "Download"}</h2>
           <button type="button" className={s.close} onClick={onClose} aria-label="Close" disabled={busy}>
@@ -196,6 +202,21 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
                 Done
               </Button>
             </div>
+            {askFeedback && (
+              <FeedbackForm
+                context={{
+                  source: "download",
+                  style: settings.styleId,
+                  paper: settings.paperId,
+                  pen: settings.penId,
+                  pages: file.pages,
+                  format,
+                  dpi,
+                  effect: settings.effect,
+                }}
+                onSkip={() => setAskFeedback(false)}
+              />
+            )}
             {limits.ads && (
               <p className={s.hintText}>
                 <a href="/pricing">Pro</a> skips this step, removes ads and unlocks every hand.
@@ -297,7 +318,7 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
         )}
 
         {phase !== "options" && <AdSlot placement="export" />}
-      </form>
+      </div>
     </dialog>
   );
 }

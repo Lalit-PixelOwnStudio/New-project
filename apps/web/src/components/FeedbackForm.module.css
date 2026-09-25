@@ -1,0 +1,153 @@
+.form {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg-page);
+}
+
+.rating {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.rating legend {
+  margin-bottom: 10px;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.scale {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.point {
+  position: relative;
+}
+
+.point input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.point span {
+  display: grid;
+  place-items: center;
+  height: 40px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--ink-2);
+  transition:
+    background 120ms var(--ease),
+    border-color 120ms var(--ease),
+    color 120ms var(--ease);
+}
+
+.point:hover span {
+  border-color: var(--blue);
+}
+
+.point input:checked + span {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
+.point input:focus-visible + span {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 550;
+  color: var(--ink-2);
+}
+
+.field textarea,
+.field input {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font: inherit;
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--ink);
+  resize: vertical;
+}
+
+.field textarea:focus,
+.field input:focus {
+  border-color: var(--blue);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--blue-soft);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.skip {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+
+.skip:hover {
+  color: var(--ink);
+}
+
+.error {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--red);
+}
+
+.thanks {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg-page);
+  font-size: 15px;
+}
+
+.thanks svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--green);
+}

@@ -14,8 +14,7 @@ export default function AboutPage() {
       </p>
       <p>
         Under the hood it is a rendering engine that shapes text like a word processor, lays it out on real paper sizes, and then varies every word the way a
-        hand does, from the slant of a letter to the pressure of the pen. You can read about it in{" "}
-        <Link href="/guides/how-truehand-works">how Truehand works</Link>.
+        hand does, from the slant of a letter to the pressure of the pen. New here? Start with the <Link href="/guides/getting-started">two-minute guide</Link>.
       </p>
       <h2>What we care about</h2>
       <ul>

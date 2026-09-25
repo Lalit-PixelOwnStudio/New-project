@@ -50,6 +50,11 @@ export default function PrivacyPage() {
             <td>Sessions: up to 60 days. Logs: up to 30 days</td>
           </tr>
           <tr>
+            <td>Feedback you send: a rating, your comment and email if you add them, and the settings used (hand, paper, pages), never your text</td>
+            <td>To find what to fix and improve, and to reply if you asked</td>
+            <td>Up to 2 years, or until you ask us to delete it</td>
+          </tr>
+          <tr>
             <td>API waitlist details you submit</td>
             <td>To contact you about business API access</td>
             <td>Until you ask us to remove them, or the API launches</td>

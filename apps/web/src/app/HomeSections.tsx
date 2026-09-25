@@ -83,8 +83,8 @@ export function HomeSections() {
             </li>
           ))}
         </ul>
-        <Link href="/guides/how-truehand-works" className={s.textLink}>
-          Read how the engine works <ArrowRight aria-hidden="true" />
+        <Link href="/guides/getting-started" className={s.textLink}>
+          New here? Your first page in two minutes <ArrowRight aria-hidden="true" />
         </Link>
       </Section>
 

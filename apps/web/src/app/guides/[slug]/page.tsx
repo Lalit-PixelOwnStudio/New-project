@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { AdSlot } from "@/components/AdSlot";
+import { FeedbackForm } from "@/components/FeedbackForm";
 import { ButtonLink } from "@/components/ui/Button";
 import { GUIDES, guideBySlug, type GuideBlock } from "@/content/guides";
 import { SITE_URL } from "@/lib/site";
@@ -114,8 +115,11 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             <strong>Try it on your own text</strong>
             <span>Paste anything and watch it come out handwritten. Free, no sign-up.</span>
           </div>
-          <ButtonLink href="/">Open the editor</ButtonLink>
+          <ButtonLink href={g.cta.href}>{g.cta.label}</ButtonLink>
         </aside>
+        <div className={s.feedback}>
+          <FeedbackForm context={{ source: "guide", guide: g.slug }} title="Did this guide help?" ends={["Not really", "A lot"]} />
+        </div>
         {related.length > 0 && (
           <nav className={s.related} aria-label="Related guides">
             <h2>Keep reading</h2>

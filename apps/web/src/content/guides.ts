@@ -13,6 +13,8 @@ export interface Guide {
   updated: string;
   sections: { heading: string; blocks: GuideBlock[] }[];
   related: string[];
+  /** Where "try it" goes: usually the editor, already set up for this job. */
+  cta: { href: string; label: string };
 }
 
 const p = (text: string): GuideBlock => ({ kind: "p", text });
@@ -20,303 +22,423 @@ const list = (...items: string[]): GuideBlock => ({ kind: "list", items });
 const steps = (...items: string[]): GuideBlock => ({ kind: "steps", items });
 const note = (text: string): GuideBlock => ({ kind: "note", text });
 
+const UPDATED = "2026-09-25";
+
 export const GUIDES: Guide[] = [
   {
-    slug: "how-truehand-works",
-    title: "How Truehand makes typed text look handwritten",
-    description:
-      "What happens between pressing a key and seeing a handwritten page: shaping, placing words on ruled lines, controlled randomness, and ink on textured paper.",
-    minutes: 6,
-    updated: "2026-09-25",
-    related: ["make-typed-text-look-handwritten", "ruled-paper-sizes"],
+    slug: "getting-started",
+    title: "Your first handwritten page in two minutes",
+    description: "New to Truehand? Type or paste your text, pick a handwriting and a paper, and download a PDF. Here is everything on the screen, explained.",
+    minutes: 3,
+    updated: UPDATED,
+    related: ["write-assignment-online", "use-truehand-on-your-phone"],
+    cta: { href: "/", label: "Open the editor" },
     sections: [
       {
-        heading: "Why handwriting fonts look fake",
+        heading: "What you need",
         blocks: [
           p(
-            "A handwriting font stores one drawing of each letter. Type the word “letter” and both t’s are pixel-for-pixel the same, every line sits exactly on its baseline, and every word is the same distance from the next. Our eyes are very good at spotting repetition, so a page set in a handwriting font reads as printed, however scruffy the font itself is.",
-          ),
-          p(
-            "Real handwriting is consistent in style and inconsistent in detail. The same person writes the same letter slightly differently every time, drifts above and below the line, spaces words unevenly and gets a little looser as the page goes on. Truehand keeps the style of a hand and puts the variation back.",
+            "Just a browser, on a laptop or a phone. There is nothing to install and no account to make. What you type stays on your device: the handwriting is drawn right there in your browser, and your text is never uploaded.",
           ),
         ],
       },
       {
-        heading: "Step 1: shaping the text",
-        blocks: [
-          p(
-            "Text is first shaped with HarfBuzz, the same text engine used by Chrome, Android and LibreOffice. Shaping turns characters into positioned glyphs and applies the font’s own rules: ligatures, contextual alternates that join cursive letters, and kerning between pairs such as “To”.",
-          ),
-          p(
-            "If a character is missing from a hand, Truehand substitutes what people write by hand: → becomes ->, curly quotes become straight ones, and ≠ becomes =/=. Anything still missing is drawn by a fallback hand with the same visual size.",
-          ),
-        ],
-      },
-      {
-        heading: "Step 2: putting words on the lines",
-        blocks: [
-          p(
-            "Pages are laid out in real units. College-ruled paper has lines 7.1 mm apart and a margin about 31 mm from the edge; the text size is chosen so the body of each letter fills about a third of the line height, as it does in most people’s notebooks. Words wrap to the next line, headings get a line of space, lists indent under their bullet, and long documents flow onto new pages.",
-          ),
-        ],
-      },
-      {
-        heading: "Step 3: controlled randomness",
-        blocks: [
-          p("Every word then gets its own small differences, drawn from a seeded random generator:"),
-          list(
-            "Size, rotation and slant vary by a few percent and a degree or two.",
-            "Each line tilts by a fraction of a degree and its baseline wobbles gently from one end to the other.",
-            "Letter outlines are bent by a smooth noise field that lives in the word’s own space, so shapes change without breaking the joins between cursive letters.",
-            "Ink pressure varies from word to word, so some words come out a touch darker or heavier.",
-            "With fatigue on, all of this grows slowly toward the bottom of each page.",
-          ),
-          p(
-            "The randomness is keyed to the words themselves, not to their order. When you edit one paragraph, the letters in every other paragraph keep exactly the same shapes, so the preview doesn’t jitter while you type. “Rewrite with a fresh hand” simply picks a new seed.",
-          ),
-        ],
-      },
-      {
-        heading: "Step 4: paper and ink",
-        blocks: [
-          p(
-            "Paper is drawn with a faint tonal variation and a fibre texture, then the printed rules, margin line and any punched holes. The writing is rendered on its own layer, where each pen leaves its own marks: ballpoint skips slightly, gel is smooth and saturated, fountain ink feathers at the edges, and pencil picks up the grain. The ink layer is multiplied onto the paper, so the paper texture shows through the writing as it would in real life.",
-          ),
-          p(
-            "The optional scan and phone-photo finishes then add what a camera or scanner adds: a slight rotation, uneven light, perspective, shadow and sensor noise.",
-          ),
-        ],
-      },
-      {
-        heading: "Everything runs in your browser",
-        blocks: [
-          p(
-            "All of this happens on your own device, in a background thread, so the page stays responsive and your text is never uploaded. The preview is rendered at screen resolution and only for pages you can see; downloads are rendered again at 150 or 300 dpi.",
-          ),
-        ],
-      },
-    ],
-  },
-  {
-    slug: "make-typed-text-look-handwritten",
-    title: "How to make typed text look genuinely handwritten",
-    description:
-      "Practical settings for pages that read as written by hand: choosing a hand, paper and pen, how messy to go, and how to print so it looks right.",
-    minutes: 5,
-    updated: "2026-09-25",
-    related: ["how-truehand-works", "ruled-paper-sizes"],
-    sections: [
-      {
-        heading: "Pick a hand that matches the job",
-        blocks: [
-          p(
-            "Handwriting says something about the writer and the moment. Neat, upright print (Theo, Ada, Sasha) reads as careful. Quick, slanted print (Mira, Kit, Idris) reads as notes taken in class. Everyday hands (Zoe, Rory, Lily, Doc) look like nobody tried to make them pretty, which is often the most convincing choice. Joined cursive (Celeste, Rosa, Marlowe) suits letters and cards.",
-          ),
-        ],
-      },
-      {
-        heading: "Set the messiness honestly",
+        heading: "Make your first page",
         blocks: [
           steps(
-            "Start at Natural. Almost everyone’s handwriting sits here.",
-            "Go toward Careful for things written slowly: a letter, a fair copy, a title page.",
-            "Go toward Quick or Rushed for notes, drafts and anything written under time pressure.",
-            "Turn on fatigue for anything longer than a page.",
+            "Open the editor on the home page. There is already a sample page in it; press the bin icon at the right of the toolbar to clear it.",
+            "Type your text, or paste it from Word, Google Docs, WhatsApp or anywhere else.",
+            "Pick a handwriting from the Hand menu under the toolbar. Each one shows its name written in that hand, so you can see it before you choose.",
+            "Pick a paper (college ruled is the usual notebook page) and a pen (blue ballpoint looks the most like school work).",
+            "Watch the preview on the right, or below the editor on a phone. It updates as you type.",
+            "Press Download, choose PDF, and your page is saved.",
           ),
-          note("Too neat is as suspicious as too messy. If every line is perfectly level, nudge messiness up a little."),
         ],
       },
       {
-        heading: "Use structure the way people do",
+        heading: "Make it look like you wrote it",
+        blocks: [
+          p("Open the Style & page tab for the settings that make the biggest difference:"),
+          list(
+            "Messiness: low looks careful, high looks rushed. Most real notes sit around the middle.",
+            "Size: make the writing bigger or smaller on the lines.",
+            "Slant: tilt the letters forward or back, like a real hand does.",
+            "Rewrite with a fresh hand: the same style, written again with different small wobbles. Press it until a page feels right.",
+          ),
+          note("Tip: the Everyday hands (Zoe, Lily, Tara, Milo, Max, Rory) look the least polished, which is often what makes a page believable."),
+        ],
+      },
+      {
+        heading: "Headings, lists and more",
+        blocks: [
+          p(
+            "The toolbar works like a normal document. H1 and H2 write a bigger heading, B presses the pen harder, U underlines, the highlighter marks words in yellow, and the list buttons add bullets or numbers. The page icon starts a new page wherever you put it.",
+          ),
+        ],
+      },
+      {
+        heading: "What's free",
         blocks: [
           list(
-            "Underline titles. Most people do, and Truehand draws the line by hand, slightly uneven.",
-            "Use bullets and numbered steps where you would in real notes.",
-            "Highlight a few key phrases, not whole paragraphs.",
-            "Strike through a word now and then if you’re copying a draft; real pages have corrections.",
-          ),
-        ],
-      },
-      {
-        heading: "Choose paper and pen together",
-        blocks: [
-          p(
-            "Blue ballpoint on college-ruled paper is the classic school combination. Black gel on plain or dot-grid paper looks like a bullet journal. A fountain pen on cream or kraft paper suits letters. Pencil on grid paper is maths homework.",
-          ),
-        ],
-      },
-      {
-        heading: "Print it so the lines stay right",
-        blocks: [
-          p(
-            "Match the page size to your printer paper (A4 in most countries, Letter in the US and Canada) and print at 100% or “actual size”, never “fit to page”. The ruled lines are drawn at their real spacing, so scaling would make them look wrong next to a real notebook.",
+            "16 handwritings, 5 papers and 3 ballpoint pens, with no watermark.",
+            "Up to 3 pages in each download and 10 pages a day, as PDF, PNG images or a ZIP.",
+            "Anything marked Pro can be previewed by anyone. If you download with a Pro choice selected, the download window offers to switch you to free options in one tap.",
           ),
         ],
       },
     ],
   },
   {
-    slug: "ruled-paper-sizes",
-    title: "College, wide and narrow ruled: paper sizes explained",
+    slug: "write-assignment-online",
+    title: "How to make a handwritten assignment online, without any app",
     description:
-      "The line spacing of college-ruled, wide-ruled and narrow-ruled paper in millimetres and inches, what grid and dot paper are for, and which to choose.",
+      "Turn a typed assignment into neat, handwritten-looking pages with your name, class and page numbers, ready to print or submit. Free, in your browser.",
     minutes: 4,
-    updated: "2026-09-25",
-    related: ["make-typed-text-look-handwritten", "cornell-notes-method"],
+    updated: UPDATED,
+    related: ["getting-started", "download-print-and-share"],
+    cta: { href: "/use/assignments", label: "Write your assignment" },
     sections: [
       {
-        heading: "The three common rulings",
+        heading: "Before you start",
         blocks: [
-          list(
-            "Wide ruled: 11/32 inch (8.7 mm) between lines. Used in primary schools and by people with large handwriting.",
-            "College ruled: 9/32 inch (7.1 mm). The default for most notebooks sold today, for students and adults.",
-            "Narrow ruled: 1/4 inch (6.35 mm), often rounded to 6 mm. Fits more words per page for small handwriting.",
-          ),
           p(
-            "Outside North America, notebooks are usually sold by line spacing in millimetres (6, 7, 8 mm) rather than by name, but they map closely onto the same three sizes.",
+            "Have your answers typed somewhere: Word, Google Docs, notes on your phone, anything. You do not need to install anything or sign up. Open the assignment editor from the button at the end of this guide and it is already set up with notebook paper and a name header.",
+          ),
+          note(
+            "If your teacher has asked for the work in your own handwriting, check with them first. Some teachers want it written by hand as practice, and that is their call.",
           ),
         ],
       },
       {
-        heading: "The margin line",
-        blocks: [
-          p(
-            "Most ruled paper has a vertical margin line, traditionally red or pink, about 30 mm (1¼ inch) from the left edge. Writing starts just to its right. Legal pads use a double line, and many European notebooks put the margin on the right instead.",
-          ),
-        ],
-      },
-      {
-        heading: "Grid, dot and engineering paper",
-        blocks: [
-          p(
-            "Grid paper usually has 5 mm squares, and people write on every second row; engineering pads use a quarter-inch grid on pale green paper. Dot grid prints only the intersections, which keeps pages clean for bullet journals and sketches.",
-          ),
-        ],
-      },
-      {
-        heading: "Which should I use?",
-        blocks: [
-          p(
-            "If you are copying the look of a school notebook, use college ruled. If your handwriting is large, or the reader is a child, use wide ruled. For maths and science, use grid. For letters and cards, use plain paper, where slightly wandering lines are part of the charm.",
-          ),
-        ],
-      },
-    ],
-  },
-  {
-    slug: "cornell-notes-method",
-    title: "The Cornell note-taking method, step by step",
-    description: "How to set out a Cornell notes page with a cue column, notes area and summary, and how to use it to revise with active recall.",
-    minutes: 4,
-    updated: "2026-09-25",
-    related: ["ruled-paper-sizes", "lab-record-format"],
-    sections: [
-      {
-        heading: "The layout",
-        blocks: [
-          p(
-            "A Cornell page has three parts: a narrow cue column on the left (about 6 cm), a wide notes column on the right, and a summary box across the bottom (about 5 cm tall). Walter Pauk designed it at Cornell University in the 1950s, and it is still one of the most recommended ways to take notes.",
-          ),
-        ],
-      },
-      {
-        heading: "Using it",
+        heading: "Step by step",
         blocks: [
           steps(
-            "During the lesson, write notes in the right-hand column. Keep them brief: phrases, not sentences.",
-            "Within a day, reread them and write a question or keyword in the cue column beside each idea.",
-            "Write a two- or three-sentence summary of the page in the box at the bottom.",
-            "To revise, cover the notes column and answer the questions in the cue column from memory.",
+            "Clear the sample text with the bin icon, then paste your assignment.",
+            "Select the title and press H1 so it is written larger. Use H2 for question numbers or section names.",
+            "Go to Style & page. In Top left, type your name and class. In Top right, type the subject or date. Tick Number the pages.",
+            "Choose a hand. Mira and Theo are tidy student print; Zoe and Tara look more casual.",
+            "Choose the paper your school uses: College ruled or Wide ruled, and A4 or US Letter under Paper size.",
+            "Check every page in the preview. Long answers flow onto new pages by themselves.",
+            "Press Download and choose PDF.",
           ),
-          note("Truehand fills the notes column for you. Writing the cues and summary by hand, when you review, is the part that makes the method work."),
+        ],
+      },
+      {
+        heading: "Tips that make it look real",
+        blocks: [
+          list(
+            "Keep Messiness around the middle. Perfectly neat pages look printed.",
+            "Blue ballpoint on college ruled paper is the most ordinary school look, which is the point.",
+            "Underline headings (in Style & page) the way people do by hand.",
+            "Want a new page for each question? Put the cursor where the page should end and press the new page icon in the toolbar.",
+            "Not happy with how a page came out? Press Rewrite with a fresh hand for new small variations.",
+          ),
+        ],
+      },
+      {
+        heading: "Long assignments",
+        blocks: [
+          p(
+            "Free downloads include the first 3 pages, and up to 10 pages a day. For a longer assignment, download it in parts: keep your full text somewhere safe, paste in the first part and download it, then replace it with the next part and download again. Or a week pass covers every page for the week you need it.",
+          ),
+        ],
+      },
+    ],
+  },
+  {
+    slug: "write-a-journal-online",
+    title: "How to keep a handwritten journal online",
+    description: "Write your journal or diary on your phone or laptop and keep it as real-looking handwritten pages you can save, print or share.",
+    minutes: 3,
+    updated: UPDATED,
+    related: ["use-truehand-on-your-phone", "download-print-and-share"],
+    cta: { href: "/use/journal", label: "Start a journal page" },
+    sections: [
+      {
+        heading: "Why a handwritten journal",
+        blocks: [
+          p(
+            "Typing is faster, but handwritten pages feel personal: they are nicer to look back on, print into a notebook, or share a page of. With Truehand you can write the quick way and keep the page the handwritten way.",
+          ),
+        ],
+      },
+      {
+        heading: "Set up your journal page",
+        blocks: [
+          steps(
+            "Open the journal editor from the button at the end of this guide.",
+            "In Style & page, put the date in Top right. Leave Top left empty, or add a title like “Week 12”.",
+            "Pick a relaxed hand. Lily, Zoe and Tara are free everyday hands that look like real diary writing.",
+            "Pick a paper. Plain or Grid work well for journals; Dot grid, like a bullet journal, is part of Pro.",
+            "Write. Use the highlighter for the moments you want to find again, and bullet lists for to-dos.",
+          ),
+          note(
+            "The journal editor starts with a few Pro choices (dot grid paper, a cursive hand and a gel pen) so you can see what's possible. If you download on the free plan, tap Use free options in the download window.",
+          ),
+        ],
+      },
+      {
+        heading: "Make it feel like a diary",
+        blocks: [
+          list(
+            "Turn Messiness up a little. Journals are written quickly, not neatly.",
+            "Try Fatigue in Style & page: the writing gets a little looser towards the bottom of the page, as it does when you write for a while.",
+            "One page per day: press the new page icon before each new date.",
+          ),
+        ],
+      },
+      {
+        heading: "Keep and share it",
+        blocks: [
+          list(
+            "Download PNG to get an image of each page, for your gallery, a phone wallpaper or a story.",
+            "Download PDF once a month to keep a tidy archive you can print and bind.",
+            "Nothing you write is uploaded, so your journal stays on your device.",
+          ),
+        ],
+      },
+    ],
+  },
+  {
+    slug: "handwritten-study-notes",
+    title: "Turn typed notes into handwritten study notes",
+    description: "Paste your class notes and get handwritten revision pages with headings, highlights and lists, on notebook or Cornell paper.",
+    minutes: 3,
+    updated: UPDATED,
+    related: ["write-assignment-online", "download-print-and-share"],
+    cta: { href: "/use/cornell-notes", label: "Make study notes" },
+    sections: [
+      {
+        heading: "Why bother",
+        blocks: [
+          p(
+            "Many people remember handwritten notes better than a wall of typed text. Headings, highlights and the odd underline give your eyes something to hold on to when you revise. Truehand gives you that look from the notes you already typed.",
+          ),
+        ],
+      },
+      {
+        heading: "Make your notes",
+        blocks: [
+          steps(
+            "Paste your notes into the editor.",
+            "Make each topic a heading with H1, and sub-topics with H2.",
+            "Select key terms and press the highlighter. Press U to underline definitions.",
+            "Turn lists of points into bullets with the list button.",
+            "Pick College ruled or Grid paper and a clear hand like Mira, Theo or Noor.",
+            "Download as PDF and print, or keep it on your phone for revision.",
+          ),
+        ],
+      },
+      {
+        heading: "Cornell notes",
+        blocks: [
+          p(
+            "Cornell paper has a narrow column on the left for questions and keywords, and a box at the bottom for a short summary. Writing a summary in your own words is one of the best ways to check you understood the topic. Cornell paper is part of Pro; on the free plan, college ruled with a heading per topic works well too.",
+          ),
+        ],
+      },
+      {
+        heading: "Make revision easier",
+        blocks: [
+          list(
+            "One topic per page: press the new page icon before each new topic.",
+            "Keep highlights few. If everything is yellow, nothing stands out.",
+            "Use Skip a line between paragraphs (in Style & page) to give your notes room to breathe.",
+          ),
         ],
       },
     ],
   },
   {
     slug: "lab-record-format",
-    title: "How to format a lab record or practical file",
-    description: "The standard sections of a lab record (aim, apparatus, theory, procedure, observations, result, precautions) with what to write in each.",
-    minutes: 5,
-    updated: "2026-09-25",
-    related: ["cornell-notes-method", "make-typed-text-look-handwritten"],
+    title: "How to write a lab record or practical file online",
+    description: "Write each experiment in the usual lab record format (aim, apparatus, procedure, observations, result) and download neat handwritten pages.",
+    minutes: 4,
+    updated: UPDATED,
+    related: ["write-assignment-online", "download-print-and-share"],
+    cta: { href: "/use/lab-records", label: "Write a lab record" },
     sections: [
       {
-        heading: "The standard order",
+        heading: "The usual format",
         blocks: [
+          p("Most schools and colleges want each experiment in this order. Check your lab manual in case yours differs."),
           list(
-            "Aim: one sentence on what the experiment sets out to show or measure.",
-            "Apparatus or materials: everything used, with ranges and least counts for instruments.",
-            "Theory or principle: the law or relationship being tested, with the formula.",
-            "Procedure: numbered steps in the past tense, specific enough to repeat.",
-            "Observations: a table of readings with units in the headings.",
-            "Calculations: working shown line by line.",
-            "Result: the answer with units and, where relevant, its uncertainty.",
-            "Precautions and sources of error: what you did to keep results reliable.",
+            "Experiment number and date, at the top of the page.",
+            "Aim: what the experiment sets out to find or show.",
+            "Apparatus or materials: a list of what you used.",
+            "Theory: the idea or formula behind it, in a few lines.",
+            "Procedure: numbered steps, written in the past tense.",
+            "Observations: readings, usually in a table.",
+            "Calculations and result: what you worked out, with units.",
+            "Precautions: two or three things you were careful about.",
           ),
         ],
       },
       {
-        heading: "Making it quick to mark",
+        heading: "Write it in Truehand",
         blocks: [
-          p(
-            "Examiners read dozens of these. Bold the section labels, number every step, and keep one experiment per page where you can. Put the experiment number and date in the top corners of every page, and number the pages.",
-          ),
-          p(
-            "In Truehand, start a line with **Aim:** to write the label in a heavier hand, use 1. 2. 3. for the procedure, and set the header boxes to the experiment number and date.",
+          steps(
+            "Open the lab record editor from the button at the end of this guide. It starts with an example experiment you can overwrite.",
+            "In Style & page, put the experiment number in Top left and the date in Top right. Tick Number the pages and Underline headings.",
+            "Make each part (Aim, Apparatus, Procedure…) a heading with H2.",
+            "Use the numbered list button for the procedure and bullets for apparatus.",
+            "Keep Messiness low. Lab records are usually written carefully.",
+            "Start each new experiment on a new page with the new page icon, then download as PDF.",
           ),
         ],
       },
       {
-        heading: "Diagrams and tables",
+        heading: "Observation tables",
         blocks: [
           p(
-            "Draw circuit diagrams, ray diagrams and graphs by hand on the printout or on graph paper. Leave empty lines where they belong, or start a new page with --- on a line of its own.",
+            "Tables are hard to draw neatly by hand, and it is the same here: write readings as a numbered list (“1. Length 20 cm, time 9.1 s”) or one reading per line. Many teachers accept observations written this way; if yours wants a ruled table, leave space with a few empty lines and draw it in pen after printing.",
           ),
         ],
       },
     ],
   },
   {
-    slug: "handwritten-letters-for-business",
-    title: "Handwritten notes for business: when they work and how to send them",
-    description:
-      "Why handwritten thank-you notes and letters get read, where they pay off, and how to produce hundreds of personalised ones from a spreadsheet.",
-    minutes: 5,
-    updated: "2026-09-25",
-    related: ["how-truehand-works", "make-typed-text-look-handwritten"],
+    slug: "handwritten-letter-or-card",
+    title: "How to write a handwritten letter or card online",
+    description: "Write a thank-you note, a birthday card or a letter in a handwriting you like, then print it or send it as an image.",
+    minutes: 3,
+    updated: UPDATED,
+    related: ["download-print-and-share", "getting-started"],
+    cta: { href: "/use/letters", label: "Write a letter" },
     sections: [
       {
-        heading: "Why they get read",
-        blocks: [
-          p(
-            "Almost everything businesses send is typed. A handwritten envelope or note stands out on a doormat or in a parcel, and people read it because it looks like someone took the time. The effect is strongest when the note is short, specific and signed by a real person.",
-          ),
-        ],
-      },
-      {
-        heading: "Where they pay off",
-        blocks: [
-          list(
-            "Thank-you notes in e-commerce orders, especially first orders and repeat customers.",
-            "Follow-ups after a sales meeting, naming something that was discussed.",
-            "Donor thank-yous for charities and schools.",
-            "Real estate letters to a single street or building.",
-            "Invitations and place cards for events.",
-          ),
-        ],
-      },
-      {
-        heading: "Producing them at scale",
+        heading: "Write your letter",
         blocks: [
           steps(
-            "Export your list to CSV with a column for each thing you want to mention: first name, company, city, product bought.",
-            "Open batch letters and paste the CSV.",
-            "Write the note once with fields like {{first_name}}. Keep it under 80 words.",
-            "Choose a size (A6 or 5×7 card, or a DL envelope for addresses), a hand and a pen.",
-            "Download one combined PDF and print it at actual size, or a transparent PNG per person for your own designs.",
+            "Open the letter editor from the button at the end of this guide.",
+            "Type your message. Keep it short for a card: three or four lines look best.",
+            "Pick a hand. For something warm, try Lily or June; the flowing cursive and elegant scripts are part of Pro.",
+            "Choose Plain paper for a letter. Pro adds card stock, kraft paper and envelopes.",
+            "Make the writing a little bigger with Size, so it fills the page like a real note.",
+            "Download as PDF to print, or PNG to send as an image.",
           ),
-          note("Every letter is written separately, with its own variation, so two customers comparing notes won’t find identical copies."),
+        ],
+      },
+      {
+        heading: "Printing a card",
+        blocks: [
+          list(
+            "Print on thick paper or card if your printer takes it. It makes a big difference.",
+            "In the print window, choose Actual size, not Fit to page, so the writing stays the right size.",
+            "Sign it with a real pen. A real signature on a written-out card is the finishing touch.",
+          ),
+        ],
+      },
+      {
+        heading: "Sending as an image",
+        blocks: [
+          p(
+            "A PNG of a handwritten note on WhatsApp, Instagram or email feels much more personal than typed text. With Pro you can also download just the ink, on a transparent background, to put over a photo.",
+          ),
+        ],
+      },
+      {
+        heading: "Many letters at once",
+        blocks: [
+          p(
+            "Thank-you notes for a whole class, invitations, or letters for customers? Batch letters (Pro) takes a spreadsheet of names and writes one letter for each person, each written a little differently.",
+          ),
+        ],
+      },
+    ],
+  },
+  {
+    slug: "use-truehand-on-your-phone",
+    title: "How to use Truehand on your phone",
+    description: "Everything works on a phone: write in the Text tab, adjust in Style & page, and save the PDF to your phone or share it on WhatsApp.",
+    minutes: 2,
+    updated: UPDATED,
+    related: ["getting-started", "download-print-and-share"],
+    cta: { href: "/", label: "Open the editor" },
+    sections: [
+      {
+        heading: "Writing on a phone",
+        blocks: [
+          steps(
+            "Open Truehand in Chrome or Safari. There is no app to install.",
+            "The Text tab is where you type or paste. Hand, paper and pen are right under the toolbar.",
+            "Scroll down to see the preview. Tap the expand icon to zoom in on the writing.",
+            "The Style & page tab has size, messiness, name and date, page numbers and paper size.",
+            "Tap Download at the bottom of the screen when you're happy.",
+          ),
+        ],
+      },
+      {
+        heading: "Where the file goes",
+        blocks: [
+          list(
+            "Android: the PDF or image goes to Downloads. Open it from the notification, or from the Files app.",
+            "iPhone: Safari asks where to save it. Choose Save to Files, or open it and use the share button to send it straight to WhatsApp or Mail.",
+            "PNG images can be saved to your photo gallery from the share menu.",
+          ),
+        ],
+      },
+      {
+        heading: "Tips",
+        blocks: [
+          list(
+            "Add Truehand to your home screen from the browser menu to open it in one tap.",
+            "Your text is kept in the browser on that phone, so you can close the tab and continue later.",
+            "Copying a long assignment from WhatsApp or Docs? Paste it all at once, then fix the headings.",
+          ),
+        ],
+      },
+    ],
+  },
+  {
+    slug: "download-print-and-share",
+    title: "Download, print and share your handwritten pages",
+    description: "Which format to choose, how to print so the writing stays the right size, and how to share pages on WhatsApp, email or social media.",
+    minutes: 3,
+    updated: UPDATED,
+    related: ["getting-started", "write-assignment-online"],
+    cta: { href: "/", label: "Open the editor" },
+    sections: [
+      {
+        heading: "Which format",
+        blocks: [
+          list(
+            "PDF: one file with every page. Best for printing, submitting and emailing.",
+            "PNG: an image of each page. Best for WhatsApp, Instagram and phone galleries.",
+            "ZIP: all the PNG images in one file, handy for many pages.",
+          ),
+          p(
+            "Screen quality (150 dpi) is sharp on phones and fine for most printing. Print quality (300 dpi, Pro) is crisper on paper, and worth it for letters and cards.",
+          ),
+        ],
+      },
+      {
+        heading: "Printing",
+        blocks: [
+          steps(
+            "Open the PDF and choose Print.",
+            "Pick the same paper size you chose in Truehand (A4 in most countries, Letter in the US).",
+            "Set scale to Actual size or 100%, not Fit to page.",
+            "Print in colour if you can: blue ink and faint ruled lines look much more real than grey.",
+          ),
+        ],
+      },
+      {
+        heading: "Sharing",
+        blocks: [
+          list(
+            "WhatsApp: send the PDF as a document so it isn't compressed, or send the PNG as a photo.",
+            "Email: attach the PDF.",
+            "Instagram or stories: use the PNG. It is the shape of a full page, so crop it to the lines you want.",
+          ),
+        ],
+      },
+      {
+        heading: "Download limits",
+        blocks: [
+          p(
+            "On the free plan, each download includes up to 3 pages, and you can download 10 pages a day. The daily count resets within 24 hours. Pro removes both limits, the ads and the waiting, and a page pack adds extra pages without a plan.",
+          ),
         ],
       },
     ],

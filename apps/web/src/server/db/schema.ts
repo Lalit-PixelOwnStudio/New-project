@@ -182,3 +182,22 @@ export const waitlist = pgTable("waitlist", {
   volume: text("volume"),
   createdAt: now(),
 });
+
+/**
+ * Ratings and comments left after a download or on /feedback. Holds the
+ * settings used (hand, paper, pages…), never the text that was written.
+ */
+export const feedback = pgTable(
+  "feedback",
+  {
+    id: text("id").primaryKey(),
+    rating: integer("rating").notNull(),
+    message: text("message"),
+    email: text("email"),
+    userId: text("user_id").references(() => user.id, { onDelete: "set null" }),
+    anonId: text("anon_id"),
+    context: jsonb("context"),
+    createdAt: now(),
+  },
+  (t) => [index("feedback_created_idx").on(t.createdAt), index("feedback_anon_idx").on(t.anonId, t.createdAt)],
+);

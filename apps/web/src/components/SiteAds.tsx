@@ -7,7 +7,7 @@ import { AdSlot, useAdsVisible, useMedia } from "./AdSlot";
 import s from "./SiteAds.module.css";
 
 /** Pages where ads would get in the way of paying, signing in or reading terms. */
-const NO_ADS = [/^\/pricing/, /^\/login/, /^\/account/, /^\/legal\//];
+const NO_ADS = [/^\/pricing/, /^\/login/, /^\/account/, /^\/legal\//, /^\/admin/, /^\/feedback/];
 
 const PHONE = "(max-width: 960px)";
 /** Side rails only where they fit beside the 1360px page without covering it. */

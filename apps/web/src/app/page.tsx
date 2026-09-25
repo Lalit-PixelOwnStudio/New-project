@@ -11,9 +11,9 @@ export default function Home() {
   return (
     <main className={s.page}>
       <section className={s.hero}>
-        <h1 className={s.title}>Type anything. Get it back handwritten.</h1>
+        <h1 className={s.title}>Handwriting that&rsquo;s truly yours.</h1>
         <p className={s.lede}>
-          Truehand draws every letter the way a hand would, a little different each time, on ruled, grid or plain paper. {STYLES.length} hands for notes,
+          Type or paste anything and get it back handwritten, every letter a little different, on ruled, grid or plain paper. {STYLES.length} hands for notes,
           assignments, lab records, letters and cards. Free, and no sign-up.
         </p>
         <ol className={s.steps}>

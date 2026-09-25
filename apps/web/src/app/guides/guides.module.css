@@ -240,3 +240,7 @@
     align-items: flex-start;
   }
 }
+
+.feedback {
+  margin-top: 16px;
+}

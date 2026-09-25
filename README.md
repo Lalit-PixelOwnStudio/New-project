@@ -49,6 +49,7 @@ The full list with comments is in [`apps/web/.env.example`](apps/web/.env.exampl
 | `DATABASE_URL`                                                                    | Accounts, orders, download limits                 |
 | `BETTER_AUTH_SECRET`                                                              | Sign-in. Generate with `openssl rand -base64 32`  |
 | `BETTER_AUTH_URL`                                                                 | Same as the site URL                              |
+| `ADMIN_EMAILS`                                                                    | Who can read feedback at `/admin/feedback` (your sign-in email) |
 | `RESEND_API_KEY`, `EMAIL_FROM`                                                    | Emailing sign-in codes                            |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`                                        | Optional "Continue with Google"                   |
 | `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`, `NEXT_PUBLIC_RAZORPAY_KEY_ID` | Payments from India (INR, UPI)    |
@@ -85,6 +86,10 @@ Until AdSense approves the site, every ad space shows a labelled placeholder. Af
 | `rail`    | Both side margins on screens 1760 px and wider                     | 160 × 600                    |
 
 Pricing, sign-in, account and legal pages carry no ads.
+
+### Feedback
+
+After a download the popup asks for a 1–5 rating, with an optional comment and email; every guide ends with "Did this guide help?", and `/feedback` (linked in the footer) takes the same form any time. A device that sent or skipped it isn't asked again for 14 days. Nothing the user wrote is sent, only the rating, their comment and the settings used. Add your email to `ADMIN_EMAILS`, sign in, and open `/admin/feedback` to read everything, newest first.
 
 ## Fonts
 
