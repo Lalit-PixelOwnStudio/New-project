@@ -1,0 +1,321 @@
+.where {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0 0;
+  padding: 6px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--bg);
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+
+.currency {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--bg-sunk);
+}
+
+.where {
+  flex-wrap: wrap;
+  row-gap: 6px;
+  border-radius: 16px;
+}
+
+.where > span {
+  white-space: nowrap;
+}
+
+.currency a {
+  white-space: nowrap;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  color: var(--ink-3);
+  text-decoration: none;
+}
+
+.currency a[aria-current] {
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgb(16 24 40 / 0.1);
+}
+
+.plans {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.swipe {
+  display: none;
+}
+
+.plan {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 20px;
+  padding: 24px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg);
+  box-shadow: var(--shadow-card);
+}
+
+.plan[data-highlight] {
+  border: 2px solid var(--blue);
+  box-shadow: 0 12px 32px -12px rgb(30 88 240 / 0.25);
+}
+
+.badge {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--blue-soft);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0;
+  color: var(--blue);
+  white-space: nowrap;
+}
+
+/* Pages and quality: the two numbers people compare. */
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0;
+}
+
+.stats div {
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: var(--bg-page);
+}
+
+.stats dt {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+}
+
+.stats dd {
+  margin: 2px 0 0;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.footnote {
+  margin: 20px 0 0;
+  font-size: 14.5px;
+  color: var(--ink-3);
+}
+
+.planName {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 14px 0 6px;
+}
+
+.price span {
+  font-size: 40px;
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.price small {
+  font-size: 15px;
+  color: var(--ink-3);
+}
+
+.planNote {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--ink-3);
+}
+
+.list {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  margin: 0;
+  padding: 20px 0 0;
+  border-top: 1px solid var(--rule);
+  list-style: none;
+  font-size: 15.5px;
+}
+
+.list li {
+  position: relative;
+  padding-left: 30px;
+}
+
+.list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.18em;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--blue-soft);
+}
+
+.list li::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 0.5em;
+  width: 8px;
+  height: 4px;
+  border-left: 2px solid var(--blue);
+  border-bottom: 2px solid var(--blue);
+  transform: rotate(-48deg);
+}
+
+.addons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 1040px;
+}
+
+.addon {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 26px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg);
+  box-shadow: var(--shadow-card);
+}
+
+.addon h3 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.addon p {
+  margin: 0 0 8px;
+  color: var(--ink-3);
+}
+
+.addonActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tableWrap {
+  max-width: 1100px;
+  overflow-x: auto;
+  border-radius: var(--radius-l);
+}
+
+.table {
+  width: 100%;
+  min-width: 640px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--bg);
+  font-size: 15.5px;
+}
+
+.table th,
+.table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+
+.table tr:last-child th,
+.table tr:last-child td {
+  border-bottom: 0;
+}
+
+.table thead th {
+  background: var(--bg-page);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.table tbody th {
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.table td:nth-child(4) {
+  font-weight: 600;
+  color: var(--blue);
+}
+
+@media (max-width: 1180px) {
+  .plans {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .addons {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* One row of cards to swipe through, each snapping to the middle. */
+  .plans {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(84%, 340px);
+    gap: 12px;
+    margin: 0 calc(-1 * var(--gutter));
+    padding: 6px var(--gutter) 14px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .plans::-webkit-scrollbar {
+    display: none;
+  }
+
+  .plan {
+    scroll-snap-align: center;
+  }
+
+  .swipe {
+    display: block;
+    margin: 0 0 10px;
+    font-size: 13.5px;
+    font-weight: 550;
+    color: var(--ink-3);
+  }
+
+  .table th,
+  .table td {
+    padding: 12px 14px;
+  }
+}

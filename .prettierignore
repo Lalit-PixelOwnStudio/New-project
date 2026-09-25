@@ -1,0 +1,9 @@
+node_modules
+.next
+pnpm-lock.yaml
+assets
+apps/web/public
+apps/web/drizzle
+apps/web/src/lib/hand-metrics.json
+packages/engine/qa-out
+packages/catalog/sheets

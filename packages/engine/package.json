@@ -1,0 +1,33 @@
+{
+  "name": "@truehand/engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Truehand handwriting engine: shaping, layout, realism and rendering.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./render": "./src/render/index.ts",
+    "./export": "./src/export/index.ts",
+    "./capture": "./src/capture/index.ts",
+    "./paper": "./src/layout/paper.ts",
+    "./markup": "./src/text/markup.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "qa": "tsx scripts/qa-render.ts"
+  },
+  "dependencies": {
+    "fflate": "^0.8.3",
+    "harfbuzzjs": "^1.6.2",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "@napi-rs/canvas": "^1.0.9",
+    "@types/node": "^26.6.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.1"
+  }
+}

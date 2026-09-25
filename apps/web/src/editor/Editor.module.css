@@ -1,0 +1,249 @@
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: clamp(560px, calc(100dvh - var(--header-h) - 40px), 920px);
+  gap: 20px;
+}
+
+.left,
+.right {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg);
+  box-shadow: var(--shadow-card);
+}
+
+.left {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg-page);
+}
+
+.tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink-3);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tabs button svg {
+  width: 17px;
+  height: 17px;
+}
+
+.tabs button:hover {
+  color: var(--ink);
+}
+
+.tabs button[aria-selected="true"] {
+  border-color: var(--rule);
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgb(16 24 40 / 0.06);
+}
+
+.count {
+  margin-left: auto;
+  padding-right: 6px;
+  font-size: 13px;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* On narrow phones the tabs need the room; the preview header shows the page count. */
+@media (max-width: 480px) {
+  .count {
+    display: none;
+  }
+
+  .tabs button {
+    padding: 0 12px;
+  }
+}
+
+.panel {
+  min-height: 0;
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+.private {
+  margin: 0;
+  padding: 10px 18px;
+  border-top: 1px solid var(--rule);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.private::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  vertical-align: 1px;
+}
+
+.right {
+  grid-template-rows: auto auto minmax(0, 1fr);
+}
+
+.previewHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 55px;
+  padding: 8px 10px 8px 18px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.previewTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+  font-size: 14.5px;
+}
+
+.previewTitle strong {
+  font-weight: 700;
+}
+
+.meta {
+  overflow: hidden;
+  color: var(--ink-3);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.meta[data-busy]::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: var(--blue);
+  vertical-align: 1px;
+  animation: pulse 900ms ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  to {
+    opacity: 0.25;
+  }
+}
+
+.error {
+  color: var(--red);
+}
+
+.previewActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.missing {
+  margin: 0;
+  padding: 8px 18px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--red-soft);
+  font-size: 13px;
+  color: var(--red);
+}
+
+.zoom {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.zoom:hover {
+  background: var(--bg-page);
+  color: var(--ink);
+}
+
+.zoom svg {
+  width: 17px;
+  height: 17px;
+}
+
+.stage {
+  min-height: 0;
+  overflow: auto;
+  padding: 28px 32px 48px;
+  background: var(--bg-sunk);
+}
+
+.stage[data-zoom] > * {
+  width: 165%;
+}
+
+.mobileBar {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 520px auto;
+  }
+
+  .right {
+    height: min(760px, 125vw);
+  }
+
+  .stage {
+    padding: 18px;
+  }
+
+  .desktopOnly {
+    display: none;
+  }
+
+  .mobileBar {
+    position: sticky;
+    bottom: calc(10px + var(--anchor-h, 0px));
+    z-index: 10;
+    display: block;
+    padding: 8px;
+    border: 1px solid var(--rule);
+    border-radius: calc(var(--radius-l) + 2px);
+    background: rgb(255 255 255 / 0.92);
+    box-shadow: var(--shadow-pop);
+    backdrop-filter: blur(10px);
+  }
+}

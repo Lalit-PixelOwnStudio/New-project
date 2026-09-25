@@ -1,0 +1,493 @@
+[
+  {
+    "dir": "caveat",
+    "family": "Caveat",
+    "designer": "Impallari Type",
+    "license": "OFL",
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "latin",
+      "latin-ext",
+      "menu"
+    ],
+    "file": "Caveat[wght].ttf"
+  },
+  {
+    "dir": "homemadeapple",
+    "family": "Homemade Apple",
+    "designer": "Font Diner",
+    "license": "APACHE2",
+    "subsets": [
+      "latin",
+      "menu"
+    ],
+    "file": "HomemadeApple-Regular.ttf"
+  },
+  {
+    "dir": "nothingyoucoulddo",
+    "family": "Nothing You Could Do",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "NothingYouCouldDo.ttf"
+  },
+  {
+    "dir": "labelleaurore",
+    "family": "La Belle Aurore",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "LaBelleAurore.ttf"
+  },
+  {
+    "dir": "cedarvillecursive",
+    "family": "Cedarville Cursive",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "Cedarville-Cursive.ttf"
+  },
+  {
+    "dir": "reeniebeanie",
+    "family": "Reenie Beanie",
+    "designer": "James Grieshaber",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "ReenieBeanie.ttf"
+  },
+  {
+    "dir": "shadowsintolighttwo",
+    "family": "Shadows Into Light Two",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin",
+      "latin-ext"
+    ],
+    "file": "ShadowsIntoLightTwo-Regular.ttf"
+  },
+  {
+    "dir": "patrickhand",
+    "family": "Patrick Hand",
+    "designer": "Patrick Wagesreiter",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin",
+      "latin-ext",
+      "vietnamese"
+    ],
+    "file": "PatrickHand-Regular.ttf"
+  },
+  {
+    "dir": "coveredbyyourgrace",
+    "family": "Covered By Your Grace",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "CoveredByYourGrace.ttf"
+  },
+  {
+    "dir": "justanotherhand",
+    "family": "Just Another Hand",
+    "designer": "Astigmatic",
+    "license": "APACHE2",
+    "subsets": [
+      "latin",
+      "menu"
+    ],
+    "file": "JustAnotherHand-Regular.ttf"
+  },
+  {
+    "dir": "zeyada",
+    "family": "Zeyada",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "Zeyada.ttf"
+  },
+  {
+    "dir": "dawningofanewday",
+    "family": "Dawning of a New Day",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "DawningofaNewDay.ttf"
+  },
+  {
+    "dir": "waitingforthesunrise",
+    "family": "Waiting for the Sunrise",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "WaitingfortheSunrise.ttf"
+  },
+  {
+    "dir": "overtherainbow",
+    "family": "Over the Rainbow",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "OvertheRainbow.ttf"
+  },
+  {
+    "dir": "architectsdaughter",
+    "family": "Architects Daughter",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "latin",
+      "menu"
+    ],
+    "file": "ArchitectsDaughter-Regular.ttf"
+  },
+  {
+    "dir": "sueellenfrancisco",
+    "family": "Sue Ellen Francisco",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "SueEllenFrancisco-Regular.ttf"
+  },
+  {
+    "dir": "nanumpenscript",
+    "family": "Nanum Pen Script",
+    "designer": "Sandoll Communication",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin",
+      "korean"
+    ],
+    "file": "NanumPenScript-Latin.ttf"
+  },
+  {
+    "dir": "badscript",
+    "family": "Bad Script",
+    "designer": "Gaslight",
+    "license": "OFL",
+    "subsets": [
+      "cyrillic",
+      "cyrillic-ext",
+      "latin",
+      "latin-ext",
+      "menu",
+      "vietnamese"
+    ],
+    "file": "BadScript-Regular.ttf"
+  },
+  {
+    "dir": "neucha",
+    "family": "Neucha",
+    "designer": "Jovanny Lemonad",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "cyrillic",
+      "latin"
+    ],
+    "file": "Neucha.ttf"
+  },
+  {
+    "dir": "marckscript",
+    "family": "Marck Script",
+    "designer": "Denis Masharov",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "cyrillic",
+      "latin",
+      "latin-ext"
+    ],
+    "file": "MarckScript-Regular.ttf"
+  },
+  {
+    "dir": "mynerve",
+    "family": "Mynerve",
+    "designer": "Carolina Short",
+    "license": "OFL",
+    "subsets": [
+      "greek",
+      "latin",
+      "latin-ext",
+      "menu",
+      "vietnamese"
+    ],
+    "file": "Mynerve-Regular.ttf"
+  },
+  {
+    "dir": "ooohbaby",
+    "family": "Oooh Baby",
+    "designer": "Robert Leuschke",
+    "license": "OFL",
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "menu",
+      "vietnamese"
+    ],
+    "file": "OoohBaby-Regular.ttf"
+  },
+  {
+    "dir": "sedgwickave",
+    "family": "Sedgwick Ave",
+    "designer": "Pedro Vergani, Kevin Burke",
+    "license": "OFL",
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "menu",
+      "vietnamese"
+    ],
+    "file": "SedgwickAve-Regular.ttf"
+  },
+  {
+    "dir": "comingsoon",
+    "family": "Coming Soon",
+    "designer": "Open Window",
+    "license": "APACHE2",
+    "subsets": [
+      "latin",
+      "menu"
+    ],
+    "file": "ComingSoon-Regular.ttf"
+  },
+  {
+    "dir": "annieuseyourtelescope",
+    "family": "Annie Use Your Telescope",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "latin",
+      "menu"
+    ],
+    "file": "AnnieUseYourTelescope-Regular.ttf"
+  },
+  {
+    "dir": "thegirlnextdoor",
+    "family": "The Girl Next Door",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "TheGirlNextDoor.ttf"
+  },
+  {
+    "dir": "loversquarrel",
+    "family": "Lovers Quarrel",
+    "designer": "Robert Leuschke",
+    "license": "OFL",
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "menu",
+      "vietnamese"
+    ],
+    "file": "LoversQuarrel-Regular.ttf"
+  },
+  {
+    "dir": "grapenuts",
+    "family": "Grape Nuts",
+    "designer": "Robert Leuschke",
+    "license": "OFL",
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "menu",
+      "vietnamese"
+    ],
+    "file": "GrapeNuts-Regular.ttf"
+  },
+  {
+    "dir": "whisper",
+    "family": "Whisper",
+    "designer": "Robert Leuschke",
+    "license": "OFL",
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "menu",
+      "vietnamese"
+    ],
+    "file": "Whisper-Regular.ttf"
+  },
+  {
+    "dir": "licorice",
+    "family": "Licorice",
+    "designer": "Robert Leuschke",
+    "license": "OFL",
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "menu",
+      "vietnamese"
+    ],
+    "file": "Licorice-Regular.ttf"
+  },
+  {
+    "dir": "shalimar",
+    "family": "Shalimar",
+    "designer": "Robert Leuschke",
+    "license": "OFL",
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "menu",
+      "vietnamese"
+    ],
+    "file": "Shalimar-Regular.ttf"
+  },
+  {
+    "dir": "lovedbytheking",
+    "family": "Loved by the King",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "LovedbytheKing.ttf"
+  },
+  {
+    "dir": "gloriahallelujah",
+    "family": "Gloria Hallelujah",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "GloriaHallelujah.ttf"
+  },
+  {
+    "dir": "schoolbell",
+    "family": "Schoolbell",
+    "designer": "Font Diner",
+    "license": "APACHE2",
+    "subsets": [
+      "latin",
+      "menu"
+    ],
+    "file": "Schoolbell-Regular.ttf"
+  },
+  {
+    "dir": "justmeagaindownhere",
+    "family": "Just Me Again Down Here",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin",
+      "latin-ext"
+    ],
+    "file": "JustMeAgainDownHere.ttf"
+  },
+  {
+    "dir": "swankyandmoomoo",
+    "family": "Swanky and Moo Moo",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "SwankyandMooMoo.ttf"
+  },
+  {
+    "dir": "indieflower",
+    "family": "Indie Flower",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "menu",
+      "vietnamese"
+    ],
+    "file": "IndieFlower-Regular.ttf"
+  },
+  {
+    "dir": "mansalva",
+    "family": "Mansalva",
+    "designer": "Carolina Short",
+    "license": "OFL",
+    "subsets": [
+      "greek",
+      "latin",
+      "latin-ext",
+      "menu",
+      "vietnamese"
+    ],
+    "file": "Mansalva-Regular.ttf"
+  },
+  {
+    "dir": "chilanka",
+    "family": "Chilanka",
+    "designer": "SMC, Santhosh Thottingal",
+    "license": "OFL",
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "malayalam",
+      "menu"
+    ],
+    "file": "Chilanka-Regular.ttf"
+  },
+  {
+    "dir": "kranky",
+    "family": "Kranky",
+    "designer": "Sideshow",
+    "license": "APACHE2",
+    "subsets": [
+      "latin",
+      "menu"
+    ],
+    "file": "Kranky-Regular.ttf"
+  },
+  {
+    "dir": "caveatbrush",
+    "family": "Caveat Brush",
+    "designer": "Impallari Type",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin",
+      "latin-ext"
+    ],
+    "file": "CaveatBrush-Regular.ttf"
+  }
+]

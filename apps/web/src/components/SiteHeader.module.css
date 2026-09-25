@@ -1,0 +1,178 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: var(--header-h);
+  border-bottom: 1px solid var(--rule);
+  /* Solid: a see-through header shows the page's boxes ghosting behind the logo. */
+  background: var(--bg);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 28px;
+  max-width: var(--max);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.home {
+  /* Flex, so no line box adds space under the logo and it centres with the buttons. */
+  display: flex;
+  text-decoration: none;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mark {
+  width: 34px;
+  height: 34px;
+}
+
+.word {
+  font-size: 23px;
+  font-weight: 750;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-self: start;
+}
+
+.nav a {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-3);
+  text-decoration: none;
+  transition:
+    color 120ms var(--ease),
+    background-color 120ms var(--ease);
+}
+
+.nav a:hover {
+  color: var(--ink);
+  background: var(--bg-sunk);
+}
+
+.nav a[aria-current="page"] {
+  color: var(--blue);
+  background: var(--blue-soft);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.upgrade {
+  border-radius: 999px;
+}
+
+.signin {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 0.05);
+}
+
+.signin:hover {
+  background: var(--bg-page);
+}
+
+.avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.badge {
+  position: absolute;
+  right: -6px;
+  top: -4px;
+  min-width: 20px;
+  padding: 2px 5px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: var(--amber);
+  color: var(--ink);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+}
+
+@media (max-width: 1000px) {
+  .nav,
+  .signin {
+    display: none;
+  }
+
+  .inner {
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+  }
+
+  .actions {
+    justify-self: end;
+    gap: 8px;
+  }
+
+  .logo {
+    gap: 8px;
+  }
+
+  .mark {
+    width: 30px;
+    height: 30px;
+  }
+
+  .word {
+    font-size: 21px;
+  }
+
+  /* Scoped to win over the button's own size. */
+  .actions .upgrade {
+    height: 34px;
+    padding: 0 14px;
+    font-size: 14px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 14px;
+  }
+}

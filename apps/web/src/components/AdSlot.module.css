@@ -1,0 +1,73 @@
+.slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 18px;
+}
+
+.top,
+.editor,
+.banner,
+.footer {
+  min-height: 118px;
+}
+
+.feed {
+  min-height: 298px;
+}
+
+@media (max-width: 640px) {
+  .top {
+    min-height: 128px;
+  }
+}
+
+/* Fixed units: exactly the ad's size plus the label. */
+.anchor {
+  width: 320px;
+  height: 68px;
+  padding-top: 18px;
+}
+
+.rail {
+  width: 160px;
+  height: 618px;
+}
+
+.export {
+  min-height: 298px;
+}
+
+.article {
+  min-height: 280px;
+  margin: 8px 0;
+}
+
+.label {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+
+.placeholder {
+  border: 1px dashed var(--rule-strong);
+  border-radius: var(--radius);
+  background: repeating-linear-gradient(135deg, transparent 0 10px, rgb(16 24 40 / 0.025) 10px 20px), var(--bg);
+}
+
+.placeholder .label {
+  left: 12px;
+  top: 8px;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--ink-4);
+}

@@ -1,0 +1,133 @@
+.toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  margin-right: -8px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .toggle:hover {
+    background: var(--bg-sunk);
+  }
+}
+
+.bars,
+.bars::before {
+  display: block;
+  width: 20px;
+  height: 2px;
+  margin: 0 auto;
+  border-radius: 2px;
+  background: var(--ink);
+  transition: transform 160ms var(--ease);
+}
+
+.bars {
+  position: relative;
+  transform: translateY(-3.5px);
+}
+
+.bars::before {
+  content: "";
+  position: absolute;
+  top: 7px;
+}
+
+.bars[data-open] {
+  transform: translateY(0) rotate(45deg);
+}
+
+.bars[data-open]::before {
+  top: 0;
+  transform: rotate(-90deg);
+}
+
+.sheet {
+  position: fixed;
+  inset: var(--header-h) 0 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 8px var(--gutter) max(24px, env(safe-area-inset-bottom));
+  background: var(--bg);
+  animation: sheet-in 160ms var(--ease);
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.links a {
+  display: block;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.links a[aria-current="page"] {
+  color: var(--blue);
+}
+
+.foot {
+  margin-top: 24px;
+}
+
+.signin,
+.account {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.account {
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px;
+}
+
+.account span {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
+@media (max-width: 1000px) {
+  .toggle {
+    display: grid;
+    place-items: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet {
+    animation: none;
+  }
+}

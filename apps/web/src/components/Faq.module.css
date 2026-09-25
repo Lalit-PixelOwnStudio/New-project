@@ -1,0 +1,44 @@
+.faq {
+  max-width: 860px;
+  border-top: 1px solid var(--rule);
+}
+
+.item {
+  border-bottom: 1px solid var(--rule);
+}
+
+.item summary {
+  position: relative;
+  padding: 18px 40px 18px 0;
+  font-size: 17px;
+  font-weight: 600;
+  list-style: none;
+  cursor: pointer;
+}
+
+.item summary::-webkit-details-marker {
+  display: none;
+}
+
+.item summary::after {
+  content: "+";
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--ink-3);
+  transform: translateY(-50%);
+  transition: transform 160ms var(--ease);
+}
+
+.item[open] summary::after {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.item p {
+  max-width: 64ch;
+  margin: -4px 0 20px;
+  color: var(--ink-2);
+}

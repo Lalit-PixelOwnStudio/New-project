@@ -1,0 +1,93 @@
+.section {
+  background: var(--bg);
+}
+
+.section[data-tone="page"],
+.hero {
+  background: var(--bg-page);
+}
+
+.section + .section {
+  border-top: 1px solid var(--rule);
+}
+
+.inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 72px var(--gutter);
+}
+
+.hero .inner {
+  padding: 56px var(--gutter) 48px;
+}
+
+.head {
+  display: grid;
+  gap: 12px;
+  max-width: 720px;
+  margin-bottom: 40px;
+}
+
+.head[data-align="center"] {
+  margin-inline: auto;
+  text-align: center;
+  justify-items: center;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--blue);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(28px, 3.4vw, 42px);
+  font-weight: 750;
+  letter-spacing: -0.028em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.lede {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+.heroTitle {
+  max-width: 20ch;
+  margin: 8px 0 0;
+  font-size: clamp(34px, 4.6vw, 56px);
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.heroLede {
+  max-width: 62ch;
+  margin: 16px 0 0;
+  font-size: clamp(16.5px, 1.4vw, 19px);
+  line-height: 1.55;
+  color: var(--ink-3);
+}
+
+/* A section straight after the hero on the same background continues it. */
+.hero + .section[data-tone="page"] .inner {
+  padding-top: 8px;
+}
+
+@media (max-width: 700px) {
+  .inner {
+    padding: 48px var(--gutter);
+  }
+
+  .hero .inner {
+    padding: 36px var(--gutter) 32px;
+  }
+}

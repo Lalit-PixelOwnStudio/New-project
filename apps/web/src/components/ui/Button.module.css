@@ -1,0 +1,95 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-family: var(--font-text);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 120ms var(--ease),
+    border-color 120ms var(--ease),
+    color 120ms var(--ease),
+    box-shadow 120ms var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.button svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.primary {
+  background: var(--blue);
+  color: #fff;
+  box-shadow:
+    0 1px 2px rgb(16 24 40 / 0.08),
+    inset 0 -1px 0 rgb(0 0 0 / 0.08);
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--blue-hover);
+}
+
+.dark {
+  background: var(--ink);
+  color: #fff;
+}
+
+.dark:hover:not(:disabled) {
+  background: #000;
+}
+
+.secondary {
+  background: var(--bg);
+  border-color: var(--rule-strong);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgb(16 24 40 / 0.05);
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--bg-page);
+  border-color: var(--ink-4);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--ink-2);
+  padding: 0 12px;
+}
+
+.ghost:hover:not(:disabled) {
+  background: var(--bg-sunk);
+  color: var(--ink);
+}
+
+.s {
+  height: 36px;
+  padding: 0 14px;
+  font-size: 14px;
+}
+
+.l {
+  height: 52px;
+  padding: 0 24px;
+  font-size: 16.5px;
+}
+
+.wide {
+  width: 100%;
+}

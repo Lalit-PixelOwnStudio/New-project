@@ -1,0 +1,23 @@
+{
+  "name": "@truehand/catalog",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Handwriting styles, papers and pens offered by Truehand, with their plan tiers.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "sheet": "tsx scripts/sheet.ts"
+  },
+  "dependencies": {
+    "@truehand/engine": "workspace:*"
+  },
+  "devDependencies": {
+    "@napi-rs/canvas": "^1.0.9",
+    "@types/node": "^26.6.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

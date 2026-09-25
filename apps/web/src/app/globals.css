@@ -1,0 +1,129 @@
+/* ---------------------------------------------------------------------------
+   Truehand design tokens
+   Clean white surfaces, one confident blue, and the handwriting as the hero.
+   --------------------------------------------------------------------------- */
+:root {
+  --bg: #ffffff;
+  --bg-page: #f8f9fb;
+  --bg-sunk: #f2f4f7;
+  --ink: #0f1115;
+  --ink-2: #3d434d;
+  --ink-3: #667085;
+  --ink-4: #98a2b3;
+  --rule: #eaecf0;
+  --rule-strong: #d0d5dd;
+  --blue: #2f3fd0;
+  --blue-hover: #2533b0;
+  --blue-soft: #eef0fd;
+  --blue-ink: #1f3c8f;
+  --hl: #ffe04a;
+  --amber: #f5b301;
+  --red: #d92d20;
+  --red-soft: #fef3f2;
+  --green: #12805c;
+  --star: #fbbf24;
+  --star-edge: #e8a400;
+
+  --font-display: var(--font-host), ui-sans-serif, system-ui, sans-serif;
+  --font-text: var(--font-host), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-martian), ui-monospace, "SFMono-Regular", monospace;
+
+  --radius-s: 6px;
+  --radius: 10px;
+  --radius-l: 14px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --max: 1360px;
+  --header-h: 72px;
+
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 1px 3px rgb(16 24 40 / 0.06);
+  --shadow-pop: 0 12px 32px -8px rgb(16 24 40 / 0.18), 0 4px 8px -4px rgb(16 24 40 / 0.06);
+  --shadow-paper: 0 1px 2px rgb(16 24 40 / 0.06), 0 8px 24px -8px rgb(16 24 40 / 0.14);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  color-scheme: light;
+}
+
+/* A shorter header on phones and tablets, where the menu collapses. */
+@media (max-width: 1000px) {
+  :root {
+    --header-h: 60px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  /* Room for the ad strip pinned to the bottom of phones, when it shows. */
+  padding-bottom: var(--anchor-h, 0px);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: var(--hl);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
