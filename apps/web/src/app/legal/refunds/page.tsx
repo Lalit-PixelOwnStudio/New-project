@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Prose } from "@/components/Prose";
+import { RAZORPAY_ABROAD } from "@/lib/pricing";
 import { BUSINESS, LEGAL_UPDATED } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Refunds, cancellation and delivery", alternates: { canonical: "/legal/refunds" } };
@@ -9,9 +10,9 @@ export default function RefundsPage() {
     <Prose eyebrow="Legal" title="Refunds, cancellation and delivery" updated={LEGAL_UPDATED}>
       <h2>Delivery</h2>
       <p>
-        Everything Truehand sells is digital. Plans (Week, Month and Year), their pages, page packs and style unlocks are added to your account as soon as the
-        payment is confirmed, usually within seconds. Nothing is shipped. If a purchase hasn&rsquo;t appeared after 15 minutes, email us with your payment
-        reference.
+        Everything Truehand sells is digital. Plans (Week, Month and Year), their pages, page packs and the Your own handwriting unlock are added to your
+        account as soon as the payment is confirmed, usually within seconds. Nothing is shipped (see <a href="/legal/shipping">shipping and delivery</a>). If a
+        purchase hasn&rsquo;t appeared after 15 minutes, email us with your payment reference.
       </p>
 
       <h2>No subscriptions to cancel</h2>
@@ -26,11 +27,12 @@ export default function RefundsPage() {
         <li>
           <strong>Charged twice or for the wrong thing</strong>: we refund the extra charge in full, at any time.
         </li>
-        <li>Single-style unlocks are refundable within 7 days if you haven&rsquo;t downloaded anything with that style.</li>
+        <li>The Your own handwriting unlock is refundable within 7 days if you haven&rsquo;t downloaded any pages written in your handwriting.</li>
       </ul>
       <p>
-        Refunds go back to the original payment method. Razorpay refunds usually arrive in 5 to 7 working days; PayPal refunds usually within 3 to 5. Email{" "}
-        <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a> from the address on your account, with the payment reference from your receipt.
+        Refunds go back to the original payment method. Razorpay refunds usually arrive in 5 to 7 working days
+        {RAZORPAY_ABROAD ? "" : "; PayPal refunds usually within 3 to 5"}. Email <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a> from the address on
+        your account, with the payment reference from your receipt.
       </p>
 
       <h2>Your legal rights</h2>
