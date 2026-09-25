@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { PageHero, Section } from "@/components/Section";
 import { ButtonLink } from "@/components/ui/Button";
+import { planName } from "@/lib/plans";
 import { formatMoney, PRODUCTS, type Currency, type ProductId } from "@/lib/pricing";
 import { currentUser } from "@/server/auth";
 import { db, schema } from "@/server/db";
@@ -24,19 +25,19 @@ export default async function AccountPage() {
 
   return (
     <main>
-      <PageHero eyebrow="Account" title={ent.plan === "pro" ? "You're on Pro." : "You're on Free."} lede={user.email} />
+      <PageHero eyebrow="Account" title={ent.plan === "free" ? "You're on Free." : `You're on the ${planName(ent.plan)}.`} lede={user.email} />
       <Section label="Your plan" tone="page">
         <dl className={s.facts}>
           <div>
             <dt>Plan</dt>
-            <dd>{ent.plan === "pro" ? "Pro" : "Free, with ads"}</dd>
+            <dd>{ent.plan === "free" ? "Free, with ads" : planName(ent.plan)}</dd>
           </div>
           <div>
-            <dt>Pro until</dt>
+            <dt>Plan until</dt>
             <dd>{ent.proUntil ? date(ent.proUntil) : "—"}</dd>
           </div>
           <div>
-            <dt>Page credits</dt>
+            <dt>Pages left</dt>
             <dd>{ent.credits}</dd>
           </div>
           <div>
@@ -45,7 +46,7 @@ export default async function AccountPage() {
           </div>
         </dl>
         <div className={s.row}>
-          <ButtonLink href="/pricing">{ent.plan === "pro" ? "Add more time" : "Get Pro"}</ButtonLink>
+          <ButtonLink href="/pricing">{ent.plan === "free" ? "See plans" : "Add pages or time"}</ButtonLink>
           <ButtonLink href="/" variant="secondary">
             Write something
           </ButtonLink>

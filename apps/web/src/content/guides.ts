@@ -51,11 +51,11 @@ const UPDATED = "2026-09-25";
 /* Problems that come up in more than one guide. */
 const ONLY_THREE_PAGES = {
   q: "Why did only 3 pages download?",
-  a: "Free downloads include the first 3 pages, and 10 pages a day. For a longer file, download it in parts: keep your full text safe, paste in the first part and download, then paste the next part and download again. A week pass removes the limit.",
+  a: "Free downloads include the first 3 pages, and 10 pages a day. For a longer file, download it in parts: keep your full text safe, paste in the first part and download, then paste the next part and download again. Or get a plan: Week adds 150 pages, Month 800.",
 };
 const PRO_SELECTED = {
   q: "The download window says I picked a Pro option. What do I do?",
-  a: "Anyone can try Pro hands, papers and pens in the preview, but downloading them needs Pro. Tap Use free options in the download window and everything switches back to free choices.",
+  a: "Anyone can try Pro hands, papers and pens in the preview, but downloading them needs a plan. Tap Use free options in the download window and everything switches back to free choices.",
 };
 const TEXT_PRIVATE = {
   q: "Is my text uploaded or saved anywhere?",
@@ -114,7 +114,7 @@ export const GUIDES: Guide[] = [
       {
         heading: "Step 4: Download",
         blocks: [
-          p("Press Download, pick PDF (1) and press the big button (3). Screen quality (2) is fine for most things."),
+          p("Press Download, pick PDF (1) and press the big button (3). Full HD quality (2) is fine for most things."),
           shot("download-options", "The download window with format, quality and the download button"),
         ],
       },
@@ -122,9 +122,9 @@ export const GUIDES: Guide[] = [
     faqs: [
       {
         q: "Is Truehand free?",
-        a: "Yes. The free plan has 16 handwritings, 5 papers and 3 pens, and lets you download up to 3 pages at a time and 10 a day, with no watermark. Pro removes the ads and limits and unlocks everything.",
+        a: "Yes. The free plan has 16 handwritings, 5 papers and 3 pens, and lets you download up to 3 pages at a time and 10 a day, with no watermark. The Week, Month and Year plans add pages, every hand, paper and pen, up to 4K quality, and no ads.",
       },
-      { q: "Do I need an account?", a: "No. You only need one if you buy Pro or a page pack, so your purchase is saved." },
+      { q: "Do I need an account?", a: "No. You only need one if you buy a plan or a page pack, so your purchase is saved." },
       TEXT_PRIVATE,
       PRO_SELECTED,
     ],
@@ -296,7 +296,7 @@ export const GUIDES: Guide[] = [
     faqs: [
       { q: "It looks too messy.", a: "Turn Messiness down, or pick a neater hand like Mira, Theo or Noor." },
       { q: "The writing is too big for the lines.", a: "Lower Size, or pick Wide ruled paper, which has more space between lines." },
-      { q: "Can I make it look scanned or photographed?", a: "Yes, with Pro: the Scanned and Phone photo finishes in Style & page." },
+      { q: "Can I make it look scanned or photographed?", a: "Yes, with the Month or Year plan: the Scanned and Phone photo finishes in Style & page." },
     ],
   },
   {
@@ -448,7 +448,7 @@ export const GUIDES: Guide[] = [
       },
       {
         q: "Can I write lots of letters with different names?",
-        a: "Yes, with Batch letters (Pro): upload a list of names and Truehand writes one letter for each person.",
+        a: "Yes, with Batch letters (Month or Year plan): upload a list of names and Truehand writes one letter for each person.",
       },
       PRO_SELECTED,
     ],

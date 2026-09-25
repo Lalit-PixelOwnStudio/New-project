@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { formatMoney, priceFor, regionFor, yearlyPerMonth } from "@/lib/pricing";
+import { PLANS } from "@/lib/plans";
+import { formatMoney, priceFor, PRODUCTS, regionFor, regionForCheckout, yearlyPerMonth } from "@/lib/pricing";
 
 describe("regional pricing", () => {
   it("maps countries to regions and providers", () => {
@@ -30,5 +31,20 @@ describe("regional pricing", () => {
     expect(formatMoney(99900, "INR")).toBe("₹999");
     expect(formatMoney(99, "USD")).toBe("$0.99");
     expect(yearlyPerMonth("US")).toBe("$3.25");
+  });
+
+  it("lets India pay in dollars, and nobody else pay in rupees", () => {
+    expect(regionForCheckout("IN", "USD")).toBe("A");
+    expect(regionForCheckout("IN", "INR")).toBe("IN");
+    expect(regionForCheckout("IN", null)).toBe("IN");
+    expect(regionForCheckout("US", "INR")).toBe("A");
+    expect(regionForCheckout("PK", "INR")).toBe("C");
+    expect(priceFor("pass_month", "IN", "USD")).toMatchObject({ currency: "USD", display: "$5.99", provider: "paypal" });
+  });
+
+  it("gives each plan its pages", () => {
+    expect(PRODUCTS.pass_week.grant).toEqual({ plan: "week", credits: PLANS.week.pages });
+    expect(PRODUCTS.pass_month.grant).toEqual({ plan: "month", credits: PLANS.month.pages });
+    expect(PRODUCTS.pass_year.grant).toEqual({ plan: "year", credits: PLANS.year.pages });
   });
 });

@@ -9,18 +9,19 @@ export default function RefundsPage() {
     <Prose eyebrow="Legal" title="Refunds, cancellation and delivery" updated={LEGAL_UPDATED}>
       <h2>Delivery</h2>
       <p>
-        Everything Truehand sells is digital. Pro time, page credits and style unlocks are added to your account as soon as the payment is confirmed, usually
-        within seconds. Nothing is shipped. If a purchase hasn&rsquo;t appeared after 15 minutes, email us with your payment reference.
+        Everything Truehand sells is digital. Plans (Week, Month and Year), their pages, page packs and style unlocks are added to your account as soon as the
+        payment is confirmed, usually within seconds. Nothing is shipped. If a purchase hasn&rsquo;t appeared after 15 minutes, email us with your payment
+        reference.
       </p>
 
       <h2>No subscriptions to cancel</h2>
-      <p>All purchases are one-time payments. Nothing renews automatically, so there is nothing to cancel: a pass simply ends on its end date.</p>
+      <p>All purchases are one-time payments. Nothing renews automatically, so there is nothing to cancel: a plan simply ends on its end date.</p>
 
       <h2>Refunds</h2>
       <ul>
         <li>
-          <strong>Within 7 days of buying</strong>, if Truehand didn&rsquo;t work for you, write to us and we&rsquo;ll refund the unused part of a Pro pass, or
-          unused page credits, in full.
+          <strong>Within 7 days of buying</strong>, if Truehand didn&rsquo;t work for you, write to us and we&rsquo;ll refund the unused part of a plan, or
+          unused pages from a page pack, in full.
         </li>
         <li>
           <strong>Charged twice or for the wrong thing</strong>: we refund the extra charge in full, at any time.

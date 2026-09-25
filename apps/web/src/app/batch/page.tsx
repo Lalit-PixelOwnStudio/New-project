@@ -51,7 +51,7 @@ export default function BatchPage() {
           items={[
             {
               q: "Is batch free?",
-              a: "You can try it free with the first 3 rows of any list. Pro writes every row, adds 300 dpi output and transparent PNGs, and removes ads.",
+              a: "You can try it free with the first 3 rows of any list. The Month and Year plans write every row, in 4K, with transparent PNGs and no ads.",
             },
             {
               q: "Does my contact list get uploaded?",

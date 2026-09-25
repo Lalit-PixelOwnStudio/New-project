@@ -11,6 +11,7 @@ export const dynamic = "force-dynamic";
 const Body = z.object({
   product: z.enum(["pass_week", "pass_month", "pass_year", "pages_100", "style"]),
   styleId: z.string().max(40).nullish(),
+  currency: z.enum(["INR", "USD"]).nullish(),
 });
 
 export async function POST(req: Request) {
@@ -25,6 +26,7 @@ export async function POST(req: Request) {
       product: parsed.data.product,
       styleId: parsed.data.styleId,
       country: countryFromHeaders(await headers()),
+      currency: parsed.data.currency,
     });
     return NextResponse.json({
       ...start,

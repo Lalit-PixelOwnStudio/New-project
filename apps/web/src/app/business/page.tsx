@@ -70,7 +70,7 @@ export default function BusinessPage() {
           <div className={s.output}>
             <Layers aria-hidden="true" />
             <h3>Transparent PNGs</h3>
-            <p>Just the ink on a transparent background at 300 dpi, to place on your own card and envelope artwork.</p>
+            <p>Just the ink on a transparent background in 4K, to place on your own card and envelope artwork.</p>
           </div>
         </div>
       </Section>
@@ -111,7 +111,7 @@ export default function BusinessPage() {
             { q: "How is our customer list handled?", a: "Batch letters run entirely in your browser. The spreadsheet is never uploaded to our servers." },
             {
               q: "What does it cost?",
-              a: "Batch letters are part of Pro, paid once per week, month or year. For API volumes, join the list above and we'll quote per letter.",
+              a: "Batch letters come with the Month and Year plans, paid once. For API volumes, join the list above and we'll quote per letter.",
             },
           ]}
         />

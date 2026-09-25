@@ -15,8 +15,8 @@ export default function TermsPage() {
 
       <h2>What Truehand is</h2>
       <p>
-        Truehand turns text you provide into images and PDFs that look handwritten. The free version is supported by advertising and has usage limits. Pro,
-        passes, page packs and style unlocks are paid one-time purchases that remove ads and limits for the period or scope described at the time of purchase.
+        Truehand turns text you provide into images and PDFs that look handwritten. The free version is supported by advertising and has usage limits. Plans,
+        page packs and style unlocks are paid one-time purchases that add pages and features for the period or scope described at the time of purchase.
       </p>
 
       <h2>Your content</h2>
@@ -40,7 +40,7 @@ export default function TermsPage() {
       <h2>Accounts</h2>
       <p>
         You must be at least 13 to create an account. Keep access to your email secure, because sign-in codes are sent there. You can delete your account at any
-        time from the account page; remaining Pro time and credits are deleted with it.
+        time from the account page; remaining plan time and pages are deleted with it.
       </p>
 
       <h2>Payments</h2>

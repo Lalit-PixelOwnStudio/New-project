@@ -98,6 +98,8 @@ export const passes = pgTable(
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
     orderId: text("order_id").references(() => orders.id),
+    /** week, month or year (see plans.ts). */
+    plan: text("plan").notNull().default("month"),
     startsAt: ts("starts_at").notNull(),
     endsAt: ts("ends_at").notNull(),
     createdAt: now(),

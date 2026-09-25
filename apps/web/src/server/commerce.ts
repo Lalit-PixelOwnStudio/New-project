@@ -1,7 +1,8 @@
 import "server-only";
 import { STYLES } from "@truehand/catalog";
-import { and, eq, gt, ne, sql } from "drizzle-orm";
-import { PRODUCTS, priceFor, type ProductId, type Provider } from "@/lib/pricing";
+import { and, eq, gt, inArray, ne, sql } from "drizzle-orm";
+import { PLAN_RANK, PLANS, type PaidPlan } from "@/lib/plans";
+import { PRODUCTS, priceFor, type Currency, type ProductId, type Provider } from "@/lib/pricing";
 import { db, schema } from "./db";
 import { createPaypalOrder } from "./payments/paypal";
 import { createRazorpayOrder } from "./payments/razorpay";
@@ -35,6 +36,8 @@ export async function startCheckout(input: {
   product: ProductId;
   styleId?: string | null;
   country: string | null;
+  /** The currency the buyer picked on the pricing page, if any. */
+  currency?: Currency | null;
 }): Promise<CheckoutStart> {
   const product = PRODUCTS[input.product];
   if (!product) throw new CheckoutError("Unknown product");
@@ -42,7 +45,7 @@ export async function startCheckout(input: {
     const style = STYLES.find((s) => s.id === input.styleId);
     if (!style || style.tier !== "pro") throw new CheckoutError("Choose a Pro handwriting to unlock");
   }
-  const price = priceFor(input.product, input.country);
+  const price = priceFor(input.product, input.country, input.currency);
   const orderId = id();
   const description = product.grant.style ? `${product.name}: ${STYLES.find((s) => s.id === input.styleId)?.name}` : product.name;
 
@@ -100,19 +103,23 @@ export async function fulfilOrder(provider: Provider, providerOrderId: string, p
     if (!flipped.length) return false;
 
     const grant = PRODUCTS[order.product as ProductId]?.grant ?? {};
-    if (grant.proDays) {
-      // Stack on top of any Pro time the user already has.
+    if (grant.plan) {
+      // A plan starts now, unless an equal or better plan is already running,
+      // in which case it follows on when that one ends. So an upgrade applies
+      // straight away, and a cheaper plan bought meanwhile isn't wasted.
+      const atLeast = (Object.keys(PLANS) as PaidPlan[]).filter((p) => PLAN_RANK[p] >= PLAN_RANK[grant.plan!]);
       const [current] = await tx
         .select({ endsAt: sql<Date | null>`max(${schema.passes.endsAt})` })
         .from(schema.passes)
-        .where(and(eq(schema.passes.userId, order.userId), gt(schema.passes.endsAt, new Date())));
+        .where(and(eq(schema.passes.userId, order.userId), gt(schema.passes.endsAt, new Date()), inArray(schema.passes.plan, atLeast)));
       const start = current?.endsAt ? new Date(current.endsAt) : new Date();
       await tx.insert(schema.passes).values({
         id: id(),
         userId: order.userId,
         orderId: order.id,
+        plan: grant.plan,
         startsAt: start,
-        endsAt: new Date(start.getTime() + grant.proDays * DAY),
+        endsAt: new Date(start.getTime() + PLANS[grant.plan].days * DAY),
       });
     }
     if (grant.credits) {

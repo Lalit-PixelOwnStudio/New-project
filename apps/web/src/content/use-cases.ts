@@ -55,7 +55,7 @@ The assassination of Archduke Franz Ferdinand in Sarajevo on 28 June 1914 was th
       {
         heading: "Print it the right size",
         body: [
-          "Choose A4 or Letter to match your printer paper, and print at 100% or “actual size”, not “fit to page”, so the ruled lines stay the right height. The free 150 dpi download prints cleanly; 300 dpi is sharper if you look closely.",
+          "Choose A4 or Letter to match your printer paper, and print at 100% or “actual size”, not “fit to page”, so the ruled lines stay the right height. The free Full HD download prints cleanly; 2K and 4K are sharper if you look closely.",
         ],
       },
       {
@@ -68,7 +68,7 @@ The assassination of Archduke Franz Ferdinand in Sarajevo on 28 June 1914 was th
     faq: [
       {
         q: "Is it free?",
-        a: "Yes. Free downloads include 3 pages at a time and 10 pages a day, with 16 handwriting styles and no watermark. Pro removes the limits and the ads.",
+        a: "Yes. Free downloads include 3 pages at a time and 10 pages a day, with 16 handwriting styles and no watermark. A plan adds pages and every style, and removes the ads.",
       },
       {
         q: "Can I use my own handwriting?",
@@ -201,7 +201,7 @@ Sam`,
       {
         heading: "Print it on real card",
         body: [
-          "Download a PNG with a transparent background (Pro) and place it on your own card design, or print the plain page onto good paper. At 300 dpi the ink texture survives printing.",
+          "Download a PNG with a transparent background (Pro) and place it on your own card design, or print the plain page onto good paper. In 4K the ink texture survives printing.",
         ],
       },
     ],

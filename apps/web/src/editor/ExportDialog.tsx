@@ -8,6 +8,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { ProTag } from "@/components/ui/ProTag";
 import { Segmented } from "@/components/ui/Segmented";
 import { canUseStyle, useEntitlements } from "@/lib/entitlements-client";
+import { RESOLUTIONS, resolutionName, type Dpi } from "@/lib/resolution";
 import { proFeaturesUsed, toDocumentSpec, type EditorSettings } from "@/lib/settings";
 import type { RendererClient } from "./client";
 import s from "./ExportDialog.module.css";
@@ -54,7 +55,7 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
   const { entitlements, refresh } = useEntitlements();
   const limits = entitlements.limits;
   const [format, setFormat] = useState<Format>("pdf");
-  const [dpi, setDpi] = useState<150 | 300>(150);
+  const [dpi, setDpi] = useState<Dpi>(150);
   const [transparent, setTransparent] = useState(false);
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -84,9 +85,9 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
   const locked = lockedChoices(settings, entitlements);
   const allowed = Math.min(pages, limits.pagesPerExport + entitlements.credits);
   const truncated = allowed < pages;
-  const hdLocked = dpi === 300 && limits.maxDpi < 300;
+  const qualityLocked = dpi > limits.maxDpi;
   const transparentLocked = transparent && !limits.transparent;
-  const blocked = locked.length > 0 || hdLocked || transparentLocked;
+  const blocked = locked.length > 0 || qualityLocked || transparentLocked;
   const busy = phase === "working";
 
   /** Asks the server how many pages this export may include (daily limits, credits). */
@@ -219,7 +220,7 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
             )}
             {limits.ads && (
               <p className={s.hintText}>
-                <a href="/pricing">Pro</a> skips this step, removes ads and unlocks every hand.
+                <a href="/pricing">A plan</a> skips this step, removes ads and unlocks every hand.
               </p>
             )}
           </div>
@@ -245,12 +246,17 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
               <span className={s.label}>Quality</span>
               <Segmented
                 label="Quality"
-                value={String(dpi) as "150" | "300"}
-                onChange={(v) => setDpi(Number(v) as 150 | 300)}
-                options={[
-                  { value: "150", label: "Screen · 150 dpi" },
-                  { value: "300", label: <>Print · 300 dpi {limits.maxDpi < 300 && <ProTag />}</> },
-                ]}
+                value={String(dpi)}
+                onChange={(v) => setDpi(Number(v) as Dpi)}
+                options={RESOLUTIONS.map((r) => ({
+                  value: String(r.dpi),
+                  // 2K comes with any plan; 4K with Month or Year.
+                  label: (
+                    <>
+                      {r.name} {r.dpi > limits.maxDpi && <ProTag label={r.dpi > 200 ? "Month" : "Pro"} />}
+                    </>
+                  ),
+                }))}
               />
             </div>
 
@@ -266,19 +272,19 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
               {truncated && <> · Free downloads include the first {limits.pagesPerExport} pages</>}
             </p>
 
-            {(locked.length > 0 || hdLocked || transparentLocked) && (
+            {(locked.length > 0 || qualityLocked || transparentLocked) && (
               <div className={s.notice} role="status">
-                <p>This page uses Pro choices:</p>
+                <p>{limits.ads ? "This page uses Pro choices:" : "These need the Month or Year plan:"}</p>
                 <ul>
                   {locked.map((l) => (
                     <li key={l.key}>{l.label}</li>
                   ))}
-                  {hdLocked && <li>Print quality, 300 dpi</li>}
+                  {qualityLocked && <li>{resolutionName(dpi)} quality</li>}
                   {transparentLocked && <li>Transparent background</li>}
                 </ul>
                 <div className={s.noticeActions}>
                   <ButtonLink href="/pricing" size="s">
-                    See Pro and passes
+                    See plans
                   </ButtonLink>
                   <Button
                     type="button"
@@ -286,11 +292,11 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
                     variant="secondary"
                     onClick={() => {
                       patch(Object.assign({}, ...locked.map((l) => l.reset)));
-                      setDpi(150);
+                      setDpi(Math.min(dpi, limits.maxDpi) as Dpi);
                       setTransparent(false);
                     }}
                   >
-                    Use free options
+                    {limits.ads ? "Use free options" : "Use what my plan includes"}
                   </Button>
                 </div>
               </div>
@@ -298,7 +304,7 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
 
             {truncated && !blocked && (
               <p className={s.upsell}>
-                Need all {pages} pages? <a href="/pricing">Pro, a week pass or a page pack</a> covers it.
+                Need all {pages} pages? <a href="/pricing">A plan or a page pack</a> covers it.
               </p>
             )}
 

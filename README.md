@@ -1,6 +1,6 @@
 # Truehand
 
-Type text, get it back handwritten: realistic handwriting on ruled paper, rendered in the browser and downloaded as PDF or PNG. Free with ads; Pro (a week, month or year, paid once) removes ads and unlocks every hand, paper and pen.
+Type text, get it back handwritten: realistic handwriting on ruled paper, rendered in the browser and downloaded as PDF or PNG. Free with ads; three one-time plans (Week, Month, Year) add pages, every hand, paper and pen, up to 4K quality, and no ads.
 
 ## Repository
 
@@ -71,7 +71,7 @@ Checkout confirms the payment in the browser first; the webhooks are the backup 
 
 ### Ads
 
-Until AdSense approves the site, every ad space shows a labelled placeholder. After approval, set `NEXT_PUBLIC_ADSENSE_CLIENT` (`ca-pub-…`), create one responsive display ad unit and put its id in `NEXT_PUBLIC_ADSENSE_SLOT_DISPLAY`; it fills every placement. To compare placements in AdSense reports, give any of them its own unit (`NEXT_PUBLIC_ADSENSE_SLOT_TOP`, `_EDITOR`, `_FEED`, `_ARTICLE`, `_BANNER`, `_FOOTER`, `_EXPORT`, `_ANCHOR`, `_RAIL`). Pro users never load ad code.
+Until AdSense approves the site, every ad space shows a labelled placeholder. After approval, set `NEXT_PUBLIC_ADSENSE_CLIENT` (`ca-pub-…`), create one responsive display ad unit and put its id in `NEXT_PUBLIC_ADSENSE_SLOT_DISPLAY`; it fills every placement. To compare placements in AdSense reports, give any of them its own unit (`NEXT_PUBLIC_ADSENSE_SLOT_TOP`, `_EDITOR`, `_FEED`, `_ARTICLE`, `_BANNER`, `_FOOTER`, `_EXPORT`, `_ANCHOR`, `_RAIL`). People on a plan never load ad code.
 
 | Placement | Where                                                              | Size                         |
 | --------- | ------------------------------------------------------------------ | ---------------------------- |

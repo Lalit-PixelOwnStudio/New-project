@@ -5,6 +5,8 @@
  *
  * Everything is a one-time payment. There is no subscription to cancel.
  */
+import { PLANS, type PaidPlan } from "./plans";
+
 export type ProductId = "pass_week" | "pass_month" | "pass_year" | "pages_100" | "style";
 export type Region = "IN" | "A" | "B" | "C";
 export type Provider = "razorpay" | "paypal";
@@ -15,30 +17,31 @@ export interface Product {
   name: string;
   short: string;
   description: string;
-  grant: { proDays?: number; credits?: number; style?: true };
+  /** A plan (for its days, with its pages as credits), page credits, or one style. */
+  grant: { plan?: PaidPlan; credits?: number; style?: true };
 }
 
 export const PRODUCTS: Record<ProductId, Product> = {
   pass_week: {
     id: "pass_week",
-    name: "Pro for a week",
+    name: "Week plan",
     short: "Week",
-    description: "Seven days of everything. Made for one big deadline.",
-    grant: { proDays: 7 },
+    description: `${PLANS.week.pages} pages, every hand, paper and pen, 2K quality and no ads, for seven days.`,
+    grant: { plan: "week", credits: PLANS.week.pages },
   },
   pass_month: {
     id: "pass_month",
-    name: "Pro for a month",
+    name: "Month plan",
     short: "Month",
-    description: "A month of every hand, paper, pen and finish, no ads.",
-    grant: { proDays: 31 },
+    description: `${PLANS.month.pages} pages, everything unlocked, 4K quality and no ads, for a month.`,
+    grant: { plan: "month", credits: PLANS.month.pages },
   },
   pass_year: {
     id: "pass_year",
-    name: "Pro for a year",
+    name: "Year plan",
     short: "Year",
-    description: "The whole school year for less than four months.",
-    grant: { proDays: 366 },
+    description: `${PLANS.year.pages.toLocaleString("en-US")} pages, everything unlocked, 4K quality and no ads, for a year.`,
+    grant: { plan: "year", credits: PLANS.year.pages },
   },
   pages_100: {
     id: "pages_100",
@@ -51,7 +54,7 @@ export const PRODUCTS: Record<ProductId, Product> = {
     id: "style",
     name: "One handwriting, forever",
     short: "Style",
-    description: "Keep a single Pro hand for good, without Pro.",
+    description: "Keep a single Pro hand for good, without a plan.",
     grant: { style: true },
   },
 };
@@ -94,16 +97,26 @@ export interface Price {
   region: Region;
 }
 
-export function priceFor(product: ProductId, country: string | null | undefined): Price {
+/**
+ * Visitors from India can also choose to pay in dollars (through PayPal), at
+ * the US price. Nobody else can switch to rupees, so the Indian price stays
+ * for India.
+ */
+export function regionForCheckout(country: string | null | undefined, currency?: Currency | null): Region {
   const region = regionFor(country);
+  return region === "IN" && currency === "USD" ? "A" : region;
+}
+
+export function priceFor(product: ProductId, country: string | null | undefined, pay?: Currency | null): Price {
+  const region = regionForCheckout(country, pay);
   const { currency, amounts } = PRICES[region];
   const amount = amounts[product];
   return { product, amount, currency, display: formatMoney(amount, currency), provider: providerFor(region), region };
 }
 
 /** Month-equivalent of the yearly pass, for the "per month" line. */
-export function yearlyPerMonth(country: string | null | undefined): string {
-  const p = priceFor("pass_year", country);
+export function yearlyPerMonth(country: string | null | undefined, pay?: Currency | null): string {
+  const p = priceFor("pass_year", country, pay);
   const monthly = p.currency === "INR" ? Math.round(p.amount / 12 / 100) * 100 : Math.round(p.amount / 12);
   return formatMoney(monthly, p.currency);
 }

@@ -10,7 +10,7 @@ export function HeaderAccount() {
   const initial = entitlements.email?.[0]?.toUpperCase() ?? "•";
   return (
     <>
-      {entitlements.plan !== "pro" && (
+      {entitlements.plan === "free" && (
         <ButtonLink href="/pricing" size="s" className={s.upgrade}>
           Go Pro
         </ButtonLink>
@@ -18,7 +18,7 @@ export function HeaderAccount() {
       {entitlements.signedIn ? (
         <Link href="/account" className={s.avatar} aria-label="Your account">
           <span>{initial}</span>
-          {entitlements.plan === "pro" ? (
+          {entitlements.plan !== "free" ? (
             <em className={s.badge}>Pro</em>
           ) : entitlements.credits > 0 ? (
             <em className={s.badge}>{entitlements.credits}</em>

@@ -2,7 +2,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useEntitlements } from "@/lib/entitlements-client";
-import type { ProductId } from "@/lib/pricing";
+import type { Currency, ProductId } from "@/lib/pricing";
 import { Button } from "./ui/Button";
 import s from "./BuyButton.module.css";
 
@@ -53,6 +53,7 @@ function loadScript(src: string) {
 export function BuyButton({
   product,
   styleId,
+  currency,
   children,
   variant = "primary",
   wide,
@@ -60,6 +61,8 @@ export function BuyButton({
 }: {
   product: ProductId;
   styleId?: string;
+  /** Only honoured for India, which may pay in USD instead of INR. */
+  currency?: Currency;
   children: React.ReactNode;
   variant?: "primary" | "secondary";
   wide?: boolean;
@@ -89,10 +92,10 @@ export function BuyButton({
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ product, styleId }),
+        body: JSON.stringify({ product, styleId, currency }),
       });
       if (res.status === 401) {
-        router.push(`/login?next=${encodeURIComponent(pathname)}`);
+        router.push(`/login?next=${encodeURIComponent(pathname + window.location.search)}`);
         return;
       }
       const data = (await res.json()) as CheckoutStart & { error?: string };
