@@ -82,6 +82,8 @@
 .hand img {
   width: auto;
   height: 44px;
+  object-fit: contain;
+  object-position: left center;
   pointer-events: none;
 }
 

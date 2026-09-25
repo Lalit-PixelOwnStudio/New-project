@@ -206,7 +206,7 @@ export function BatchTool() {
             </label>
             <textarea id="csv" className={s.csv} value={csv} spellCheck={false} onChange={(ev) => setCsv(ev.target.value)} />
             {table.rows.length > 0 && (
-              <div className={s.tableWrap}>
+              <div className={s.tableWrap} tabIndex={0} role="region" aria-label="Spreadsheet rows">
                 <table className={s.table}>
                   <thead>
                     <tr>
@@ -345,7 +345,7 @@ export function BatchTool() {
           </p>
         )}
         {message && <p className={s.message}>{message}</p>}
-        <div className={e.stage}>
+        <div className={e.stage} tabIndex={0} role="region" aria-label="Letter preview">
           <Preview
             client={preview.client}
             layoutId={preview.layoutId}

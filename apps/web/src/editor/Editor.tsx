@@ -108,7 +108,7 @@ export function Editor({ initial, placeholder }: Props) {
               .join(" ")}
           </p>
         )}
-        <div className={s.stage} data-zoom={zoom || undefined}>
+        <div className={s.stage} data-zoom={zoom || undefined} tabIndex={0} role="region" aria-label="Handwritten preview">
           <Preview
             client={preview.client}
             layoutId={preview.layoutId}

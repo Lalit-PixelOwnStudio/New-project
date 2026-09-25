@@ -120,7 +120,7 @@ export function QuickPickers({ settings, update }: { settings: EditorSettings; u
           <>
             <span className={s.triggerLabel}>Hand</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className={s.triggerHand} src={`/specimens/name-${style.id}.webp`} alt={style.name} height={26} />
+            <img className={s.triggerHand} src={`/specimens/name-${style.id}.webp`} alt={style.name} width={105} height={26} />
             {!canUseStyle(entitlements, style.id, style.tier) && <ProTag />}
             <ChevronDown className={s.chev} aria-hidden="true" />
           </>
