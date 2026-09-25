@@ -12,11 +12,14 @@ export const NAV = [
   { href: "/pricing", label: "Pricing" },
 ];
 
-/** The wordmark, written by Truehand's own engine. */
-export function Wordmark({ height = 36 }: { height?: number }) {
+/** Logo: a "T" written by Truehand's own engine, beside the name set in type. */
+export function Wordmark() {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src="/brand/wordmark.svg" alt="Truehand" height={height} width={Math.round(height * 3.9)} className={s.wordmark} />
+    <span className={s.logo}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/brand/mark.svg" alt="" width={34} height={34} className={s.mark} />
+      <span className={s.word}>truehand</span>
+    </span>
   );
 }
 

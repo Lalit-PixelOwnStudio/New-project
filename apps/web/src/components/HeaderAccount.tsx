@@ -1,5 +1,4 @@
 "use client";
-import { Crown } from "lucide-react";
 import Link from "next/link";
 import { useEntitlements } from "@/lib/entitlements-client";
 import { ButtonLink } from "./ui/Button";
@@ -13,8 +12,7 @@ export function HeaderAccount() {
     <>
       {entitlements.plan !== "pro" && (
         <ButtonLink href="/pricing" size="s" className={s.upgrade}>
-          <Crown aria-hidden="true" />
-          Upgrade
+          Go Pro
         </ButtonLink>
       )}
       {entitlements.signedIn ? (

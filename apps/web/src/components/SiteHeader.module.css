@@ -12,7 +12,7 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 36px;
+  gap: 28px;
   max-width: var(--max);
   height: 100%;
   margin: 0 auto;
@@ -24,58 +24,53 @@
   text-decoration: none;
 }
 
-.wordmark {
-  width: auto;
-  height: 38px;
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mark {
+  width: 34px;
+  height: 34px;
+}
+
+.word {
+  font-size: 23px;
+  font-weight: 750;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: var(--ink);
 }
 
 .nav {
   display: flex;
   align-items: center;
-  justify-self: center;
+  gap: 4px;
+  justify-self: start;
 }
 
 .nav a {
-  position: relative;
   display: flex;
   align-items: center;
-  height: var(--header-h);
+  height: 38px;
   padding: 0 14px;
-  font-size: 15.5px;
+  border-radius: 999px;
+  font-size: 15px;
   font-weight: 500;
   color: var(--ink-3);
   text-decoration: none;
-  transition: color 120ms var(--ease);
-}
-
-.nav a + a::before {
-  content: "";
-  position: absolute;
-  left: -2px;
-  top: 50%;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: var(--rule-strong);
+  transition: color 120ms var(--ease), background-color 120ms var(--ease);
 }
 
 .nav a:hover {
   color: var(--ink);
+  background: var(--bg-sunk);
 }
 
 .nav a[aria-current="page"] {
-  color: var(--ink);
-}
-
-.nav a[aria-current="page"]::after {
-  content: "";
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: -1px;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--ink);
+  color: var(--blue);
+  background: var(--blue-soft);
 }
 
 .actions {
@@ -84,9 +79,8 @@
   gap: 12px;
 }
 
-.upgrade svg {
-  width: 16px;
-  height: 16px;
+.upgrade {
+  border-radius: 999px;
 }
 
 .signin {

@@ -4,10 +4,6 @@
   grid-template-rows: auto minmax(0, 1fr) auto;
   min-height: 0;
   height: 100%;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-l);
-  background: var(--bg);
-  box-shadow: var(--shadow-card);
 }
 
 .toolbar {
@@ -82,13 +78,13 @@
 }
 
 .clear {
-  display: inline-flex;
+  display: inline-grid;
   flex: none;
-  align-items: center;
-  gap: 6px;
-  height: 38px;
+  place-items: center;
+  width: 36px;
+  height: 36px;
   margin-left: auto;
-  padding: 0 10px;
+  padding: 0;
   border: 0;
   border-radius: var(--radius);
   background: transparent;
@@ -118,7 +114,7 @@
 
 .prose {
   min-height: 100%;
-  padding: 18px 22px 96px;
+  padding: 18px 22px 40px;
   outline: none;
   font-family: var(--hand), var(--font-text);
   font-size: var(--hand-size);

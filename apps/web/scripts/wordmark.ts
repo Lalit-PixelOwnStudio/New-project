@@ -12,12 +12,12 @@ import { createFontSource, layoutDocument, type InkItem } from "@truehand/engine
 const app = join(import.meta.dirname, "..");
 const assets = join(app, "..", "..", "assets", "fonts");
 
-export async function wordmarkSvg(styleId: string, seed: number, text = "Truehand", color = "#0f1115") {
+export async function wordmarkSvg(styleId: string, seed: number, text = "Truehand", color = "#0f1115", underline = false) {
   const entry = STYLES.find((s) => s.id === styleId)!;
   const src = await createFontSource(entry.id, await readFile(join(assets, entry.font.dir, entry.font.file)));
   const layout = layoutDocument(
     {
-      text: `__${text}__`,
+      text: underline ? `__${text}__` : text,
       paper: {
         size: "a4",
         ruling: "plain",

@@ -1,28 +1,27 @@
 import { STYLES } from "@truehand/catalog";
-import { Info, ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
 import { Editor } from "@/editor/Editor";
 import s from "./home.module.css";
+
+const STEPS = ["Write or paste your text", "Choose a hand, paper and pen", "Download a PDF or images"];
 
 export default function Home() {
   return (
     <main className={s.page}>
       <section className={s.hero}>
-        <h1 className={s.title}>Turn typed text into real handwriting</h1>
+        <h1 className={s.title}>Type anything. Get it back handwritten.</h1>
         <p className={s.lede}>
-          Convert typed or pasted text into realistic handwritten pages for assignments, class notes, lab records, letters and cards. {STYLES.length}{" "}
-          hands, real paper and ink, and every letter written a little differently.
+          Truehand draws every letter the way a hand would, a little different each time, on ruled, grid or plain paper. {STYLES.length} hands for
+          notes, assignments, lab records, letters and cards. Free, and no sign-up.
         </p>
-        <p className={s.guide}>
-          <Info aria-hidden="true" />
-          <span>
-            Type or paste in the editor, pick a hand and a paper, and the preview writes itself as you type. Press <kbd>Download</kbd> when it looks right.
-          </span>
-        </p>
-        <Link href="/guides/how-truehand-works" className={s.more}>
-          How it works <ArrowRight aria-hidden="true" />
-        </Link>
+        <ol className={s.steps}>
+          {STEPS.map((step, i) => (
+            <li key={step}>
+              <span className={s.num}>{i + 1}</span>
+              {step}
+            </li>
+          ))}
+        </ol>
       </section>
       <section className={s.work} aria-label="Handwriting editor">
         <Editor placeholder="/specimens/hero.webp" />

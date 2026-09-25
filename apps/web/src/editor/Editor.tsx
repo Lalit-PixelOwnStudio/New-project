@@ -1,6 +1,6 @@
 "use client";
 import { PENS, penById, styleById } from "@truehand/catalog";
-import { ChevronDown, ChevronUp, Download, Maximize2, Minimize2, SlidersHorizontal } from "lucide-react";
+import { Download, Maximize2, Minimize2, PenLine, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import type { EditorSettings } from "@/lib/settings";
@@ -21,58 +21,76 @@ interface Props {
   placeholder?: string;
 }
 
+type Tab = "text" | "style";
+
 export function Editor({ initial, placeholder }: Props) {
   const { settings, update, patch } = useSettings(initial);
   const preview = usePreview(settings);
   const [exporting, setExporting] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [tab, setTab] = useState<Tab>("text");
   const [zoom, setZoom] = useState(false);
   const font = useHandFont(settings.styleId);
   const pen = penById(settings.penId) ?? PENS[0]!;
   const style = styleById(settings.styleId);
   const words = preview.stats?.words ?? 0;
+  const pagesLabel = `${preview.pages} ${preview.pages === 1 ? "page" : "pages"}`;
+  const download = (
+    <Button onClick={() => setExporting(true)} disabled={!preview.client}>
+      <Download aria-hidden="true" />
+      Download
+    </Button>
+  );
 
   return (
     <div className={s.workspace}>
       <div className={s.left}>
-        <RichText
-          value={settings.text}
-          onChange={(v) => update("text", v)}
-          family={font.family}
-          ratio={font.ratio}
-          ink={settings.inkColor ?? pen.spec.color}
-          pickers={<QuickPickers settings={settings} update={update} />}
-          footer={
-            <div className={s.status}>
-              <span>
-                {words.toLocaleString("en")} {words === 1 ? "word" : "words"} · {preview.pages} {preview.pages === 1 ? "page" : "pages"}
-              </span>
-              <span className={s.private}>Your text stays on this device</span>
-            </div>
-          }
-        />
-        {settingsOpen && (
-          <div className={s.sheet}>
-            <SettingsPanel settings={settings} update={update} onClose={() => setSettingsOpen(false)} />
-          </div>
-        )}
+        <div className={s.tabs} role="tablist" aria-label="Editor">
+          <button type="button" role="tab" id="tab-text" aria-controls="panel-text" aria-selected={tab === "text"} onClick={() => setTab("text")}>
+            <PenLine aria-hidden="true" />
+            Text
+          </button>
+          <button type="button" role="tab" id="tab-style" aria-controls="panel-style" aria-selected={tab === "style"} onClick={() => setTab("style")}>
+            <SlidersHorizontal aria-hidden="true" />
+            Style &amp; page
+          </button>
+          <span className={s.count}>
+            {words.toLocaleString("en")} {words === 1 ? "word" : "words"} · {pagesLabel}
+          </span>
+        </div>
+        <div className={s.panel} id="panel-text" role="tabpanel" aria-labelledby="tab-text" hidden={tab !== "text"}>
+          <RichText
+            value={settings.text}
+            onChange={(v) => update("text", v)}
+            family={font.family}
+            ratio={font.ratio}
+            ink={settings.inkColor ?? pen.spec.color}
+            pickers={<QuickPickers settings={settings} update={update} />}
+            footer={<p className={s.private}>Written in your browser. Your text is never uploaded.</p>}
+          />
+        </div>
+        <div className={s.panel} id="panel-style" role="tabpanel" aria-labelledby="tab-style" hidden={tab !== "style"}>
+          <SettingsPanel settings={settings} update={update} />
+        </div>
       </div>
 
       <section className={s.right} aria-label="Preview">
         <header className={s.previewHead}>
-          <p>
-            <strong>Live preview.</strong>{" "}
+          <div className={s.previewTitle}>
+            <strong>Preview</strong>
             {preview.error ? (
               <span className={s.error}>Couldn&rsquo;t render: {preview.error}</span>
             ) : (
               <span className={s.meta} data-busy={preview.busy || undefined}>
-                {preview.busy ? "Writing…" : `${style?.name ?? ""} · ${preview.pages} ${preview.pages === 1 ? "page" : "pages"}. Updates as you type.`}
+                {preview.busy ? "writing…" : `${style?.name ?? ""} · ${pagesLabel}`}
               </span>
             )}
-          </p>
-          <button type="button" className={s.zoom} onClick={() => setZoom((z) => !z)} aria-pressed={zoom} aria-label={zoom ? "Fit page to width" : "Zoom in"} title={zoom ? "Fit" : "Zoom in"}>
-            {zoom ? <Minimize2 /> : <Maximize2 />}
-          </button>
+          </div>
+          <div className={s.previewActions}>
+            <button type="button" className={s.zoom} onClick={() => setZoom((z) => !z)} aria-pressed={zoom} aria-label={zoom ? "Fit page to width" : "Zoom in"} title={zoom ? "Fit" : "Zoom in"}>
+              {zoom ? <Minimize2 /> : <Maximize2 />}
+            </button>
+            <span className={s.desktopOnly}>{download}</span>
+          </div>
         </header>
         {preview.stats && preview.stats.missing.length > 0 && (
           <p className={s.missing}>
@@ -88,21 +106,15 @@ export function Editor({ initial, placeholder }: Props) {
             effect={settings.effect}
             busy={preview.busy}
             placeholder={placeholder}
-            label={`Handwritten preview, ${preview.pages} pages`}
+            label={`Handwritten preview, ${pagesLabel}`}
           />
         </div>
       </section>
 
-      <div className={s.bar}>
-        <Button variant="secondary" size="l" className={s.settingsBtn} onClick={() => setSettingsOpen((o) => !o)} aria-expanded={settingsOpen}>
-          <SlidersHorizontal aria-hidden="true" />
-          Settings
-          {settingsOpen ? <ChevronDown aria-hidden="true" /> : <ChevronUp aria-hidden="true" />}
-        </Button>
+      <div className={s.mobileBar}>
         <Button size="l" wide onClick={() => setExporting(true)} disabled={!preview.client}>
           <Download aria-hidden="true" />
-          Download {preview.pages === 1 ? "page" : `${preview.pages} pages`}
-          <span className={s.formats}>PDF · PNG · ZIP</span>
+          Download {pagesLabel}
         </Button>
       </div>
 

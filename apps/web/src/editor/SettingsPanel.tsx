@@ -1,11 +1,12 @@
 "use client";
-import { RefreshCw, X } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import type { ReactNode } from "react";
 import { ProTag } from "@/components/ui/ProTag";
 import { Segmented } from "@/components/ui/Segmented";
 import { Slider } from "@/components/ui/Slider";
 import { useEntitlements } from "@/lib/entitlements-client";
 import type { EditorSettings } from "@/lib/settings";
+import { HandList, PaperGrid, PenList } from "./Pickers";
 import s from "./SettingsPanel.module.css";
 
 type Update = <K extends keyof EditorSettings>(key: K, value: EditorSettings[K]) => void;
@@ -30,18 +31,21 @@ function Field({ label, children }: { label: ReactNode; children: ReactNode }) {
 
 const handLabel = (m: number) => (m < 0.2 ? "Careful" : m < 0.45 ? "Natural" : m < 0.7 ? "Quick" : "Rushed");
 
-export function SettingsPanel({ settings, update, onClose }: { settings: EditorSettings; update: Update; onClose: () => void }) {
+export function SettingsPanel({ settings, update }: { settings: EditorSettings; update: Update }) {
   const { entitlements } = useEntitlements();
   const pro = entitlements.limits;
   return (
-    <div className={s.panel} role="dialog" aria-label="Settings">
-      <header className={s.head}>
-        <h2>Settings</h2>
-        <button type="button" className={s.close} onClick={onClose} aria-label="Close settings">
-          <X />
-        </button>
-      </header>
+    <div className={s.panel}>
       <div className={s.scroll}>
+        <Group title="Handwriting">
+          <HandList value={settings.styleId} onPick={(id) => update("styleId", id)} />
+        </Group>
+        <Group title="Paper">
+          <PaperGrid value={settings.paperId} onPick={(id) => update("paperId", id)} />
+        </Group>
+        <Group title="Pen">
+          <PenList settings={settings} update={update} />
+        </Group>
         <Group title="Writing">
           <Slider label="Size" value={settings.fontSize} min={0.75} max={1.45} step={0.01} format={(v) => `${Math.round(v * 100)}%`} onChange={(v) => update("fontSize", v)} />
           <Slider label="Messiness" value={settings.messiness} min={0} max={1} step={0.01} format={handLabel} onChange={(v) => update("messiness", v)} />

@@ -1,19 +1,7 @@
 .panel {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
   height: 100%;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-l);
-  background: var(--bg);
-  box-shadow: var(--shadow-pop);
-  animation: up 160ms var(--ease);
-}
-
-@keyframes up {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
+  min-height: 0;
+  overflow: hidden;
 }
 
 .head {
@@ -55,11 +43,11 @@
 
 .scroll {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   align-content: start;
   gap: 0;
+  height: 100%;
   overflow-y: auto;
-  padding-bottom: 88px;
 }
 
 .group {

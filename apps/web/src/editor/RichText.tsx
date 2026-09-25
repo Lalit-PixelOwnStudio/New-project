@@ -109,6 +109,9 @@ function Toolbar({ editor }: { editor: TiptapEditor }) {
           <Redo2 />
         </ToolButton>
       </div>
+      <button type="button" className={s.clear} aria-label="Clear all text" title="Clear all text" onClick={() => c().clearContent(true).run()}>
+        <Trash2 aria-hidden="true" />
+      </button>
     </div>
   );
 }
@@ -161,13 +164,7 @@ export function RichText({ value, onChange, family, ratio, ink, pickers, footer 
     <div className={s.card}>
       <div className={s.toolbar}>
         {editor ? <Toolbar editor={editor} /> : <div className={s.row} />}
-        <div className={`${s.row} ${s.pickers}`}>
-          {pickers}
-          <button type="button" className={s.clear} onClick={() => editor?.chain().focus().clearContent(true).run()}>
-            <Trash2 aria-hidden="true" />
-            Clear text
-          </button>
-        </div>
+        <div className={`${s.row} ${s.pickers}`}>{pickers}</div>
       </div>
       <div className={s.body} style={style} data-hand={family ? "on" : "off"}>
         <EditorContent editor={editor} className={s.content} />
