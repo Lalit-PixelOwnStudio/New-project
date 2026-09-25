@@ -22,6 +22,7 @@ const HIGHLIGHT = "#ffd84a";
 
 export function amountsFor(doc: DocumentSpec): Amounts {
   const r = doc.realism;
+  if (r.off) return { size: 0, baseline: 0, slope: 0, spacing: 0, shape: 0, ink: 0, letter: 0 };
   // Even the neatest hand varies; messiness scales from "careful" to "rushed".
   const m = 0.3 + 1.25 * clamp(r.messiness, 0, 1);
   return {

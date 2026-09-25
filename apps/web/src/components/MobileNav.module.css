@@ -56,16 +56,15 @@
 .sheet a {
   padding: 14px 0;
   border-bottom: 1px solid var(--rule);
-  font-family: var(--font-display);
-  font-size: 30px;
-  font-weight: 800;
-  font-stretch: 70%;
-  line-height: 1;
+  font-size: 22px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
   color: var(--ink);
   text-decoration: none;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1000px) {
   .toggle {
     display: grid;
     place-items: center;

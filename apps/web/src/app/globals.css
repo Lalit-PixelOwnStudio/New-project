@@ -1,35 +1,41 @@
 /* ---------------------------------------------------------------------------
    Truehand design tokens
-   Colours come from the product itself: paper, ink, a ballpoint blue, a
-   highlighter and the red of a notebook margin.
+   Clean white surfaces, one confident blue, and the handwriting as the hero.
    --------------------------------------------------------------------------- */
 :root {
   --bg: #ffffff;
-  --bg-sunk: #f4f4f2;
-  --bg-raised: #ffffff;
-  --ink: #111216;
-  --ink-2: #393a40;
-  --ink-3: #6c6d74;
-  --ink-4: #a2a3a9;
-  --rule: #e7e7e4;
-  --rule-strong: #d2d2ce;
-  --blue: #2340b0;
-  --blue-soft: #e9edfb;
+  --bg-page: #f8f9fb;
+  --bg-sunk: #f2f4f7;
+  --ink: #0f1115;
+  --ink-2: #3d434d;
+  --ink-3: #667085;
+  --ink-4: #98a2b3;
+  --rule: #eaecf0;
+  --rule-strong: #d0d5dd;
+  --blue: #1e58f0;
+  --blue-hover: #1747cc;
+  --blue-soft: #eef3ff;
+  --blue-ink: #1f3c8f;
   --hl: #ffe04a;
-  --red: #e0677a;
-  --green: #1f7a4d;
+  --amber: #f5b301;
+  --red: #d92d20;
+  --red-soft: #fef3f2;
+  --green: #12805c;
 
-  --font-display: var(--font-anybody), "Arial Narrow", sans-serif;
+  --font-display: var(--font-host), ui-sans-serif, system-ui, sans-serif;
   --font-text: var(--font-host), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-martian), ui-monospace, "SFMono-Regular", monospace;
 
-  --radius: 3px;
-  --radius-l: 6px;
+  --radius-s: 6px;
+  --radius: 10px;
+  --radius-l: 14px;
   --gutter: clamp(16px, 4vw, 40px);
-  --max: 1320px;
-  --header-h: 60px;
+  --max: 1360px;
+  --header-h: 72px;
 
-  --shadow-paper: 0 1px 1px rgb(17 18 22 / 0.04), 0 6px 16px -4px rgb(17 18 22 / 0.1), 0 24px 48px -24px rgb(17 18 22 / 0.18);
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 1px 3px rgb(16 24 40 / 0.06);
+  --shadow-pop: 0 12px 32px -8px rgb(16 24 40 / 0.18), 0 4px 8px -4px rgb(16 24 40 / 0.06);
+  --shadow-paper: 0 1px 2px rgb(16 24 40 / 0.06), 0 8px 24px -8px rgb(16 24 40 / 0.14);
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 
   color-scheme: light;
@@ -53,7 +59,6 @@ body {
   font-family: var(--font-text);
   font-size: 16px;
   line-height: 1.55;
-  font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }

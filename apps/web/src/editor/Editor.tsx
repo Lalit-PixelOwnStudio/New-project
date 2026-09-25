@@ -1,51 +1,85 @@
 "use client";
-import { styleById } from "@truehand/catalog";
-import { useState, type ReactNode } from "react";
-import { AdSlot } from "@/components/AdSlot";
+import { PENS, penById, styleById } from "@truehand/catalog";
+import { ChevronDown, ChevronUp, Download, Maximize2, Minimize2, SlidersHorizontal } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import type { EditorSettings } from "@/lib/settings";
-import { Controls } from "./Controls";
 import s from "./Editor.module.css";
 import { ExportDialog } from "./ExportDialog";
+import { useHandFont } from "./handFonts";
+import { QuickPickers } from "./Pickers";
 import { Preview } from "./Preview";
-import { TextPanel } from "./TextPanel";
+import { RichText } from "./RichText";
+import { SettingsPanel } from "./SettingsPanel";
 import { usePreview } from "./usePreview";
 import { useSettings } from "./useSettings";
 
 interface Props {
-  /** Headline block shown above the text box (the page's H1 lives here). */
-  intro: ReactNode;
-  /** Settings a landing page wants to start from (a style, a paper…). */
+  /** Settings a landing page wants to start from (a style, a paper, sample text…). */
   initial?: Partial<EditorSettings>;
   /** Pre-rendered first page, shown instantly while the engine loads. */
   placeholder?: string;
 }
 
-export function Editor({ intro, initial, placeholder }: Props) {
+export function Editor({ initial, placeholder }: Props) {
   const { settings, update, patch } = useSettings(initial);
   const preview = usePreview(settings);
   const [exporting, setExporting] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [zoom, setZoom] = useState(false);
+  const font = useHandFont(settings.styleId);
+  const pen = penById(settings.penId) ?? PENS[0]!;
   const style = styleById(settings.styleId);
+  const words = preview.stats?.words ?? 0;
 
   return (
-    <div className={s.editor}>
-      <section className={s.write} aria-label="Text">
-        <div className={s.intro}>{intro}</div>
-        <TextPanel value={settings.text} onChange={(v) => update("text", v)} words={preview.stats?.words ?? 0} pages={preview.pages} />
-      </section>
+    <div className={s.workspace}>
+      <div className={s.left}>
+        <RichText
+          value={settings.text}
+          onChange={(v) => update("text", v)}
+          family={font.family}
+          ratio={font.ratio}
+          ink={settings.inkColor ?? pen.spec.color}
+          pickers={<QuickPickers settings={settings} update={update} />}
+          footer={
+            <div className={s.status}>
+              <span>
+                {words.toLocaleString("en")} {words === 1 ? "word" : "words"} · {preview.pages} {preview.pages === 1 ? "page" : "pages"}
+              </span>
+              <span className={s.private}>Your text stays on this device</span>
+            </div>
+          }
+        />
+        {settingsOpen && (
+          <div className={s.sheet}>
+            <SettingsPanel settings={settings} update={update} onClose={() => setSettingsOpen(false)} />
+          </div>
+        )}
+      </div>
 
-      <section className={s.stage} aria-label="Preview">
-        <div className={s.stageBar}>
-          <span className={s.status} data-busy={preview.busy || undefined}>
-            {preview.error ? `Couldn't render: ${preview.error}` : preview.busy ? "Writing…" : `${style?.name ?? ""} · ${preview.pages} ${preview.pages === 1 ? "page" : "pages"}`}
-          </span>
-          {preview.stats && preview.stats.missing.length > 0 && (
-            <span className={s.missing} title="These characters aren't in this handwriting and were skipped.">
-              Skipped: {preview.stats.missing.slice(0, 6).map((c) => String.fromCodePoint(c)).join(" ")}
-            </span>
-          )}
-        </div>
-        <div className={s.stageScroll}>
+      <section className={s.right} aria-label="Preview">
+        <header className={s.previewHead}>
+          <p>
+            <strong>Live preview.</strong>{" "}
+            {preview.error ? (
+              <span className={s.error}>Couldn&rsquo;t render: {preview.error}</span>
+            ) : (
+              <span className={s.meta} data-busy={preview.busy || undefined}>
+                {preview.busy ? "Writing…" : `${style?.name ?? ""} · ${preview.pages} ${preview.pages === 1 ? "page" : "pages"}. Updates as you type.`}
+              </span>
+            )}
+          </p>
+          <button type="button" className={s.zoom} onClick={() => setZoom((z) => !z)} aria-pressed={zoom} aria-label={zoom ? "Fit page to width" : "Zoom in"} title={zoom ? "Fit" : "Zoom in"}>
+            {zoom ? <Minimize2 /> : <Maximize2 />}
+          </button>
+        </header>
+        {preview.stats && preview.stats.missing.length > 0 && (
+          <p className={s.missing}>
+            Not in this handwriting, skipped: {preview.stats.missing.slice(0, 8).map((c) => String.fromCodePoint(c)).join(" ")}
+          </p>
+        )}
+        <div className={s.stage} data-zoom={zoom || undefined}>
           <Preview
             client={preview.client}
             layoutId={preview.layoutId}
@@ -59,18 +93,18 @@ export function Editor({ intro, initial, placeholder }: Props) {
         </div>
       </section>
 
-      <aside className={s.side} aria-label="Handwriting settings">
-        <div className={s.sideScroll}>
-          <Controls settings={settings} update={update} />
-          <AdSlot placement="editor" className={s.ad} />
-        </div>
-        <div className={s.exportBar}>
-          <Button size="l" wide onClick={() => setExporting(true)} disabled={!preview.client}>
-            Download
-            <span className={s.formats}>PDF · PNG · ZIP</span>
-          </Button>
-        </div>
-      </aside>
+      <div className={s.bar}>
+        <Button variant="secondary" size="l" className={s.settingsBtn} onClick={() => setSettingsOpen((o) => !o)} aria-expanded={settingsOpen}>
+          <SlidersHorizontal aria-hidden="true" />
+          Settings
+          {settingsOpen ? <ChevronDown aria-hidden="true" /> : <ChevronUp aria-hidden="true" />}
+        </Button>
+        <Button size="l" wide onClick={() => setExporting(true)} disabled={!preview.client}>
+          <Download aria-hidden="true" />
+          Download {preview.pages === 1 ? "page" : `${preview.pages} pages`}
+          <span className={s.formats}>PDF · PNG · ZIP</span>
+        </Button>
+      </div>
 
       <ExportDialog open={exporting} onClose={() => setExporting(false)} settings={settings} patch={patch} client={preview.client} pages={preview.pages} />
     </div>

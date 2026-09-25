@@ -3,13 +3,13 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { EntitlementsProvider } from "@/lib/entitlements-client";
 import { SITE_URL } from "@/lib/site";
-import { anybody, host, martian } from "./fonts";
+import { host, martian } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Truehand — Text to handwriting that doesn't look like a font",
+    default: "Truehand: Convert text to realistic handwriting",
     template: "%s · Truehand",
   },
   description:
@@ -27,7 +27,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${anybody.variable} ${host.variable} ${martian.variable}`}>
+    <html lang="en" className={`${host.variable} ${martian.variable}`}>
       <body>
         <EntitlementsProvider>
           <SiteHeader />

@@ -1,40 +1,37 @@
 import Link from "next/link";
 import { HeaderAccount } from "./HeaderAccount";
 import { MobileNav } from "./MobileNav";
+import { NavLinks } from "./NavLinks";
 import s from "./SiteHeader.module.css";
 
 export const NAV = [
-  { href: "/styles", label: "Handwriting styles" },
-  { href: "/papers", label: "Papers" },
+  { href: "/", label: "Write" },
+  { href: "/styles", label: "Handwriting" },
+  { href: "/guides", label: "Guides" },
   { href: "/business", label: "Business" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/guides", label: "Guides" },
 ];
 
-export function Wordmark() {
+/** The wordmark, written by Truehand's own engine. */
+export function Wordmark({ height = 36 }: { height?: number }) {
   return (
-    <span className={s.wordmark}>
-      truehand<span className={s.dot}>.</span>
-    </span>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src="/brand/wordmark.svg" alt="Truehand" height={height} width={Math.round(height * 3.9)} className={s.wordmark} />
   );
 }
 
 export function SiteHeader() {
   return (
     <header className={s.header}>
-      <Link href="/" className={s.home} aria-label="Truehand home">
-        <Wordmark />
-      </Link>
-      <nav className={s.nav} aria-label="Main">
-        {NAV.map((n) => (
-          <Link key={n.href} href={n.href}>
-            {n.label}
-          </Link>
-        ))}
-      </nav>
-      <div className={s.actions}>
-        <HeaderAccount />
-        <MobileNav items={NAV} />
+      <div className={s.inner}>
+        <Link href="/" className={s.home} aria-label="Truehand home">
+          <Wordmark />
+        </Link>
+        <NavLinks items={NAV} />
+        <div className={s.actions}>
+          <HeaderAccount />
+          <MobileNav items={NAV} />
+        </div>
       </div>
     </header>
   );

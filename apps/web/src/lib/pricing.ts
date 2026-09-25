@@ -106,7 +106,8 @@ export function priceFor(product: ProductId, country: string | null | undefined)
 /** Month-equivalent of the yearly pass, for the "per month" line. */
 export function yearlyPerMonth(country: string | null | undefined): string {
   const p = priceFor("pass_year", country);
-  return formatMoney(Math.round(p.amount / 12), p.currency);
+  const monthly = p.currency === "INR" ? Math.round(p.amount / 12 / 100) * 100 : Math.round(p.amount / 12);
+  return formatMoney(monthly, p.currency);
 }
 
 /** Visitor country from the hosting platform's geolocation headers. */

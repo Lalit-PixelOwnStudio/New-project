@@ -1,20 +1,21 @@
 .facts {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
   margin: 0 0 28px;
-  border-top: 1px solid var(--rule-strong);
 }
 
 .facts div {
-  padding: 16px 16px 16px 0;
+  padding: 18px 20px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg);
+  box-shadow: var(--shadow-card);
 }
 
 .facts dt {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  font-stretch: 87.5%;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 13.5px;
+  font-weight: 500;
   color: var(--ink-3);
 }
 
@@ -44,12 +45,8 @@
 }
 
 .table th {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  font-weight: 500;
-  font-stretch: 87.5%;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 13.5px;
+  font-weight: 600;
   color: var(--ink-3);
 }
 

@@ -25,7 +25,7 @@ export default async function AccountPage() {
   return (
     <main>
       <PageHero eyebrow="Account" title={ent.plan === "pro" ? "You're on Pro." : "You're on Free."} lede={user.email} />
-      <Section label="Plan" index="01">
+      <Section label="Your plan" tone="page">
         <dl className={s.facts}>
           <div>
             <dt>Plan</dt>
@@ -51,7 +51,7 @@ export default async function AccountPage() {
           </ButtonLink>
         </div>
       </Section>
-      <Section label="Receipts" index="02">
+      <Section label="Receipts">
         {paid.length ? (
           <table className={s.table}>
             <thead>
@@ -80,7 +80,7 @@ export default async function AccountPage() {
           <p className={s.empty}>No purchases yet.</p>
         )}
       </Section>
-      <Section label="Account" index="03">
+      <Section label="Account" tone="page">
         <AccountActions />
       </Section>
     </main>

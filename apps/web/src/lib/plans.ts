@@ -63,6 +63,8 @@ export interface Entitlements {
   unlockedStyles: string[];
   limits: Limits;
   signedIn: boolean;
+  email?: string | null;
+  name?: string | null;
 }
 
 export const FREE_ENTITLEMENTS: Entitlements = {

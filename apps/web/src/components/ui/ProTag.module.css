@@ -1,14 +1,21 @@
 .tag {
-  display: inline-block;
-  padding: 1px 5px 0;
-  background: linear-gradient(176deg, transparent 8%, var(--hl) 8%, var(--hl) 88%, transparent 88%);
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  font-weight: 600;
-  font-stretch: 87.5%;
-  letter-spacing: 0.06em;
-  line-height: 14px;
-  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #fff4d1;
+  color: #8a5a00;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
   vertical-align: middle;
+  white-space: nowrap;
+}
+
+.tag svg {
+  width: 11px;
+  height: 11px;
 }

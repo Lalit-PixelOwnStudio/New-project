@@ -95,6 +95,8 @@ export interface PenSpec {
 
 export interface RealismSpec {
   seed: number;
+  /** Render like a plain font: no variation at all. Used for comparisons. */
+  off?: boolean;
   /** Master control, 0 (tidy) to 1 (rushed). */
   messiness: number;
   /** Degrees added to the style's natural slant. */

@@ -1,16 +1,6 @@
 import localFont from "next/font/local";
 
-/** Display: condensed, heavy headlines. Variable width and weight. */
-export const anybody = localFont({
-  src: "../fonts/Anybody.woff2",
-  variable: "--font-anybody",
-  weight: "100 900",
-  style: "normal",
-  display: "swap",
-  declarations: [{ prop: "font-stretch", value: "50% 150%" }],
-});
-
-/** Text and UI. */
+/** Text, UI and headlines. Variable 300–800. */
 export const host = localFont({
   src: "../fonts/HostGrotesk.woff2",
   variable: "--font-host",
@@ -18,7 +8,7 @@ export const host = localFont({
   display: "swap",
 });
 
-/** Labels, numbers, anything technical. */
+/** Small technical details: counts, dimensions, references. */
 export const martian = localFont({
   src: "../fonts/MartianMono.woff2",
   variable: "--font-martian",

@@ -81,7 +81,7 @@ export function placeWord(
   const wordRot = gaussian(k, 20) * 0.01 * a.letter * f;
   const wordDy = gaussian(k, 21) * 0.045 * xh * a.baseline * f;
   const slant = (ctx.slant + gaussian(k, 22) * 1.3 * a.letter * f) * DEG;
-  const warpAmp = xh * (0.018 + 0.05 * a.shape * f);
+  const warpAmp = a.shape > 0 ? xh * (0.018 + 0.05 * a.shape * f) : 0;
   const warpFreq = 1 / (xh * 1.05);
   const seedX = hash(k, 30);
   const seedY = hash(k, 31);

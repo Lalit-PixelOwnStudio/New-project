@@ -1,0 +1,162 @@
+.panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  height: 100%;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg);
+  box-shadow: var(--shadow-pop);
+  animation: up 160ms var(--ease);
+}
+
+@keyframes up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 14px 22px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.head h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+
+.close:hover {
+  background: var(--bg-sunk);
+  color: var(--ink);
+}
+
+.close svg {
+  width: 20px;
+  height: 20px;
+}
+
+.scroll {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  align-content: start;
+  gap: 0;
+  overflow-y: auto;
+  padding-bottom: 88px;
+}
+
+.group {
+  padding: 18px 22px 22px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.groupTitle {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.fields {
+  display: grid;
+  gap: 18px;
+}
+
+.field {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.label {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-size: 14.5px;
+}
+
+.input:focus {
+  border-color: var(--blue);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--blue-soft);
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14.5px;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.check input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--blue);
+}
+
+.reroll {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.reroll svg {
+  width: 17px;
+  height: 17px;
+}
+
+.reroll:hover {
+  background: var(--bg-page);
+}
+
+.note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-3);
+}

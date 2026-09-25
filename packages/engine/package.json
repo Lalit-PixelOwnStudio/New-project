@@ -9,7 +9,8 @@
     "./render": "./src/render/index.ts",
     "./export": "./src/export/index.ts",
     "./capture": "./src/capture/index.ts",
-    "./paper": "./src/layout/paper.ts"
+    "./paper": "./src/layout/paper.ts",
+    "./markup": "./src/text/markup.ts"
   },
   "scripts": {
     "test": "vitest run",

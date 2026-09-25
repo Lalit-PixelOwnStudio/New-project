@@ -3,8 +3,8 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 40px;
-  padding: 0 16px;
+  height: 42px;
+  padding: 0 18px;
   border: 1px solid transparent;
   border-radius: var(--radius);
   font-family: var(--font-text);
@@ -19,26 +19,37 @@
     background-color 120ms var(--ease),
     border-color 120ms var(--ease),
     color 120ms var(--ease),
-    transform 120ms var(--ease);
+    box-shadow 120ms var(--ease);
   -webkit-tap-highlight-color: transparent;
 }
 
-.button:active {
-  transform: translateY(1px);
+.button svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
 }
 
 .button:disabled {
   cursor: not-allowed;
-  opacity: 0.45;
-  transform: none;
+  opacity: 0.5;
 }
 
 .primary {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 0.08), inset 0 -1px 0 rgb(0 0 0 / 0.08);
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--blue-hover);
+}
+
+.dark {
   background: var(--ink);
   color: #fff;
 }
 
-.primary:hover:not(:disabled) {
+.dark:hover:not(:disabled) {
   background: #000;
 }
 
@@ -46,16 +57,18 @@
   background: var(--bg);
   border-color: var(--rule-strong);
   color: var(--ink);
+  box-shadow: 0 1px 2px rgb(16 24 40 / 0.05);
 }
 
 .secondary:hover:not(:disabled) {
-  border-color: var(--ink);
+  background: var(--bg-page);
+  border-color: var(--ink-4);
 }
 
 .ghost {
   background: transparent;
   color: var(--ink-2);
-  padding: 0 10px;
+  padding: 0 12px;
 }
 
 .ghost:hover:not(:disabled) {
@@ -64,15 +77,15 @@
 }
 
 .s {
-  height: 32px;
-  padding: 0 12px;
+  height: 36px;
+  padding: 0 14px;
   font-size: 14px;
 }
 
 .l {
-  height: 48px;
-  padding: 0 22px;
-  font-size: 16px;
+  height: 52px;
+  padding: 0 24px;
+  font-size: 16.5px;
 }
 
 .wide {

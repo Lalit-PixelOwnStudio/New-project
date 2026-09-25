@@ -56,7 +56,7 @@ async function renderSpecimens() {
   const version = JSON.stringify({ STYLES, PAPERS, PENS, jobs: specimenJobs().map((j) => j.name) });
   const stamp = join(out, ".stamp");
   const previous = await readFile(stamp, "utf8").catch(() => "");
-  const engineStamp = (await stat(join(app, "..", "..", "packages", "engine", "src"))).mtimeMs;
+  const engineStamp = await newestMtime(join(app, "..", "..", "packages", "engine", "src"));
   if (previous === `${engineStamp}:${version.length}:${hashOf(version)}`) {
     console.log("specimens: up to date");
     return;
@@ -94,11 +94,36 @@ async function renderSpecimens() {
   console.log(`specimens: ${n} rendered`);
 }
 
+async function newestMtime(dir: string): Promise<number> {
+  const { readdir } = await import("node:fs/promises");
+  let newest = 0;
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const p = join(dir, entry.name);
+    newest = Math.max(newest, entry.isDirectory() ? await newestMtime(p) : (await stat(p)).mtimeMs);
+  }
+  return newest;
+}
+
 function hashOf(s: string) {
   let h = 0;
   for (let i = 0; i < s.length; i++) h = (Math.imul(h, 31) + s.charCodeAt(i)) | 0;
   return (h >>> 0).toString(36);
 }
 
+/** x-height of each hand as a fraction of its em, so on-screen text can be sized to match. */
+async function writeMetrics() {
+  const { createFontSource } = await import("@truehand/engine");
+  const metrics: Record<string, number> = {};
+  for (const s of STYLES) {
+    const src = await createFontSource(s.id, await readFile(join(assets, s.font.dir, s.font.file)));
+    const visual = src.xHeight * 0.7 + src.capHeight * 0.64 * 0.3;
+    metrics[s.id] = Number((visual / src.upem).toFixed(4));
+  }
+  const out = join(app, "src", "lib", "hand-metrics.json");
+  const next = JSON.stringify(metrics, null, 2) + "\n";
+  if ((await readFile(out, "utf8").catch(() => "")) !== next) await writeFile(out, next);
+}
+
 await syncFonts();
+await writeMetrics();
 await renderSpecimens();

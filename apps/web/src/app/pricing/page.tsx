@@ -30,7 +30,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
     <main>
       <PageHero
         eyebrow="Pricing"
-        title="Free with ads. Pro when it counts."
+        title="Free to use. Pro when you need more."
         lede="No subscription and nothing auto-renews. Buy Pro for a week, a month or a year, pay once, and it simply ends. Prices are set for where you are."
       >
         <p className={s.where}>
@@ -39,7 +39,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
         </p>
       </PageHero>
 
-      <Section label="Plans" index="01">
+      <Section tone="page">
         <div className={s.plans}>
           <div className={s.plan}>
             <header>
@@ -102,7 +102,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
         </div>
       </Section>
 
-      <Section label="Add-ons" index="02" title="Just need a little more?" lede="One-time extras for when Pro is more than you need.">
+      <Section label="Add-ons" title="Just need a little more?" lede="One-time extras for when Pro is more than you need.">
         <div className={s.addons}>
           <div className={s.addon}>
             <h3>{PRODUCTS.pages_100.name}</h3>
@@ -119,7 +119,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
         </div>
       </Section>
 
-      <Section label="Compare" index="03" title="Everything, side by side">
+      <Section label="Compare" title="Free and Pro, side by side" tone="page">
         <table className={s.table}>
           <thead>
             <tr>
@@ -154,7 +154,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
         </table>
       </Section>
 
-      <Section label="Questions" index="04" title="Before you buy">
+      <Section label="Questions" title="Before you buy">
         <Faq
           items={[
             { q: "Does anything renew automatically?", a: "No. Every purchase is a one-time payment. When your week, month or year ends, your account goes back to Free. Buy again whenever you need it; new time is added on top of any you have left." },
