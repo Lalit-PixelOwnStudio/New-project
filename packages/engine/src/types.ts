@@ -60,7 +60,7 @@ export interface HandStyle {
 /* Document input                                                           */
 /* ------------------------------------------------------------------------ */
 
-export type PaperSize = "a4" | "letter" | "a5" | "legal";
+export type PaperSize = "a4" | "letter" | "a5" | "legal" | "a6" | "card-5x7" | "postcard-4x6" | "envelope-dl" | "envelope-10";
 export type Ruling = "ruled" | "grid" | "dot" | "plain";
 export type PaperTexture = "smooth" | "recycled" | "aged";
 

@@ -31,11 +31,12 @@ function Field({ label, children }: { label: ReactNode; children: ReactNode }) {
 
 const handLabel = (m: number) => (m < 0.2 ? "Careful" : m < 0.45 ? "Natural" : m < 0.7 ? "Quick" : "Rushed");
 
-export function SettingsPanel({ settings, update }: { settings: EditorSettings; update: Update }) {
+/** `embedded` lets a parent that already scrolls hold the panel at its natural height. */
+export function SettingsPanel({ settings, update, embedded }: { settings: EditorSettings; update: Update; embedded?: boolean }) {
   const { entitlements } = useEntitlements();
   const pro = entitlements.limits;
   return (
-    <div className={s.panel}>
+    <div className={s.panel} data-embedded={embedded || undefined}>
       <div className={s.scroll}>
         <Group title="Handwriting">
           <HandList value={settings.styleId} onPick={(id) => update("styleId", id)} />

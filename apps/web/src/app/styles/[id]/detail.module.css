@@ -4,7 +4,7 @@
 }
 
 .work > * {
-  max-width: var(--max);
+  max-width: calc(var(--max) - 2 * var(--gutter));
   margin: 0 auto;
 }
 

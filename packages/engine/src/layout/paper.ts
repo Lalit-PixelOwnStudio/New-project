@@ -8,6 +8,11 @@ export const PAPER_SIZES_MM: Record<PaperSize, [width: number, height: number]> 
   letter: [215.9, 279.4],
   a5: [148, 210],
   legal: [215.9, 355.6],
+  a6: [105, 148],
+  "card-5x7": [127, 177.8],
+  "postcard-4x6": [152.4, 101.6],
+  "envelope-dl": [220, 110],
+  "envelope-10": [241.3, 104.8],
 };
 
 /** Gap between the margin rule and the first letter. */

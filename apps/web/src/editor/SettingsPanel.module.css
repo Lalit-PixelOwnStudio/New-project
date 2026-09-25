@@ -4,6 +4,12 @@
   overflow: hidden;
 }
 
+.panel[data-embedded],
+.panel[data-embedded] .scroll {
+  height: auto;
+  overflow: visible;
+}
+
 .head {
   display: flex;
   align-items: center;

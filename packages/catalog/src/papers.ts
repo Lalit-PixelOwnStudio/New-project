@@ -139,6 +139,20 @@ export const PAPERS: PaperEntry[] = [
       margins: { topMm: 22, bottomMm: 18, leftMm: 20, rightMm: 18 },
     }),
   },
+  {
+    id: "card",
+    name: "Card",
+    blurb: "Soft cream card stock for thank-you notes and greetings. Pair it with the A6 or 5×7 size.",
+    tier: "pro",
+    spec: ruled({ ruling: "plain", spacingMm: 8, paperColor: "#fbf6ec", marginLine: null, margins: { topMm: 16, bottomMm: 10, leftMm: 12, rightMm: 12 } }),
+  },
+  {
+    id: "envelope",
+    name: "Envelope",
+    blurb: "Plain envelope with the writing placed in the address area. Use a DL or #10 envelope size.",
+    tier: "pro",
+    spec: ruled({ ruling: "plain", spacingMm: 8, paperColor: "#fdfcf9", marginLine: null, margins: { topMm: 46, bottomMm: 6, leftMm: 92, rightMm: 12 } }),
+  },
 ];
 
 export const paperById = (id: string) => PAPERS.find((p) => p.id === id);
