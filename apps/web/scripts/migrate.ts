@@ -9,7 +9,7 @@
 import { join } from "node:path";
 
 const folder = join(import.meta.dirname, "..", "drizzle");
-const url = process.env.DATABASE_URL;
+const url = process.env.DATABASE_URL?.trim();
 
 if (!url && process.argv.includes("--build")) {
   console.log("migrations skipped: DATABASE_URL is not set");
@@ -25,7 +25,7 @@ if (!url && process.argv.includes("--build")) {
   const { PGlite } = await import("@electric-sql/pglite");
   const { drizzle } = await import("drizzle-orm/pglite");
   const { migrate } = await import("drizzle-orm/pglite/migrator");
-  const dir = process.env.PGLITE_DIR ?? join(import.meta.dirname, "..", ".data", "pglite");
+  const dir = process.env.PGLITE_DIR?.trim() || join(import.meta.dirname, "..", ".data", "pglite");
   const { mkdirSync } = await import("node:fs");
   mkdirSync(dir, { recursive: true });
   const client = new PGlite(dir);

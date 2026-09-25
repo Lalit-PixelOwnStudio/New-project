@@ -45,7 +45,7 @@ The full list with comments is in [`apps/web/.env.example`](apps/web/.env.exampl
 
 | Variable                                                                          | Needed for                                        |
 | --------------------------------------------------------------------------------- | ------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`                                                             | Canonical URLs, sitemap, emails (`https://truehand.app`) |
+| `NEXT_PUBLIC_SITE_URL`                                                             | Canonical URLs, sitemap, emails (`https://truehand.app`). Empty: the Vercel production domain |
 | `DATABASE_URL`                                                                    | Accounts, orders, download limits                 |
 | `BETTER_AUTH_SECRET`                                                              | Sign-in. Generate with `openssl rand -base64 32`  |
 | `BETTER_AUTH_URL`                                                                 | Same as the site URL                              |
@@ -57,7 +57,7 @@ The full list with comments is in [`apps/web/.env.example`](apps/web/.env.exampl
 | `NEXT_PUBLIC_AD_PLACEHOLDERS`                                                     | `0` hides the labelled ad placeholders            |
 | `NEXT_PUBLIC_BUSINESS_*`, `NEXT_PUBLIC_SUPPORT_EMAIL`                              | Your legal name and address on the legal pages    |
 
-The site itself (editor, previews, downloads, every content page) works without any of these. Sign-in and checkout need the database and the auth secret.
+Empty values count as unset, so pasting the whole example file with blanks is safe. The site itself (editor, previews, downloads, every content page) works without any of these. Sign-in and checkout need the database and the auth secret.
 
 ### Payments
 

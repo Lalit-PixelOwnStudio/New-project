@@ -4,6 +4,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { emailOTP } from "better-auth/plugins";
 import { headers } from "next/headers";
+import { present, toOrigin } from "@/lib/env";
 import { db, schema } from "./db";
 import { codeEmail, sendEmail } from "./email";
 
@@ -15,8 +16,9 @@ const google =
 function createAuth() {
   return betterAuth({
     appName: "Truehand",
-    secret: process.env.BETTER_AUTH_SECRET ?? (process.env.NODE_ENV === "production" ? undefined : "dev-secret-change-me-dev-secret-change-me"),
-    baseURL: process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_SITE_URL,
+    secret: present(process.env.BETTER_AUTH_SECRET) ?? (process.env.NODE_ENV === "production" ? undefined : "dev-secret-change-me-dev-secret-change-me"),
+    // Unset: taken from each request, which keeps sign-in working on preview URLs.
+    baseURL: toOrigin(process.env.BETTER_AUTH_URL) ?? toOrigin(process.env.NEXT_PUBLIC_SITE_URL),
     database: drizzleAdapter(db, {
       provider: "pg",
       schema: { user: schema.user, session: schema.session, account: schema.account, verification: schema.verification },

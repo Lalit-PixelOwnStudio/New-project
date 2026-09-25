@@ -1,13 +1,14 @@
 import "server-only";
+import { present } from "@/lib/env";
 
-const FROM = process.env.EMAIL_FROM ?? "Truehand <hello@truehand.app>";
+const FROM = present(process.env.EMAIL_FROM) ?? "Truehand <hello@truehand.app>";
 
 /**
  * Sends a plain transactional email through Resend's HTTP API. Without an API
  * key (local development) the message is printed to the server log instead.
  */
 export async function sendEmail(to: string, subject: string, text: string, html?: string) {
-  const key = process.env.RESEND_API_KEY;
+  const key = present(process.env.RESEND_API_KEY);
   if (!key) {
     console.info(`[email] to=${to} subject="${subject}"\n${text}`);
     return;

@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { present } from "@/lib/env";
 import { countryFromHeaders } from "@/lib/pricing";
 import { currentUser } from "@/server/auth";
 import { CheckoutError, startCheckout } from "@/server/commerce";
@@ -27,7 +28,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json({
       ...start,
-      razorpayKey: start.provider === "razorpay" ? (process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ?? process.env.RAZORPAY_KEY_ID) : undefined,
+      razorpayKey: start.provider === "razorpay" ? (present(process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID) ?? present(process.env.RAZORPAY_KEY_ID)) : undefined,
       email: user.email,
       name: user.name,
     });

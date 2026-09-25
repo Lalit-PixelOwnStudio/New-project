@@ -9,7 +9,7 @@ import * as schema from "./schema";
  * so the whole app works locally with zero setup.
  */
 function create() {
-  const url = process.env.DATABASE_URL;
+  const url = process.env.DATABASE_URL?.trim();
   if (url) {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const postgres = require("postgres") as typeof import("postgres");
@@ -19,7 +19,7 @@ function create() {
   if (process.env.NODE_ENV === "production" && !process.env.ALLOW_EMBEDDED_DB) {
     throw new Error("DATABASE_URL is not set");
   }
-  const dir = process.env.PGLITE_DIR ?? ".data/pglite";
+  const dir = process.env.PGLITE_DIR?.trim() || ".data/pglite";
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   (require("node:fs") as typeof import("node:fs")).mkdirSync(dir, { recursive: true });
   // eslint-disable-next-line @typescript-eslint/no-require-imports
