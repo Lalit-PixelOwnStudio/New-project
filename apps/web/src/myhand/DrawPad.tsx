@@ -6,8 +6,11 @@ import type { CellInk } from "./capture";
 import { cellBox } from "./template";
 import s from "./myhand.module.css";
 
-/** What people draw on screen: letters, digits and the punctuation used most. */
-export const DRAW_CHARS = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,!?'-:()"];
+/**
+ * What people draw on screen, small letters first: most writing is lowercase, so
+ * the first 26 already put most of a page in the person's hand.
+ */
+export const DRAW_CHARS = [..."abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?'-:()"];
 
 /** The pad has the same shape and baseline as a template cell, read at 12 px/mm. */
 const SAMPLE = 12;
@@ -21,13 +24,24 @@ const PEN = 0.042;
 export const MIN_DRAWN = 10;
 
 type Stroke = [number, number][];
+/** Every character's strokes, in DRAW_CHARS order. */
+export type Drawings = Stroke[][];
 
 /**
  * Draw each character with a finger, stylus or mouse, one at a time. Strokes are
  * kept in pad coordinates (0–1) so they redraw at any size, then rasterised to
  * the same bits the photo reader produces.
  */
-export function DrawPad({ onDone, onCancel }: { onDone: (cells: CellInk[]) => void; onCancel: () => void }) {
+export function DrawPad({
+  initial,
+  onDone,
+  onCancel,
+}: {
+  /** Drawings to carry on from, when coming back to add more. */
+  initial?: Drawings;
+  onDone: (cells: CellInk[], drawings: Drawings) => void;
+  onCancel: () => void;
+}) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const root = useRef<HTMLDivElement>(null);
   // Bring the pad fully into view, clear of the sticky header. The braces matter:
@@ -36,8 +50,14 @@ export function DrawPad({ onDone, onCancel }: { onDone: (cells: CellInk[]) => vo
   useEffect(() => {
     root.current?.scrollIntoView({ block: "start", behavior: "smooth" });
   }, []);
-  const [index, setIndex] = useState(0);
-  const [drawings, setDrawings] = useState<Stroke[][]>(() => DRAW_CHARS.map(() => []));
+  const [drawings, setDrawings] = useState<Drawings>(() => initial ?? DRAW_CHARS.map(() => []));
+  // Carry on from the first character not drawn yet.
+  const [index, setIndex] = useState(() =>
+    Math.max(
+      0,
+      drawings.findIndex((d) => !d.length),
+    ),
+  );
   const [notice, setNotice] = useState("");
   const active = useRef<Stroke | null>(null);
   const char = DRAW_CHARS[index]!;
@@ -105,7 +125,7 @@ export function DrawPad({ onDone, onCancel }: { onDone: (cells: CellInk[]) => vo
     drawings.forEach((d, i) => {
       if (d.length) cells.push(rasterise(DRAW_CHARS[i]!, d));
     });
-    onDone(cells);
+    onDone(cells, drawings);
   };
 
   const next = () => (index < DRAW_CHARS.length - 1 ? setIndex(index + 1) : finish());

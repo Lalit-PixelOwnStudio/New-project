@@ -74,6 +74,16 @@ export class CapturedSource implements GlyphSource {
       this.advances.push(g.advance);
       this.drawings.push(drawings);
     }
+
+    // A letter drawn in only one case writes the other case too, so words stay in
+    // the person's hand (all capitals, say) instead of mixing in the fallback font.
+    for (let upper = 0x41; upper <= 0x5a; upper++) {
+      const lower = upper + 0x20;
+      const u = this.glyphOf.get(upper);
+      const l = this.glyphOf.get(lower);
+      if (u === undefined && l !== undefined) this.glyphOf.set(upper, l);
+      if (l === undefined && u !== undefined) this.glyphOf.set(lower, u);
+    }
   }
 
   covers(codePoint: number): boolean {

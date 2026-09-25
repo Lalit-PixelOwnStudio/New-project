@@ -9,7 +9,7 @@ import { usePreview } from "@/editor/usePreview";
 import { rememberStyle } from "@/editor/useSettings";
 import { DEFAULT_SETTINGS, type EditorSettings } from "@/lib/settings";
 import { buildHand, CaptureError, captureTemplate, traceCells, type CellInk } from "./capture";
-import { DrawPad, MIN_DRAWN } from "./DrawPad";
+import { DrawPad, MIN_DRAWN, type Drawings } from "./DrawPad";
 import { MINE_PREFIX, saveHand, uploadHand } from "./store";
 import { CELLS } from "./template";
 import { photoPixels, templatePdf } from "./templateFile";
@@ -18,13 +18,37 @@ import s from "./myhand.module.css";
 type Phase =
   | { name: "choose" }
   | { name: "reading" }
-  | { name: "draw" }
-  | { name: "review"; hand: CapturedHand; missing: string[]; drawn: boolean }
+  | { name: "draw"; drawings?: Drawings }
+  /** `drawings` is set when the hand was drawn on screen, so more can be added. */
+  | { name: "review"; hand: CapturedHand; missing: string[]; drawings?: Drawings }
   | { name: "error"; message: string };
 
 const ALL = [...new Set(CELLS)];
-const PREVIEW_TEXT = `# My own handwriting
-The quick brown fox jumps over the lazy dog. Notes, assignments and letters, written in my hand, with every letter a little different each time. 1 2 3 4 5 6 7 8 9 0`;
+const HEADING = "# My own handwriting";
+const SAMPLE =
+  "The quick brown fox jumps over the lazy dog. Notes, assignments and letters, written in my hand, with every letter a little different each time. 1 2 3 4 5 6 7 8 9 0";
+/** Everyday words, many from the start of the alphabet, to show a hand that's only partly drawn. */
+const WORDS = (
+  "a bad bag bed big cab cafe cage dad deck dig each egg face fig had head hide hike ice idea jab jade kid " +
+  "back black check chief field glad hold joke lake like milk name note open page plan quiz read school study " +
+  "the time today under very water week when with work write year zero"
+).split(" ");
+
+/**
+ * The preview page. A hand missing some letters also shows every character it
+ * has and the words it can write entirely on its own, so people see their writing
+ * rather than a page of fallback letters.
+ */
+function previewText(hand: CapturedHand) {
+  const letters = new Set(hand.glyphs.map((g) => g.char.toLowerCase()).filter((c) => c >= "a" && c <= "z"));
+  if (letters.size === 26) return `${HEADING}\n${SAMPLE}`;
+  const drawn = [...new Set(hand.glyphs.map((g) => g.char))].join(" ");
+  const words = WORDS.filter((w) => [...w].every((c) => letters.has(c))).slice(0, 18);
+  return [HEADING, drawn, words.join(" "), SAMPLE].filter(Boolean).join("\n");
+}
+
+/** How many of the 26 letters a hand has, in either case. */
+const lettersIn = (hand: CapturedHand) => new Set(hand.glyphs.map((g) => g.char.toLowerCase()).filter((c) => c >= "a" && c <= "z")).size;
 
 export function MyHandTool({ priceLabel }: { priceLabel: string }) {
   const router = useRouter();
@@ -59,13 +83,13 @@ export function MyHandTool({ priceLabel }: { priceLabel: string }) {
     try {
       const px = await photoPixels(f);
       const { hand, missing } = captureTemplate(px.data, px.width, px.height);
-      setPhase({ name: "review", hand, missing, drawn: false });
+      setPhase({ name: "review", hand, missing });
     } catch (e) {
       setPhase({ name: "error", message: e instanceof CaptureError ? e.message : "We couldn't read that image. Try a JPG or PNG photo of the whole page." });
     }
   };
 
-  const fromDrawing = (cells: CellInk[]) => {
+  const fromDrawing = (cells: CellInk[], drawings: Drawings) => {
     const traced = traceCells(cells);
     if (traced.length < MIN_DRAWN) {
       setPhase({ name: "error", message: `Some drawings were too small to read. Draw at least ${MIN_DRAWN} characters a little bigger.` });
@@ -73,7 +97,7 @@ export function MyHandTool({ priceLabel }: { priceLabel: string }) {
     }
     const hand = buildHand(traced);
     const found = new Set(traced.map((c) => c.char));
-    setPhase({ name: "review", hand, missing: ALL.filter((c) => !found.has(c)), drawn: true });
+    setPhase({ name: "review", hand, missing: ALL.filter((c) => !found.has(c)), drawings });
   };
 
   const save = (hand: CapturedHand) => {
@@ -84,22 +108,25 @@ export function MyHandTool({ priceLabel }: { priceLabel: string }) {
     router.push("/");
   };
 
-  if (phase.name === "draw") return <DrawPad onDone={fromDrawing} onCancel={() => setPhase({ name: "choose" })} />;
+  if (phase.name === "draw") return <DrawPad initial={phase.drawings} onDone={fromDrawing} onCancel={() => setPhase({ name: "choose" })} />;
 
   if (phase.name === "review") {
     return (
       <div className={s.review} ref={review}>
         <div className={s.reviewHead}>
           <h2>
-            {phase.drawn
+            {phase.drawings
               ? `You drew ${ALL.length - phase.missing.length} characters`
               : `We read ${ALL.length - phase.missing.length} of ${ALL.length} characters`}
           </h2>
-          {phase.missing.length > 0 && (
-            <p>
-              Not found: <span className={s.missing}>{phase.missing.join(" ")}</span>. Those are written in the default hand
-              {phase.drawn ? "." : ", or retake the photo to add them."}
-            </p>
+          {phase.drawings ? (
+            <DrawnSummary letters={lettersIn(phase.hand)} onMore={() => setPhase({ name: "draw", drawings: phase.drawings })} />
+          ) : (
+            phase.missing.length > 0 && (
+              <p>
+                Not found: <span className={s.missing}>{phase.missing.join(" ")}</span>. Those are written in the default hand, or retake the photo to add them.
+              </p>
+            )
           )}
         </div>
         <GlyphGrid hand={phase.hand} />
@@ -170,7 +197,10 @@ export function MyHandTool({ priceLabel }: { priceLabel: string }) {
           <PenLine aria-hidden="true" />
         </span>
         <h2>No printer? Draw on screen</h2>
-        <p>Write each letter with your finger, a stylus or the mouse, one at a time. Takes about five minutes.</p>
+        <p>
+          Write each letter with your finger, a stylus or the mouse, one at a time. Small letters come first, since they fill most of a page. Takes about five
+          minutes.
+        </p>
         <div className={s.pathActions}>
           <Button type="button" variant="secondary" onClick={() => setPhase({ name: "draw" })}>
             <PenLine aria-hidden="true" />
@@ -178,6 +208,24 @@ export function MyHandTool({ priceLabel }: { priceLabel: string }) {
           </Button>
         </div>
       </article>
+    </div>
+  );
+}
+
+/** What a drawn hand covers so far, with the way back to the pad. */
+function DrawnSummary({ letters, onMore }: { letters: number; onMore: () => void }) {
+  const full = letters === 26;
+  return (
+    <div className={s.drawnSummary}>
+      <p>
+        {full
+          ? "Every letter is in your hand. Digits and marks you didn't draw are written in the default hand."
+          : `Your hand has ${letters} of the 26 letters. The rest are written in the default hand, so words look mixed until you draw them. Small and capital letters stand in for each other.`}
+      </p>
+      <Button type="button" variant={full ? "secondary" : "primary"} onClick={onMore}>
+        <PenLine aria-hidden="true" />
+        Draw more letters
+      </Button>
     </div>
   );
 }
@@ -205,7 +253,7 @@ const DRAFT = `${MINE_PREFIX}draft`;
 
 /** A page written in the new hand by the real engine, before it's saved. */
 function HandPreview({ hand }: { hand: CapturedHand }) {
-  const settings = useMemo<EditorSettings>(() => ({ ...DEFAULT_SETTINGS, text: PREVIEW_TEXT, styleId: DRAFT, holes: "none" }), []);
+  const settings = useMemo<EditorSettings>(() => ({ ...DEFAULT_SETTINGS, text: previewText(hand), styleId: DRAFT, holes: "none" }), [hand]);
   const draft = useMemo(() => ({ styleId: DRAFT, data: hand }), [hand]);
   const preview = usePreview(settings, draft);
   return (

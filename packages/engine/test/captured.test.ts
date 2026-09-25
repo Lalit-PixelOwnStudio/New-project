@@ -39,6 +39,17 @@ describe("captured hands", () => {
     expect(src.shape("z")[0]!.glyph).toBe(0);
   });
 
+  it("writes a letter drawn in one case for the other case too", () => {
+    const src = createCapturedSource("mine", hand);
+    // "a" and "b" were drawn in lowercase only; "A" borrows "a", and "z" still falls through.
+    expect(src.covers("A".codePointAt(0)!)).toBe(true);
+    expect(src.shape("A")[0]!.glyph).toBe(src.shape("a")[0]!.glyph);
+    expect(src.covers("Z".codePointAt(0)!)).toBe(false);
+    const caps = createCapturedSource("caps", { ...hand, glyphs: [{ char: "K", advance: 600, variants: [[square(30, 0, 700)]] }] });
+    expect(caps.covers("k".codePointAt(0)!)).toBe(true);
+    expect(caps.shape("k")[0]!.advance).toBe(600);
+  });
+
   it("rejects data it doesn't understand", () => {
     expect(() => createCapturedSource("x", { ...hand, version: 2 as 1 })).toThrow(/version/);
   });
