@@ -61,7 +61,8 @@
   cursor: pointer;
 }
 
-.mineHand span {
+/* Only the name grows; the Pro tag keeps its own size. */
+.mineName {
   flex: 1;
   font-weight: 600;
 }

@@ -32,7 +32,7 @@ export function HandList({ value, onPick }: { value: string; onPick: (id: string
         {mine.map((h) => (
           <button key={h.id} type="button" className={s.mineHand} aria-pressed={value === MINE_PREFIX + h.id} onClick={() => onPick(MINE_PREFIX + h.id)}>
             <PenLine aria-hidden="true" />
-            <span>{h.name}</span>
+            <span className={s.mineName}>{h.name}</span>
             {!canUseStyle(entitlements, MINE_PREFIX + h.id, "pro") && <ProTag />}
           </button>
         ))}

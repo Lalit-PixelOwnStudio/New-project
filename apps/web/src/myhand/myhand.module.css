@@ -116,6 +116,8 @@
 }
 
 .padCount {
+  flex: none;
+  white-space: nowrap;
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--ink-3);

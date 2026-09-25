@@ -50,5 +50,33 @@
   "phone-style": {
     "width": 780,
     "height": 1688
+  },
+  "mine-photo": {
+    "width": 700,
+    "height": 980
+  },
+  "mine-start": {
+    "width": 2010,
+    "height": 752
+  },
+  "mine-review": {
+    "width": 2010,
+    "height": 1257
+  },
+  "mine-save": {
+    "width": 2010,
+    "height": 158
+  },
+  "mine-unlock": {
+    "width": 1008,
+    "height": 519
+  },
+  "mine-in-editor": {
+    "width": 585,
+    "height": 819
+  },
+  "phone-mine-draw": {
+    "width": 780,
+    "height": 1688
   }
 }

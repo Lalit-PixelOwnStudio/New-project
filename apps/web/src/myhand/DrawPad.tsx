@@ -134,7 +134,7 @@ export function DrawPad({
     <div className={s.pad} ref={root}>
       <div className={s.padHead}>
         <p>
-          Write <strong className={s.padChar}>{char}</strong> sitting on the dotted line
+          Write <strong className={s.padChar}>{char}</strong> on the dotted line
         </p>
         <span className={s.padCount}>
           {index + 1} / {DRAW_CHARS.length}

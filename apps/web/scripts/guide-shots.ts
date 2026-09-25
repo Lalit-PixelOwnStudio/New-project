@@ -3,14 +3,20 @@
  * the real editor. Each shot outlines and numbers the controls its step talks
  * about. Re-run it whenever the editor changes:
  *
- *   pnpm --filter @truehand/web build && pnpm --filter @truehand/web start
- *   CHROME_PATH=/path/to/chrome pnpm --filter @truehand/web guide:shots http://localhost:3000
+ *   pnpm --filter @truehand/web build && pnpm --filter @truehand/web start > server.log
+ *   GUIDE_SERVER_LOG=server.log CHROME_PATH=/path/to/chrome pnpm --filter @truehand/web guide:shots http://localhost:3000
+ *
+ * Making your own handwriting needs an account, so the script signs in with a
+ * throwaway email and reads the code from the server's log (without an email
+ * provider set up, the server prints the code instead of sending it).
  *
  * Writes public/guides/<name>.webp and src/content/guide-images.json (sizes).
  */
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createCanvas, loadImage } from "@napi-rs/canvas";
+import { fakeTemplatePhoto, PHOTO } from "../test/fixtures/fake-photo";
 import { chromium, type Browser, type Locator, type Page } from "playwright-core";
 
 const BASE = (process.argv[2] ?? "http://localhost:3000").replace(/\/$/, "");
@@ -98,12 +104,14 @@ async function shoot(page: Page, name: string, area: Box, pad = 30) {
   console.log(`  ${name}  ${img.width}×${img.height}`);
 }
 
-async function open(browser: Browser, path: string, phone = false) {
-  const context = await browser.newContext(
-    phone
+async function open(browser: Browser, path: string, phone = false, country?: string) {
+  const context = await browser.newContext({
+    ...(phone
       ? { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, acceptDownloads: true }
-      : { viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1.5, acceptDownloads: true },
-  );
+      : { viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1.5, acceptDownloads: true }),
+    // Prices show in the visitor's currency; Vercel says where they are with this header.
+    ...(country ? { extraHTTPHeaders: { "x-vercel-ip-country": country } } : {}),
+  });
   const page = await context.newPage();
   await page.goto(BASE + path, { waitUntil: "load" });
   await page.addStyleTag({ content: CLEAN });
@@ -116,6 +124,69 @@ async function settle(page: Page) {
   await page.waitForTimeout(600);
   await page.waitForFunction(() => !document.querySelector("[data-busy]"), null, { timeout: 30_000 });
   await page.waitForTimeout(900);
+}
+
+/** Signs in with a one-time code read from the server's log, then lands on `next`. */
+async function signIn(page: Page, next: string) {
+  const log = process.env.GUIDE_SERVER_LOG;
+  if (!log) throw new Error("Set GUIDE_SERVER_LOG to the server's log file, so the script can read sign-in codes");
+  await page.goto(`${BASE}/login?next=${encodeURIComponent(next)}`, { waitUntil: "load" });
+  await page.fill("#email", `guide-${Date.now()}@example.com`);
+  const from = readFileSync(log, "utf8").length;
+  await page.click("button[type=submit]");
+  await page.waitForSelector("#code");
+  let code: string | undefined;
+  for (let i = 0; i < 50 && !code; i++) {
+    await page.waitForTimeout(200);
+    code = /(\d{6}) is your Truehand code/.exec(readFileSync(log, "utf8").slice(from))?.[1];
+  }
+  if (!code) throw new Error("No sign-in code in the server log");
+  await page.fill("#code", code);
+  await page.click("button[type=submit]");
+  await page.waitForURL(BASE + next, { timeout: 20_000 });
+  await page.addStyleTag({ content: CLEAN });
+  await page.waitForTimeout(1200);
+}
+
+/**
+ * A filled-in template, photographed at an angle, to upload; and a small copy
+ * of it for the guide, showing what a good photo looks like.
+ */
+async function templatePhoto() {
+  const rgba = fakeTemplatePhoto();
+  const full = createCanvas(PHOTO.width, PHOTO.height);
+  const ctx = full.getContext("2d");
+  const img = ctx.createImageData(PHOTO.width, PHOTO.height);
+  img.data.set(rgba);
+  ctx.putImageData(img, 0, 0);
+  const file = join(tmpdir(), "truehand-guide-photo.jpg");
+  writeFileSync(file, await full.encode("jpeg", 88));
+
+  const width = 700;
+  const height = Math.round((PHOTO.height / PHOTO.width) * width);
+  const small = createCanvas(width, height);
+  small.getContext("2d").drawImage(full, 0, 0, width, height);
+  writeFileSync(join(OUT, "mine-photo.webp"), await small.encode("webp", 82));
+  sizes["mine-photo"] = { width, height };
+  console.log(`  mine-photo  ${width}×${height}`);
+  return file;
+}
+
+/** Draws a small "a" on the drawing pad. */
+async function drawA(page: Page, pad: Locator) {
+  const { x, y, width: w, height: h } = (await pad.boundingBox())!;
+  const at = (px: number, py: number) => page.mouse.move(x + px * w, y + py * h);
+  await at(0.56, 0.47);
+  await page.mouse.down();
+  for (let i = 0; i <= 28; i++) {
+    const a = (-20 + (360 * i) / 28) * (Math.PI / 180);
+    await at(0.46 + 0.1 * Math.cos(a), 0.555 + 0.115 * Math.sin(a));
+  }
+  await page.mouse.up();
+  await at(0.56, 0.44);
+  await page.mouse.down();
+  for (let i = 0; i <= 10; i++) await at(0.56 + 0.01 * (i / 10), 0.44 + 0.22 * (i / 10));
+  await page.mouse.up();
 }
 
 /** Scrolls so the editor's top edge sits just under the sticky site header. */
@@ -277,6 +348,99 @@ async function main() {
   await page.waitForTimeout(500);
   await mark(page, [{ at: await union(page.getByRole("tab", { name: "Style & page" })), n: 1 }]);
   await shoot(page, "phone-style", { x: 0, y: 0, width: 390, height: 844 }, 0);
+  await page.context().close();
+
+  /* ------------------------ Your own handwriting ------------------------ */
+  const photo = await templatePhoto();
+
+  // Signed out: sign in, then the two ways to capture a hand.
+  page = await open(browser, "/my-handwriting", false, "IN");
+  const gate = page.getByRole("heading", { name: "Sign in to make your handwriting" });
+  await gate.waitFor();
+  const paperPath = page.locator("article", { has: page.getByRole("heading", { name: "Write on paper" }) });
+  const drawPath = page.locator("article", { has: page.getByRole("heading", { name: /Draw on screen/ }) });
+  // Clear of the sticky header, with room for the numbered badges.
+  await page.evaluate((top) => window.scrollBy(0, top - 150), (await gate.locator("xpath=../..").boundingBox())!.y);
+  await page.waitForTimeout(400);
+  await mark(page, [
+    { at: await union(gate.locator("xpath=../..")), n: 1 },
+    { at: await union(page.getByRole("button", { name: "Download the template" })), n: 2 },
+    { at: await union(page.getByRole("button", { name: "Upload or take the photo" })), n: 3 },
+    { at: await union(page.getByRole("button", { name: "Start drawing" })), n: 4 },
+  ]);
+  await shoot(page, "mine-start", await union(gate.locator("xpath=../.."), paperPath, drawPath));
+
+  // Signed in: upload the photo and look over what was read.
+  await signIn(page, "/my-handwriting");
+  await page.setInputFiles("input[type=file]", photo);
+  const read = page.getByRole("heading", { name: /^We read \d+ of \d+ characters/ });
+  await read.waitFor({ timeout: 60_000 });
+  await settle(page);
+  await page.evaluate((top) => window.scrollBy(0, top - 150), (await read.boundingBox())!.y);
+  await page.waitForTimeout(400);
+  const grid = page.getByRole("list", { name: "Characters read from your writing" });
+  // The box around the sample page, which crops the page inside it.
+  const handPage = page.getByRole("region", { name: "Your handwriting on a page" }).locator("xpath=..");
+  await mark(page, [
+    { at: await union(read), n: 1 },
+    { at: await union(grid), n: 2 },
+    { at: await union(handPage), n: 3 },
+  ]);
+  await shoot(page, "mine-review", await union(read, grid, handPage));
+
+  const name = page.getByLabel("Name it");
+  const save = page.getByRole("button", { name: /^Save and/ });
+  await name.fill("My handwriting");
+  await save.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+  await mark(page, [
+    { at: await union(name), n: 1 },
+    { at: await union(save), n: 2 },
+  ]);
+  await shoot(page, "mine-save", await union(name.locator("xpath=.."), save, page.getByText(/^One payment of/)));
+
+  // Saved, and the one payment that unlocks downloads.
+  await save.click();
+  const unlock = page.getByRole("heading", { name: /^Unlock your handwriting/ });
+  await unlock.waitFor();
+  await page.waitForTimeout(900);
+  const card = unlock.locator("xpath=..");
+  await mark(page, [
+    { at: await union(page.getByRole("button", { name: /^Pay .* and unlock$/ })), n: 1 },
+    { at: await union(page.getByRole("button", { name: "Not now, try it in the editor first" })), n: 2 },
+  ]);
+  await shoot(page, "mine-unlock", await union(card), 16);
+
+  // In the editor, it's in the Hand picker.
+  await page.getByRole("button", { name: "Not now, try it in the editor first" }).click();
+  await page.waitForURL(BASE + "/");
+  await page.addStyleTag({ content: CLEAN });
+  await settle(page);
+  await toEditor(page);
+  const handButton = page.getByRole("button", { name: "Handwriting", exact: true });
+  await handButton.click();
+  const picker = page.getByRole("dialog", { name: "Handwriting" });
+  await picker.waitFor();
+  await page.waitForTimeout(500);
+  await mark(page, [{ at: await union(picker.getByRole("button", { name: /^My handwriting/ })), n: 1 }]);
+  await shoot(page, "mine-in-editor", await union(handButton, picker));
+  await page.context().close();
+
+  // No printer: drawing each letter on a phone.
+  page = await open(browser, "/my-handwriting", true, "IN");
+  await signIn(page, "/my-handwriting");
+  await page.getByRole("button", { name: "Start drawing" }).click();
+  const pad = page.locator("canvas[aria-label^='Drawing area']");
+  await pad.waitFor();
+  await page.waitForTimeout(900);
+  await drawA(page, pad);
+  await page.waitForTimeout(300);
+  await mark(page, [
+    { at: await union(pad), n: 1 },
+    { at: await union(page.getByRole("button", { name: "Next" })), n: 2 },
+    { at: await union(page.getByRole("button", { name: "Finish now" })), n: 3 },
+  ]);
+  await shoot(page, "phone-mine-draw", { x: 0, y: 0, width: 390, height: 844 }, 0);
   await page.context().close();
 
   await browser.close();
