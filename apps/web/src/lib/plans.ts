@@ -25,8 +25,11 @@ export interface Limits {
   ads: boolean;
 }
 
-/** Everyone gets these free pages; a plan's pages come on top as page credits. */
-const FREE_PAGES = { pagesPerExport: 3, pagesPerDay: 10 };
+/**
+ * Everyone gets 10 free pages a day, in one download or several; a plan's
+ * pages come on top as page credits.
+ */
+const FREE_PAGES = { pagesPerExport: 10, pagesPerDay: 10 };
 
 const FULL: Limits = {
   ...FREE_PAGES,

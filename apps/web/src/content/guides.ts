@@ -50,8 +50,8 @@ const UPDATED = "2026-09-25";
 
 /* Problems that come up in more than one guide. */
 const ONLY_THREE_PAGES = {
-  q: "Why did only 3 pages download?",
-  a: "Free downloads include the first 3 pages, and 10 pages a day. For a longer file, download it in parts: keep your full text safe, paste in the first part and download, then paste the next part and download again. Or get a plan: Week adds 150 pages, Month 800, and Year has no page limit.",
+  q: "Why can't I download more pages today?",
+  a: "The free plan includes 10 pages a day, all in one download or split up however you like. They come back within 24 hours. Need more now? Week adds 150 pages, Month 800, and Year has no page limit.",
 };
 const PRO_SELECTED = {
   q: "The download window says I picked a Pro option. What do I do?",
@@ -122,7 +122,7 @@ export const GUIDES: Guide[] = [
     faqs: [
       {
         q: "Is Truehand free?",
-        a: "Yes. The free plan has 16 handwritings, 5 papers and 3 pens, and lets you download up to 3 pages at a time and 10 a day, with no watermark. The Week, Month and Year plans add pages, every hand, paper and pen, up to 4K quality, and no ads.",
+        a: "Yes. The free plan has 16 handwritings, 5 papers and 3 pens, and lets you download 10 pages a day, with no watermark. The Week, Month and Year plans add pages, every hand, paper and pen, up to 4K quality, and no ads.",
       },
       { q: "Do I need an account?", a: "No. You only need one if you buy a plan or a page pack, so your purchase is saved." },
       TEXT_PRIVATE,

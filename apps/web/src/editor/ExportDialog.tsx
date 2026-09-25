@@ -104,7 +104,7 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
       const body = (await res.json().catch(() => ({}))) as { error?: string; message?: string };
       setError(
         body.error === "daily_limit"
-          ? `You've used today's ${limits.pagesPerDay} free pages. They come back within 24 hours, or a page pack covers you now.`
+          ? `You've used today's ${limits.pagesPerDay} free pages. They come back within 24 hours, or a plan adds more right away.`
           : (body.message ?? "This download isn't available on your plan."),
       );
       return null;
@@ -271,7 +271,7 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
               <strong>{allowed}</strong> of {pages} {pages === 1 ? "page" : "pages"}
               {truncated &&
                 (limits.ads ? (
-                  <> · Free downloads include the first {limits.pagesPerExport} pages</>
+                  <> · The free plan includes {limits.pagesPerDay} pages a day</>
                 ) : (
                   <> · Up to {limits.pagesPerExport + entitlements.credits} pages in one download</>
                 ))}

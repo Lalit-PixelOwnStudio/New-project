@@ -167,7 +167,7 @@ export function HomeSections() {
           items={[
             {
               q: "Is Truehand free?",
-              a: "Yes. The free version has 16 handwriting styles, 5 papers and 3 pens, with downloads of up to 3 pages at a time and 10 a day, and no watermark. It is paid for by a few ads. The Week, Month and Year plans add pages, every hand and up to 4K quality, with no ads.",
+              a: "Yes. The free version has 16 handwriting styles, 5 papers and 3 pens, with up to 10 pages a day to download and no watermark. It is paid for by a few ads. The Week, Month and Year plans add pages, every hand and up to 4K quality, with no ads.",
             },
             {
               q: "Is my text uploaded anywhere?",

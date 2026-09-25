@@ -28,7 +28,7 @@ export class QuotaError extends Error {
 
 /**
  * Pure decision: how many pages this export may include and how many credits
- * it spends. Free users get `pagesPerExport` per download and `pagesPerDay`
+ * it spends. Everyone gets up to `pagesPerExport` per download and `pagesPerDay`
  * per rolling day; page credits cover anything beyond that.
  */
 export function decide(req: ExportRequest, ent: Entitlements, usedToday: number): ExportGrant {

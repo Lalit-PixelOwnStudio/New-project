@@ -100,9 +100,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
             <dl className={s.stats}>
               <div>
                 <dt>Pages</dt>
-                <dd>
-                  {free.pagesPerExport} per download, {free.pagesPerDay} a day
-                </dd>
+                <dd>{free.pagesPerDay} a day</dd>
               </div>
               <div>
                 <dt>Quality</dt>
@@ -204,13 +202,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
               {[
                 ["Price", currency === "INR" ? "₹0" : "$0", price("pass_week").display, price("pass_month").display, price("pass_year").display],
                 ["Lasts", "Always", "7 days", "1 month", "1 year"],
-                [
-                  "Pages",
-                  `${free.pagesPerExport} per download, ${free.pagesPerDay} a day`,
-                  pages(PLANS.week.pages),
-                  pages(PLANS.month.pages),
-                  pages(PLANS.year.pages),
-                ],
+                ["Pages", `${free.pagesPerDay} a day`, pages(PLANS.week.pages), pages(PLANS.month.pages), pages(PLANS.year.pages)],
                 [
                   "Quality",
                   resolutionName(LIMITS.free.maxDpi),

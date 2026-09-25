@@ -47,7 +47,7 @@ const FORMATS: { id: string; label: string; size: PaperSize; paperId?: string }[
 
 type Output = "zip-pdf" | "combined-pdf" | "zip-png";
 type Tab = "data" | "template" | "style";
-const FREE_ROWS = 3;
+const FREE_ROWS = 10;
 
 export function BatchTool() {
   const { entitlements, refresh } = useEntitlements();
@@ -341,7 +341,7 @@ export function BatchTool() {
         </header>
         {!entitlements.limits.batch && table.rows.length > FREE_ROWS && (
           <p className={s.upsell}>
-            Free batches include the first {FREE_ROWS} rows. <a href="/pricing">Pro</a> writes all {table.rows.length}.
+            Free batches include the first {FREE_ROWS} rows. <a href="/pricing">Month and Year</a> write all {table.rows.length}.
           </p>
         )}
         {message && <p className={s.message}>{message}</p>}

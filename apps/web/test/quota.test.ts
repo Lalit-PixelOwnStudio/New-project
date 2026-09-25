@@ -12,8 +12,10 @@ const plan = (id: "week" | "month" | "year", credits: number): Entitlements => (
 });
 
 describe("export quota", () => {
-  it("caps free exports per download and per day", () => {
-    expect(decide({ pages: 5, dpi: 150, pro: [] }, free, 0)).toMatchObject({ allowed: 3, creditsUsed: 0, freeLeftToday: 7 });
+  it("gives free users 10 pages a day, in one download or several", () => {
+    expect(decide({ pages: 10, dpi: 150, pro: [] }, free, 0)).toMatchObject({ allowed: 10, creditsUsed: 0, freeLeftToday: 0 });
+    expect(decide({ pages: 5, dpi: 150, pro: [] }, free, 0)).toMatchObject({ allowed: 5, freeLeftToday: 5 });
+    expect(decide({ pages: 12, dpi: 150, pro: [] }, free, 0)).toMatchObject({ allowed: 10 });
     expect(decide({ pages: 5, dpi: 150, pro: [] }, free, 9)).toMatchObject({ allowed: 1, freeLeftToday: 0 });
   });
 
@@ -23,7 +25,7 @@ describe("export quota", () => {
 
   it("spends page credits beyond the free allowance", () => {
     const withCredits = { ...free, signedIn: true, credits: 50 };
-    expect(decide({ pages: 20, dpi: 150, pro: [] }, withCredits, 0)).toMatchObject({ allowed: 20, creditsUsed: 17, creditsLeft: 33 });
+    expect(decide({ pages: 20, dpi: 150, pro: [] }, withCredits, 0)).toMatchObject({ allowed: 20, creditsUsed: 10, creditsLeft: 40 });
     expect(decide({ pages: 5, dpi: 150, pro: [] }, withCredits, 10)).toMatchObject({ allowed: 5, creditsUsed: 5 });
   });
 
@@ -35,13 +37,13 @@ describe("export quota", () => {
 
   it("spends a plan's pages once the free pages are used", () => {
     const month = plan("month", 800);
-    expect(decide({ pages: 40, dpi: 300, pro: ["style:celeste", "effect:photo"] }, month, 0)).toMatchObject({ allowed: 40, creditsUsed: 37, creditsLeft: 763 });
+    expect(decide({ pages: 40, dpi: 300, pro: ["style:celeste", "effect:photo"] }, month, 0)).toMatchObject({ allowed: 40, creditsUsed: 30, creditsLeft: 770 });
     expect(decide({ pages: 40, dpi: 300, pro: [] }, month, 10)).toMatchObject({ allowed: 40, creditsUsed: 40 });
   });
 
   it("stops a plan when its pages and the day's free pages are used up", () => {
     expect(() => decide({ pages: 1, dpi: 150, pro: [] }, plan("month", 0), 10)).toThrowError(QuotaError);
-    expect(decide({ pages: 5, dpi: 150, pro: [] }, plan("week", 0), 0)).toMatchObject({ allowed: 3 });
+    expect(decide({ pages: 12, dpi: 150, pro: [] }, plan("week", 0), 0)).toMatchObject({ allowed: 10 });
   });
 
   it("gives Week 2K and every hand, but keeps 4K and finishes for Month and Year", () => {

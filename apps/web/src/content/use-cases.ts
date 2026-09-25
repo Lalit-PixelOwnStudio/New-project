@@ -68,7 +68,7 @@ The assassination of Archduke Franz Ferdinand in Sarajevo on 28 June 1914 was th
     faq: [
       {
         q: "Is it free?",
-        a: "Yes. Free downloads include 3 pages at a time and 10 pages a day, with 16 handwriting styles and no watermark. A plan adds pages and every style, and removes the ads.",
+        a: "Yes. You can download 10 pages a day for free, with 16 handwriting styles and no watermark. A plan adds pages and every style, and removes the ads.",
       },
       {
         q: "Can I use my own handwriting?",
