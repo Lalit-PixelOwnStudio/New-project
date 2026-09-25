@@ -18,7 +18,7 @@ export default function GuidesPage() {
       <PageHero
         eyebrow="Guides"
         title="How to use Truehand"
-        lede="Step-by-step help for assignments, journals, study notes, lab records, letters and more. Each guide takes a few minutes and ends in the editor, ready to go."
+        lede="Quick answers with screenshots for assignments, lab records, notes, journals, letters and more. Start with the starter guide if you're new."
       />
       <AdBand placement="top" tone="page" />
       <Section tone="page">

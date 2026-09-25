@@ -91,6 +91,16 @@ Pricing, sign-in, account and legal pages carry no ads.
 
 After a download the popup asks for a 1–5 rating, with an optional comment and email; every guide ends with "Did this guide help?", and `/feedback` (linked in the footer) takes the same form any time. A device that sent or skipped it isn't asked again for 14 days. Nothing the user wrote is sent, only the rating, their comment and the settings used. Add your email to `ADMIN_EMAILS`, sign in, and open `/admin/feedback` to read everything, newest first.
 
+### Guide screenshots
+
+The screenshots in the guides (`apps/web/public/guides`) are taken from the running site, with the controls each step mentions outlined and numbered. After changing the editor, retake them:
+
+```sh
+pnpm --filter @truehand/web build && pnpm --filter @truehand/web start
+# in another terminal; CHROME_PATH points at any Chrome or Chromium
+CHROME_PATH=/path/to/chrome pnpm --filter @truehand/web guide:shots http://localhost:3000
+```
+
 ## Fonts
 
 The handwriting fonts come from Google Fonts and are committed in `assets/fonts` with their licences. To refetch or add a family, edit `scripts/fonts/families.json` and run `pnpm fonts:fetch`. The site copies them to `public/hands/` and renders its preview images before each dev start and build (`apps/web/scripts/sync-assets.ts`).

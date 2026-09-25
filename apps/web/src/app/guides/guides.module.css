@@ -244,3 +244,55 @@
 .feedback {
   margin-top: 16px;
 }
+
+/* The short answer right under the question. */
+.answer {
+  margin: 20px 0 0;
+  padding: 16px 20px;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--blue);
+  border-radius: var(--radius);
+  background: var(--bg-page);
+}
+
+.answer strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: var(--blue);
+}
+
+.answer p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.figure {
+  margin: 18px 0 10px;
+}
+
+.figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--bg);
+  box-shadow: var(--shadow-card);
+}
+
+.figure[data-narrow] img {
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.figure figcaption {
+  margin-top: 8px;
+  font-size: 13.5px;
+  color: var(--ink-3);
+  text-align: center;
+}

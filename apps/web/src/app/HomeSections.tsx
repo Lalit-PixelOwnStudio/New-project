@@ -84,7 +84,7 @@ export function HomeSections() {
           ))}
         </ul>
         <Link href="/guides/getting-started" className={s.textLink}>
-          New here? Your first page in two minutes <ArrowRight aria-hidden="true" />
+          New here? Read the starter guide <ArrowRight aria-hidden="true" />
         </Link>
       </Section>
 

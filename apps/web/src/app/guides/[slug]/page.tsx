@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { AdSlot } from "@/components/AdSlot";
+import { Faq } from "@/components/Faq";
 import { FeedbackForm } from "@/components/FeedbackForm";
 import { ButtonLink } from "@/components/ui/Button";
 import { GUIDES, guideBySlug, type GuideBlock } from "@/content/guides";
@@ -36,8 +37,18 @@ function Rich({ text }: { text: string }) {
   );
 }
 
-function Block({ block }: { block: GuideBlock }) {
+function Block({ block, eager = false }: { block: GuideBlock; eager?: boolean }) {
   switch (block.kind) {
+    case "image": {
+      const im = block.image!;
+      return (
+        <figure className={s.figure} data-narrow={im.narrow || undefined}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={im.src} alt={im.alt} width={im.width} height={im.height} loading={eager ? "eager" : "lazy"} decoding="async" />
+          {im.caption && <figcaption>{im.caption}</figcaption>}
+        </figure>
+      );
+    }
     case "p":
       return (
         <p>
@@ -77,6 +88,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
   const g = guideBySlug((await params).slug);
   if (!g) notFound();
   const related = g.related.map(guideBySlug).filter((x) => x !== undefined);
+  const firstImage = g.sections.flatMap((sec) => sec.blocks).find((b) => b.kind === "image");
   const ld = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -95,7 +107,10 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           <Link href="/guides">Guides</Link>
         </nav>
         <h1>{g.title}</h1>
-        <p className={s.lede}>{g.description}</p>
+        <div className={s.answer}>
+          <strong>Quick answer</strong>
+          <p>{g.answer}</p>
+        </div>
         <p className={s.byline}>
           {g.minutes} min read · Updated {new Date(g.updated).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
         </p>
@@ -104,12 +119,19 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             <section>
               <h2>{sec.heading}</h2>
               {sec.blocks.map((b, j) => (
-                <Block key={j} block={b} />
+                // The first picture is usually on screen straight away, so it loads first.
+                <Block key={j} block={b} eager={b === firstImage} />
               ))}
             </section>
             {i % 2 === 1 && i < g.sections.length - 1 && <AdSlot placement="article" />}
           </Fragment>
         ))}
+        {g.faqs.length > 0 && (
+          <section>
+            <h2>Common problems</h2>
+            <Faq items={g.faqs} />
+          </section>
+        )}
         <aside className={s.cta}>
           <div>
             <strong>Try it on your own text</strong>

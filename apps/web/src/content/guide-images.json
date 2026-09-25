@@ -1,0 +1,54 @@
+{
+  "editor-tour": {
+    "width": 1961,
+    "height": 1374
+  },
+  "toolbar": {
+    "width": 1014,
+    "height": 156
+  },
+  "pickers": {
+    "width": 1032,
+    "height": 248
+  },
+  "pick-hand": {
+    "width": 585,
+    "height": 819
+  },
+  "pick-paper": {
+    "width": 630,
+    "height": 819
+  },
+  "writing-settings": {
+    "width": 495,
+    "height": 719
+  },
+  "page-settings": {
+    "width": 495,
+    "height": 678
+  },
+  "page-header-result": {
+    "width": 846,
+    "height": 360
+  },
+  "download-options": {
+    "width": 720,
+    "height": 563
+  },
+  "download-ready": {
+    "width": 720,
+    "height": 635
+  },
+  "download-pro": {
+    "width": 720,
+    "height": 776
+  },
+  "phone-text": {
+    "width": 780,
+    "height": 1688
+  },
+  "phone-style": {
+    "width": 780,
+    "height": 1688
+  }
+}

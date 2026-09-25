@@ -1,17 +1,30 @@
+import shots from "./guide-images.json";
+
 export interface GuideBlock {
-  kind: "p" | "list" | "steps" | "note";
+  kind: "p" | "list" | "steps" | "note" | "image";
   text?: string;
   items?: string[];
+  image?: { src: string; width: number; height: number; alt: string; caption?: string; narrow?: boolean };
 }
 
+/**
+ * A starter guide answers one question a student would ask. It opens with a
+ * short answer, then shows each step on a screenshot of the real editor, and
+ * ends with fixes for what usually goes wrong.
+ */
 export interface Guide {
   slug: string;
+  /** The question, as someone would ask it. */
   title: string;
   description: string;
+  /** Two or three sentences that answer the question on their own. */
+  answer: string;
   /** Minutes to read, rounded. */
   minutes: number;
   updated: string;
   sections: { heading: string; blocks: GuideBlock[] }[];
+  /** Common problems and their fixes. */
+  faqs: { q: string; a: string }[];
   related: string[];
   /** Where "try it" goes: usually the editor, already set up for this job. */
   cta: { href: string; label: string };
@@ -19,428 +32,501 @@ export interface Guide {
 
 const p = (text: string): GuideBlock => ({ kind: "p", text });
 const list = (...items: string[]): GuideBlock => ({ kind: "list", items });
-const steps = (...items: string[]): GuideBlock => ({ kind: "steps", items });
 const note = (text: string): GuideBlock => ({ kind: "note", text });
 
+type Shot = keyof typeof shots;
+/** A screenshot from public/guides, made by scripts/guide-shots.ts. */
+const shot = (name: Shot, alt: string, caption?: string): GuideBlock => ({
+  kind: "image",
+  image: { src: `/guides/${name}.webp`, ...shots[name], alt, caption, narrow: name.startsWith("phone-") },
+});
+/** A finished page, rendered by the engine at build time. */
+const sample = (name: string, alt: string, caption?: string): GuideBlock => ({
+  kind: "image",
+  image: { src: `/specimens/${name}.webp`, width: 1111, height: 1572, alt, caption, narrow: true },
+});
+
 const UPDATED = "2026-09-25";
+
+/* Problems that come up in more than one guide. */
+const ONLY_THREE_PAGES = {
+  q: "Why did only 3 pages download?",
+  a: "Free downloads include the first 3 pages, and 10 pages a day. For a longer file, download it in parts: keep your full text safe, paste in the first part and download, then paste the next part and download again. A week pass removes the limit.",
+};
+const PRO_SELECTED = {
+  q: "The download window says I picked a Pro option. What do I do?",
+  a: "Anyone can try Pro hands, papers and pens in the preview, but downloading them needs Pro. Tap Use free options in the download window and everything switches back to free choices.",
+};
+const TEXT_PRIVATE = {
+  q: "Is my text uploaded or saved anywhere?",
+  a: "No. Your text becomes handwriting inside your own browser and is never sent to us. It stays in that browser so it's there when you come back; clearing your browser data removes it.",
+};
 
 export const GUIDES: Guide[] = [
   {
     slug: "getting-started",
-    title: "Your first handwritten page in two minutes",
-    description: "New to Truehand? Type or paste your text, pick a handwriting and a paper, and download a PDF. Here is everything on the screen, explained.",
+    title: "How do I use Truehand? A starter guide",
+    description: "A quick tour of the editor: where to type, where to pick the handwriting, paper and pen, and how to download your pages. With screenshots.",
+    answer:
+      "Type or paste your text on the left, pick a handwriting, paper and pen, check the preview on the right, and press Download. It's free, works on a laptop or phone, and needs no sign-up.",
     minutes: 3,
     updated: UPDATED,
-    related: ["write-assignment-online", "use-truehand-on-your-phone"],
-    cta: { href: "/", label: "Open the editor" },
+    related: ["typed-assignment-to-handwriting", "use-truehand-on-your-phone"],
+    cta: { href: "/", label: "Make my first page" },
     sections: [
       {
-        heading: "What you need",
+        heading: "The editor at a glance",
         blocks: [
-          p(
-            "Just a browser, on a laptop or a phone. There is nothing to install and no account to make. What you type stays on your device: the handwriting is drawn right there in your browser, and your text is never uploaded.",
-          ),
-        ],
-      },
-      {
-        heading: "Make your first page",
-        blocks: [
-          steps(
-            "Open the editor on the home page. There is already a sample page in it; press the bin icon at the right of the toolbar to clear it.",
-            "Type your text, or paste it from Word, Google Docs, WhatsApp or anywhere else.",
-            "Pick a handwriting from the Hand menu under the toolbar. Each one shows its name written in that hand, so you can see it before you choose.",
-            "Pick a paper (college ruled is the usual notebook page) and a pen (blue ballpoint looks the most like school work).",
-            "Watch the preview on the right, or below the editor on a phone. It updates as you type.",
-            "Press Download, choose PDF, and your page is saved.",
-          ),
-        ],
-      },
-      {
-        heading: "Make it look like you wrote it",
-        blocks: [
-          p("Open the Style & page tab for the settings that make the biggest difference:"),
+          shot("editor-tour", "The Truehand editor with four numbered parts", "1 Your text · 2 Hand, paper and pen · 3 Live preview · 4 Download"),
           list(
-            "Messiness: low looks careful, high looks rushed. Most real notes sit around the middle.",
-            "Size: make the writing bigger or smaller on the lines.",
-            "Slant: tilt the letters forward or back, like a real hand does.",
-            "Rewrite with a fresh hand: the same style, written again with different small wobbles. Press it until a page feels right.",
-          ),
-          note("Tip: the Everyday hands (Zoe, Lily, Tara, Milo, Max, Rory) look the least polished, which is often what makes a page believable."),
-        ],
-      },
-      {
-        heading: "Headings, lists and more",
-        blocks: [
-          p(
-            "The toolbar works like a normal document. H1 and H2 write a bigger heading, B presses the pen harder, U underlines, the highlighter marks words in yellow, and the list buttons add bullets or numbers. The page icon starts a new page wherever you put it.",
+            "1. Your text: type here, or paste from Word, Google Docs or WhatsApp.",
+            "2. Hand, paper and pen: how your page looks.",
+            "3. Preview: your page, written out. It updates as you type.",
+            "4. Download: save it as a PDF or images.",
           ),
         ],
       },
       {
-        heading: "What's free",
+        heading: "Step 1: Add your text",
         blocks: [
-          list(
-            "16 handwritings, 5 papers and 3 ballpoint pens, with no watermark.",
-            "Up to 3 pages in each download and 10 pages a day, as PDF, PNG images or a ZIP.",
-            "Anything marked Pro can be previewed by anyone. If you download with a Pro choice selected, the download window offers to switch you to free options in one tap.",
+          p("Delete the sample with the bin icon (5), then type or paste. Use the toolbar like any document."),
+          shot(
+            "toolbar",
+            "The formatting toolbar with five numbered groups",
+            "1 Normal, heading, subheading · 2 Bold, underline, strike, highlighter · 3 Lists · 4 New page · 5 Clear all",
           ),
         ],
+      },
+      {
+        heading: "Step 2: Pick a handwriting",
+        blocks: [
+          p("Tap Hand (1). Every name is written in its own handwriting, so you can see it before you pick. Everyday (2) has the most natural, messy hands."),
+          shot("pick-hand", "The handwriting menu, open"),
+        ],
+      },
+      {
+        heading: "Step 3: Pick a paper",
+        blocks: [
+          p("Tap Paper. College ruled is a normal notebook page. Anything marked Pro can be previewed for free."),
+          shot("pick-paper", "The paper menu, open"),
+        ],
+      },
+      {
+        heading: "Step 4: Download",
+        blocks: [
+          p("Press Download, pick PDF (1) and press the big button (3). Screen quality (2) is fine for most things."),
+          shot("download-options", "The download window with format, quality and the download button"),
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Is Truehand free?",
+        a: "Yes. The free plan has 16 handwritings, 5 papers and 3 pens, and lets you download up to 3 pages at a time and 10 a day, with no watermark. Pro removes the ads and limits and unlocks everything.",
+      },
+      { q: "Do I need an account?", a: "No. You only need one if you buy Pro or a page pack, so your purchase is saved." },
+      TEXT_PRIVATE,
+      PRO_SELECTED,
+    ],
+  },
+  {
+    slug: "typed-assignment-to-handwriting",
+    title: "How do I convert my typed assignment into handwriting?",
+    description: "Turn a typed assignment into handwritten pages with your name, class and page numbers, free and online. Step by step with screenshots.",
+    answer:
+      "Paste your assignment into Truehand, add your name and class in Style & page, pick a handwriting and notebook paper, and download a PDF. It takes about two minutes and it's free.",
+    minutes: 3,
+    updated: UPDATED,
+    related: ["name-class-on-every-page", "make-it-look-real"],
+    cta: { href: "/use/assignments", label: "Convert my assignment" },
+    sections: [
+      {
+        heading: "What you'll get",
+        blocks: [
+          sample("use-assignments-page", "A handwritten assignment page with a name, class and subject at the top", "An assignment page made in Truehand"),
+        ],
+      },
+      {
+        heading: "Step 1: Paste your assignment",
+        blocks: [
+          p("Clear the sample (5) and paste. Make the title bigger with H1 and question numbers with H2 (1)."),
+          shot("toolbar", "The formatting toolbar"),
+        ],
+      },
+      {
+        heading: "Step 2: Add your name and class",
+        blocks: [
+          p("Open Style & page. Type your name and class in Top left, and the subject and date in Top right (1). Tick Number the pages (2)."),
+          shot("page-settings", "The Page settings with name, class and page numbers"),
+          shot(
+            "page-header-result",
+            "The top of a handwritten page with the name, class, roll number and subject",
+            "Your details are written at the top of every page",
+          ),
+        ],
+      },
+      {
+        heading: "Step 3: Pick the hand and paper",
+        blocks: [
+          p("Mira and Theo look like neat student writing. For paper, pick College ruled or Wide ruled."),
+          shot("pickers", "The hand, paper and pen menus"),
+        ],
+      },
+      {
+        heading: "Step 4: Download the PDF",
+        blocks: [
+          p("Press Download, choose PDF, and you're done. Print at Actual size so the lines stay the right size."),
+          shot("download-options", "The download window"),
+        ],
+      },
+      {
+        heading: "Before you submit",
+        blocks: [
+          note("If your teacher asked for the assignment in your own handwriting, check with them first. Some teachers want it written by hand as practice."),
+        ],
+      },
+    ],
+    faqs: [
+      ONLY_THREE_PAGES,
+      {
+        q: "Will my teacher know it isn't my handwriting?",
+        a: "It looks like real handwriting, with letters that change slightly every time, but it won't look like your own. If your teacher knows how you write, or asked for work in your own hand, ask them before you use it.",
+      },
+      { q: "How do I start each question on a new page?", a: "Click where the page should end and press the new page icon in the toolbar." },
+      {
+        q: "Can I draw diagrams or tables?",
+        a: "Not yet. Write table rows one per line, like “1. Length: 20 cm, Time: 9.1 s”. For diagrams, leave a few empty lines and draw them after printing.",
+      },
+      {
+        q: "Can I write in Hindi or another language?",
+        a: "Truehand writes English and languages with the same alphabet, like Spanish or French; some hands also write Russian or Greek. Hindi isn't supported yet. Characters it can't write are skipped and listed above the preview.",
       },
     ],
   },
   {
-    slug: "write-assignment-online",
-    title: "How to make a handwritten assignment online, without any app",
-    description:
-      "Turn a typed assignment into neat, handwritten-looking pages with your name, class and page numbers, ready to print or submit. Free, in your browser.",
-    minutes: 4,
+    slug: "name-class-on-every-page",
+    title: "How do I add my name, class and roll number to every page?",
+    description: "Put your name, class, roll number, subject and date at the top of every handwritten page, and number the pages.",
+    answer:
+      "Open the Style & page tab, type your details in Top left and Top right, and tick Number the pages. They're written at the top of every page, in the same handwriting.",
+    minutes: 1,
     updated: UPDATED,
-    related: ["getting-started", "download-print-and-share"],
-    cta: { href: "/use/assignments", label: "Write your assignment" },
+    related: ["typed-assignment-to-handwriting", "lab-record-format"],
+    cta: { href: "/use/assignments", label: "Open the editor" },
     sections: [
       {
-        heading: "Before you start",
+        heading: "Step 1: Open Style & page",
+        blocks: [p("It's the second tab at the top of the editor, next to Text. Scroll down to Page.")],
+      },
+      {
+        heading: "Step 2: Fill in the top of the page",
         blocks: [
-          p(
-            "Have your answers typed somewhere: Word, Google Docs, notes on your phone, anything. You do not need to install anything or sign up. Open the assignment editor from the button at the end of this guide and it is already set up with notebook paper and a name header.",
-          ),
-          note(
-            "If your teacher has asked for the work in your own handwriting, check with them first. Some teachers want it written by hand as practice, and that is their call.",
-          ),
+          p("Top left: your name, class and roll number. Top right: the subject and date (1). Tick Number the pages (2)."),
+          shot("page-settings", "Top left, Top right and Number the pages in the Page settings"),
         ],
       },
       {
-        heading: "Step by step",
-        blocks: [
-          steps(
-            "Clear the sample text with the bin icon, then paste your assignment.",
-            "Select the title and press H1 so it is written larger. Use H2 for question numbers or section names.",
-            "Go to Style & page. In Top left, type your name and class. In Top right, type the subject or date. Tick Number the pages.",
-            "Choose a hand. Mira and Theo are tidy student print; Zoe and Tara look more casual.",
-            "Choose the paper your school uses: College ruled or Wide ruled, and A4 or US Letter under Paper size.",
-            "Check every page in the preview. Long answers flow onto new pages by themselves.",
-            "Press Download and choose PDF.",
-          ),
-        ],
+        heading: "The result",
+        blocks: [shot("page-header-result", "A handwritten page with the name and subject at the top")],
       },
+    ],
+    faqs: [
       {
-        heading: "Tips that make it look real",
-        blocks: [
-          list(
-            "Keep Messiness around the middle. Perfectly neat pages look printed.",
-            "Blue ballpoint on college ruled paper is the most ordinary school look, which is the point.",
-            "Underline headings (in Style & page) the way people do by hand.",
-            "Want a new page for each question? Put the cursor where the page should end and press the new page icon in the toolbar.",
-            "Not happy with how a page came out? Press Rewrite with a fresh hand for new small variations.",
-          ),
-        ],
+        q: "Can I put my name only on the first page?",
+        a: "Top left and Top right go on every page. For the first page only, leave them empty and type your name as the first line of your text.",
       },
-      {
-        heading: "Long assignments",
-        blocks: [
-          p(
-            "Free downloads include the first 3 pages, and up to 10 pages a day. For a longer assignment, download it in parts: keep your full text somewhere safe, paste in the first part and download it, then replace it with the next part and download again. Or a week pass covers every page for the week you need it.",
-          ),
-        ],
-      },
+      { q: "My details are too long.", a: "Keep each side short: name, class and roll number on the left; subject and date on the right." },
+      { q: "Where do the page numbers go?", a: "At the bottom right of each page." },
     ],
   },
   {
-    slug: "write-a-journal-online",
-    title: "How to keep a handwritten journal online",
-    description: "Write your journal or diary on your phone or laptop and keep it as real-looking handwritten pages you can save, print or share.",
-    minutes: 3,
+    slug: "make-it-look-real",
+    title: "How do I make it look like real handwriting, not a font?",
+    description: "The four settings that make a page look really handwritten, shown on screenshots: the hand, messiness, slant and a fresh rewrite.",
+    answer:
+      "Pick one of the Everyday hands, keep Messiness around the middle, add a small slant, and press Rewrite with a fresh hand until the page looks natural. Real handwriting is never perfectly neat.",
+    minutes: 2,
     updated: UPDATED,
-    related: ["use-truehand-on-your-phone", "download-print-and-share"],
-    cta: { href: "/use/journal", label: "Start a journal page" },
+    related: ["typed-assignment-to-handwriting", "download-print-and-share"],
+    cta: { href: "/", label: "Try it now" },
     sections: [
       {
-        heading: "Why a handwritten journal",
+        heading: "Font vs Truehand",
+        blocks: [
+          p("A handwriting font repeats every letter exactly. Truehand writes each one a little differently, like a real hand."),
+          {
+            kind: "image",
+            image: {
+              src: "/specimens/compare-font.webp",
+              width: 720,
+              height: 176,
+              alt: "The same line three times in a handwriting font, all identical",
+              caption: "A handwriting font: three identical lines",
+            },
+          },
+          {
+            kind: "image",
+            image: {
+              src: "/specimens/compare-hand.webp",
+              width: 720,
+              height: 176,
+              alt: "The same line three times in Truehand, each slightly different",
+              caption: "Truehand: the same hand, three different lines",
+            },
+          },
+        ],
+      },
+      {
+        heading: "Step 1: Pick an Everyday hand",
+        blocks: [
+          p("Open Hand and tap Everyday (2). Zoe, Lily, Tara and Milo look the most like real people's notes."),
+          shot("pick-hand", "The Everyday handwritings"),
+        ],
+      },
+      {
+        heading: "Step 2: Adjust the writing",
         blocks: [
           p(
-            "Typing is faster, but handwritten pages feel personal: they are nicer to look back on, print into a notebook, or share a page of. With Truehand you can write the quick way and keep the page the handwritten way.",
+            "In Style & page: Size (1) fits the writing to the lines, Messiness (2) around the middle looks natural, and a little Slant (3) is how most people write. Rewrite with a fresh hand (4) writes the page again with new small differences.",
           ),
-        ],
-      },
-      {
-        heading: "Set up your journal page",
-        blocks: [
-          steps(
-            "Open the journal editor from the button at the end of this guide.",
-            "In Style & page, put the date in Top right. Leave Top left empty, or add a title like “Week 12”.",
-            "Pick a relaxed hand. Lily, Zoe and Tara are free everyday hands that look like real diary writing.",
-            "Pick a paper. Plain or Grid work well for journals; Dot grid, like a bullet journal, is part of Pro.",
-            "Write. Use the highlighter for the moments you want to find again, and bullet lists for to-dos.",
-          ),
-          note(
-            "The journal editor starts with a few Pro choices (dot grid paper, a cursive hand and a gel pen) so you can see what's possible. If you download on the free plan, tap Use free options in the download window.",
-          ),
-        ],
-      },
-      {
-        heading: "Make it feel like a diary",
-        blocks: [
-          list(
-            "Turn Messiness up a little. Journals are written quickly, not neatly.",
-            "Try Fatigue in Style & page: the writing gets a little looser towards the bottom of the page, as it does when you write for a while.",
-            "One page per day: press the new page icon before each new date.",
-          ),
-        ],
-      },
-      {
-        heading: "Keep and share it",
-        blocks: [
-          list(
-            "Download PNG to get an image of each page, for your gallery, a phone wallpaper or a story.",
-            "Download PDF once a month to keep a tidy archive you can print and bind.",
-            "Nothing you write is uploaded, so your journal stays on your device.",
-          ),
+          shot("writing-settings", "The writing settings: size, messiness, slant and rewrite"),
         ],
       },
     ],
-  },
-  {
-    slug: "handwritten-study-notes",
-    title: "Turn typed notes into handwritten study notes",
-    description: "Paste your class notes and get handwritten revision pages with headings, highlights and lists, on notebook or Cornell paper.",
-    minutes: 3,
-    updated: UPDATED,
-    related: ["write-assignment-online", "download-print-and-share"],
-    cta: { href: "/use/cornell-notes", label: "Make study notes" },
-    sections: [
-      {
-        heading: "Why bother",
-        blocks: [
-          p(
-            "Many people remember handwritten notes better than a wall of typed text. Headings, highlights and the odd underline give your eyes something to hold on to when you revise. Truehand gives you that look from the notes you already typed.",
-          ),
-        ],
-      },
-      {
-        heading: "Make your notes",
-        blocks: [
-          steps(
-            "Paste your notes into the editor.",
-            "Make each topic a heading with H1, and sub-topics with H2.",
-            "Select key terms and press the highlighter. Press U to underline definitions.",
-            "Turn lists of points into bullets with the list button.",
-            "Pick College ruled or Grid paper and a clear hand like Mira, Theo or Noor.",
-            "Download as PDF and print, or keep it on your phone for revision.",
-          ),
-        ],
-      },
-      {
-        heading: "Cornell notes",
-        blocks: [
-          p(
-            "Cornell paper has a narrow column on the left for questions and keywords, and a box at the bottom for a short summary. Writing a summary in your own words is one of the best ways to check you understood the topic. Cornell paper is part of Pro; on the free plan, college ruled with a heading per topic works well too.",
-          ),
-        ],
-      },
-      {
-        heading: "Make revision easier",
-        blocks: [
-          list(
-            "One topic per page: press the new page icon before each new topic.",
-            "Keep highlights few. If everything is yellow, nothing stands out.",
-            "Use Skip a line between paragraphs (in Style & page) to give your notes room to breathe.",
-          ),
-        ],
-      },
+    faqs: [
+      { q: "It looks too messy.", a: "Turn Messiness down, or pick a neater hand like Mira, Theo or Noor." },
+      { q: "The writing is too big for the lines.", a: "Lower Size, or pick Wide ruled paper, which has more space between lines." },
+      { q: "Can I make it look scanned or photographed?", a: "Yes, with Pro: the Scanned and Phone photo finishes in Style & page." },
     ],
   },
   {
     slug: "lab-record-format",
-    title: "How to write a lab record or practical file online",
-    description: "Write each experiment in the usual lab record format (aim, apparatus, procedure, observations, result) and download neat handwritten pages.",
-    minutes: 4,
+    title: "How do I write my lab record or practical file online?",
+    description: "Write each experiment in the usual lab record format and download neat handwritten pages. With the format, screenshots and fixes.",
+    answer:
+      "Open the lab record editor, write Aim, Apparatus, Procedure, Observations and Result as headings, put the experiment number and date at the top, and download a PDF. Start each experiment on a new page.",
+    minutes: 3,
     updated: UPDATED,
-    related: ["write-assignment-online", "download-print-and-share"],
-    cta: { href: "/use/lab-records", label: "Write a lab record" },
+    related: ["name-class-on-every-page", "typed-assignment-to-handwriting"],
+    cta: { href: "/use/lab-records", label: "Write my lab record" },
     sections: [
+      {
+        heading: "What you'll get",
+        blocks: [sample("use-lab-records-page", "A handwritten lab record page with aim, apparatus and procedure", "A lab record page made in Truehand")],
+      },
       {
         heading: "The usual format",
         blocks: [
-          p("Most schools and colleges want each experiment in this order. Check your lab manual in case yours differs."),
+          list("Experiment number and date", "Aim", "Apparatus", "Theory", "Procedure (numbered steps)", "Observations", "Result", "Precautions"),
+          p("Check your lab manual in case yours is different."),
+        ],
+      },
+      {
+        heading: "Step 1: Headings and lists",
+        blocks: [
+          p("Make each part a heading with H2 (1). Use the numbered list (3) for the procedure. Press the new page icon (4) before the next experiment."),
+          shot("toolbar", "The formatting toolbar"),
+        ],
+      },
+      {
+        heading: "Step 2: Experiment number and date",
+        blocks: [p("In Style & page, put the experiment number in Top left and the date in Top right (1)."), shot("page-settings", "The Page settings")],
+      },
+    ],
+    faqs: [
+      {
+        q: "How do I make an observation table?",
+        a: "Tables aren't drawn yet. Write one reading per line, like “1. Length: 20 cm, Time: 9.1 s”. If your teacher wants a ruled table, leave empty lines and draw it after printing.",
+      },
+      { q: "Where do diagrams go?", a: "Press Enter a few times to leave space, and draw the diagram in pencil after printing." },
+      ONLY_THREE_PAGES,
+    ],
+  },
+  {
+    slug: "handwritten-study-notes",
+    title: "How do I turn my typed notes into handwritten notes?",
+    description: "Paste your class notes and get handwritten revision pages with headings and highlights. Step by step with screenshots.",
+    answer:
+      "Paste your notes, make each topic a heading, highlight the key words, and download a PDF. You get handwritten revision notes without copying everything out by hand.",
+    minutes: 2,
+    updated: UPDATED,
+    related: ["make-it-look-real", "download-print-and-share"],
+    cta: { href: "/", label: "Make my notes" },
+    sections: [
+      {
+        heading: "Step 1: Paste and add headings",
+        blocks: [
+          p("Paste your notes. Make topics H1 and sub-topics H2 (1). Select key words and press the highlighter (2). Turn points into bullets (3)."),
+          shot("toolbar", "The formatting toolbar"),
+        ],
+      },
+      {
+        heading: "Step 2: Pick a clear hand and paper",
+        blocks: [p("Mira or Noor on College ruled or Grid paper are easy to read."), shot("pickers", "The hand, paper and pen menus")],
+      },
+      {
+        heading: "Tips for revision",
+        blocks: [
           list(
-            "Experiment number and date, at the top of the page.",
-            "Aim: what the experiment sets out to find or show.",
-            "Apparatus or materials: a list of what you used.",
-            "Theory: the idea or formula behind it, in a few lines.",
-            "Procedure: numbered steps, written in the past tense.",
-            "Observations: readings, usually in a table.",
-            "Calculations and result: what you worked out, with units.",
-            "Precautions: two or three things you were careful about.",
+            "One topic per page: press the new page icon (4) before each topic.",
+            "Highlight a few words, not whole paragraphs.",
+            "Cornell paper, with a questions column and a summary box, is part of Pro.",
           ),
         ],
+      },
+    ],
+    faqs: [
+      { q: "Can I paste from Google Docs or Word?", a: "Yes. Headings, bold, underline and lists usually come across. Italic text becomes normal writing." },
+      TEXT_PRIVATE,
+      ONLY_THREE_PAGES,
+    ],
+  },
+  {
+    slug: "write-a-journal-online",
+    title: "How do I write a journal or diary in handwriting online?",
+    description: "Write your journal or diary on your phone or laptop and keep each day as a handwritten page you can save or share.",
+    answer:
+      "Type your entry, put the date in Top right, pick a relaxed hand like Lily or Zoe, and download each day as a PNG image or a PDF. Nothing you write is uploaded, so your diary stays private.",
+    minutes: 2,
+    updated: UPDATED,
+    related: ["use-truehand-on-your-phone", "download-print-and-share"],
+    cta: { href: "/use/journal", label: "Start my journal" },
+    sections: [
+      {
+        heading: "What you'll get",
+        blocks: [sample("use-journal-page", "A handwritten journal page with a date and highlighted lines", "A journal page made in Truehand")],
       },
       {
-        heading: "Write it in Truehand",
-        blocks: [
-          steps(
-            "Open the lab record editor from the button at the end of this guide. It starts with an example experiment you can overwrite.",
-            "In Style & page, put the experiment number in Top left and the date in Top right. Tick Number the pages and Underline headings.",
-            "Make each part (Aim, Apparatus, Procedure…) a heading with H2.",
-            "Use the numbered list button for the procedure and bullets for apparatus.",
-            "Keep Messiness low. Lab records are usually written carefully.",
-            "Start each new experiment on a new page with the new page icon, then download as PDF.",
-          ),
-        ],
+        heading: "Step 1: Write and add the date",
+        blocks: [p("Write your entry. In Style & page, put the date in Top right (1)."), shot("page-settings", "The Page settings")],
       },
       {
-        heading: "Observation tables",
+        heading: "Step 2: Switch to free options if asked",
         blocks: [
-          p(
-            "Tables are hard to draw neatly by hand, and it is the same here: write readings as a numbered list (“1. Length 20 cm, time 9.1 s”) or one reading per line. Many teachers accept observations written this way; if yours wants a ruled table, leave space with a few empty lines and draw it in pen after printing.",
-          ),
+          p("The journal page starts with some Pro choices so you can see them. On the free plan, tap Use free options (1) when you download."),
+          shot("download-pro", "The download window offering to switch to free options"),
         ],
       },
+    ],
+    faqs: [
+      TEXT_PRIVATE,
+      { q: "Can I write one page per day?", a: "Yes. Press the new page icon in the toolbar before each new date." },
+      { q: "Can I post a page on Instagram?", a: "Download it as PNG and post the image. Crop it to the part you want." },
     ],
   },
   {
     slug: "handwritten-letter-or-card",
-    title: "How to write a handwritten letter or card online",
-    description: "Write a thank-you note, a birthday card or a letter in a handwriting you like, then print it or send it as an image.",
-    minutes: 3,
+    title: "How do I make a handwritten letter or card online?",
+    description: "Write a thank-you note, birthday card or letter in a handwriting you like, then print it or send it as an image.",
+    answer:
+      "Type your message, pick a warm hand like Lily or June on plain paper, make the writing a bit bigger, and download a PDF to print or a PNG to send. Sign it with a real pen after printing.",
+    minutes: 2,
     updated: UPDATED,
-    related: ["download-print-and-share", "getting-started"],
-    cta: { href: "/use/letters", label: "Write a letter" },
+    related: ["download-print-and-share", "make-it-look-real"],
+    cta: { href: "/use/letters", label: "Write my letter" },
     sections: [
       {
-        heading: "Write your letter",
+        heading: "What you'll get",
+        blocks: [sample("use-letters-page", "A handwritten letter on plain paper", "A letter made in Truehand")],
+      },
+      {
+        heading: "Step 1: Write and pick a hand",
         blocks: [
-          steps(
-            "Open the letter editor from the button at the end of this guide.",
-            "Type your message. Keep it short for a card: three or four lines look best.",
-            "Pick a hand. For something warm, try Lily or June; the flowing cursive and elegant scripts are part of Pro.",
-            "Choose Plain paper for a letter. Pro adds card stock, kraft paper and envelopes.",
-            "Make the writing a little bigger with Size, so it fills the page like a real note.",
-            "Download as PDF to print, or PNG to send as an image.",
-          ),
+          p("Type your message; three or four lines look best on a card. Lily and June are free; flowing cursive hands are part of Pro."),
+          shot("pick-hand", "The handwriting menu"),
         ],
       },
       {
-        heading: "Printing a card",
-        blocks: [
-          list(
-            "Print on thick paper or card if your printer takes it. It makes a big difference.",
-            "In the print window, choose Actual size, not Fit to page, so the writing stays the right size.",
-            "Sign it with a real pen. A real signature on a written-out card is the finishing touch.",
-          ),
-        ],
+        heading: "Step 2: Make the writing bigger",
+        blocks: [p("In Style & page, turn Size (1) up so the message fills the page."), shot("writing-settings", "The Size setting")],
+      },
+    ],
+    faqs: [
+      {
+        q: "How do I print it on a card?",
+        a: "Use thick paper or card if your printer takes it, choose Actual size in the print window, and sign it by hand.",
       },
       {
-        heading: "Sending as an image",
-        blocks: [
-          p(
-            "A PNG of a handwritten note on WhatsApp, Instagram or email feels much more personal than typed text. With Pro you can also download just the ink, on a transparent background, to put over a photo.",
-          ),
-        ],
+        q: "Can I write lots of letters with different names?",
+        a: "Yes, with Batch letters (Pro): upload a list of names and Truehand writes one letter for each person.",
       },
-      {
-        heading: "Many letters at once",
-        blocks: [
-          p(
-            "Thank-you notes for a whole class, invitations, or letters for customers? Batch letters (Pro) takes a spreadsheet of names and writes one letter for each person, each written a little differently.",
-          ),
-        ],
-      },
+      PRO_SELECTED,
     ],
   },
   {
     slug: "use-truehand-on-your-phone",
-    title: "How to use Truehand on your phone",
-    description: "Everything works on a phone: write in the Text tab, adjust in Style & page, and save the PDF to your phone or share it on WhatsApp.",
-    minutes: 2,
+    title: "Can I use Truehand on my phone?",
+    description: "Yes. Here's where everything is on a phone: the Text tab, the Style & page tab and the Download button. With screenshots.",
+    answer:
+      "Yes. Open Truehand in Chrome or Safari; there's no app to install. Type in the Text tab, change the look in Style & page, and tap Download at the bottom of the screen.",
+    minutes: 1,
     updated: UPDATED,
-    related: ["getting-started", "download-print-and-share"],
+    related: ["download-print-and-share", "typed-assignment-to-handwriting"],
     cta: { href: "/", label: "Open the editor" },
     sections: [
       {
-        heading: "Writing on a phone",
+        heading: "Step 1: Write in the Text tab",
         blocks: [
-          steps(
-            "Open Truehand in Chrome or Safari. There is no app to install.",
-            "The Text tab is where you type or paste. Hand, paper and pen are right under the toolbar.",
-            "Scroll down to see the preview. Tap the expand icon to zoom in on the writing.",
-            "The Style & page tab has size, messiness, name and date, page numbers and paper size.",
-            "Tap Download at the bottom of the screen when you're happy.",
-          ),
+          p("Type or paste in the Text tab (1). Hand, paper and pen are just below the toolbar (2). Download (3) stays at the bottom of the screen."),
+          shot("phone-text", "Truehand on a phone, with the Text tab, pickers and Download button marked"),
         ],
       },
       {
-        heading: "Where the file goes",
-        blocks: [
-          list(
-            "Android: the PDF or image goes to Downloads. Open it from the notification, or from the Files app.",
-            "iPhone: Safari asks where to save it. Choose Save to Files, or open it and use the share button to send it straight to WhatsApp or Mail.",
-            "PNG images can be saved to your photo gallery from the share menu.",
-          ),
-        ],
+        heading: "Step 2: Change the look in Style & page",
+        blocks: [p("Tap Style & page (1) for size, messiness, your name and date, and page numbers."), shot("phone-style", "The Style & page tab on a phone")],
       },
+    ],
+    faqs: [
       {
-        heading: "Tips",
-        blocks: [
-          list(
-            "Add Truehand to your home screen from the browser menu to open it in one tap.",
-            "Your text is kept in the browser on that phone, so you can close the tab and continue later.",
-            "Copying a long assignment from WhatsApp or Docs? Paste it all at once, then fix the headings.",
-          ),
-        ],
+        q: "Where did my PDF go?",
+        a: "On Android, it's in Downloads (open it from the notification or the Files app). On iPhone, choose Save to Files, or use the share button to send it to WhatsApp.",
       },
+      { q: "Will my text be there if I close the tab?", a: "Yes, it's kept in your phone's browser. Clearing your browser data removes it." },
+      { q: "Is there an app?", a: "No app is needed. Add Truehand to your home screen from the browser menu to open it in one tap." },
     ],
   },
   {
     slug: "download-print-and-share",
-    title: "Download, print and share your handwritten pages",
-    description: "Which format to choose, how to print so the writing stays the right size, and how to share pages on WhatsApp, email or social media.",
-    minutes: 3,
+    title: "How do I download, print or send my handwritten pages?",
+    description: "Which format to pick, how to print at the right size, and how to send your pages on WhatsApp, email or Instagram.",
+    answer:
+      "Press Download and pick PDF for printing or submitting, or PNG for images to send. When you print, choose Actual size, not Fit to page, so the writing stays the right size.",
+    minutes: 2,
     updated: UPDATED,
-    related: ["getting-started", "write-assignment-online"],
+    related: ["use-truehand-on-your-phone", "typed-assignment-to-handwriting"],
     cta: { href: "/", label: "Open the editor" },
     sections: [
       {
-        heading: "Which format",
+        heading: "Step 1: Pick a format",
         blocks: [
-          list(
-            "PDF: one file with every page. Best for printing, submitting and emailing.",
-            "PNG: an image of each page. Best for WhatsApp, Instagram and phone galleries.",
-            "ZIP: all the PNG images in one file, handy for many pages.",
-          ),
           p(
-            "Screen quality (150 dpi) is sharp on phones and fine for most printing. Print quality (300 dpi, Pro) is crisper on paper, and worth it for letters and cards.",
+            "PDF (1) puts every page in one file, best for printing and submitting. PNG gives one image per page, best for WhatsApp and Instagram. ZIP is all the images in one file.",
           ),
+          shot("download-options", "The download window with format and quality"),
+        ],
+      },
+      {
+        heading: "Step 2: Save it",
+        blocks: [
+          p("The file downloads by itself. If it didn't, press Download again (1)."),
+          shot("download-ready", "The download window after the file is ready"),
         ],
       },
       {
         heading: "Printing",
         blocks: [
-          steps(
-            "Open the PDF and choose Print.",
-            "Pick the same paper size you chose in Truehand (A4 in most countries, Letter in the US).",
-            "Set scale to Actual size or 100%, not Fit to page.",
-            "Print in colour if you can: blue ink and faint ruled lines look much more real than grey.",
-          ),
-        ],
-      },
-      {
-        heading: "Sharing",
-        blocks: [
           list(
-            "WhatsApp: send the PDF as a document so it isn't compressed, or send the PNG as a photo.",
-            "Email: attach the PDF.",
-            "Instagram or stories: use the PNG. It is the shape of a full page, so crop it to the lines you want.",
+            "Pick the same paper size you used (A4 in most countries).",
+            "Set scale to Actual size or 100%.",
+            "Print in colour if you can: blue ink looks much more real.",
           ),
         ],
       },
-      {
-        heading: "Download limits",
-        blocks: [
-          p(
-            "On the free plan, each download includes up to 3 pages, and you can download 10 pages a day. The daily count resets within 24 hours. Pro removes both limits, the ads and the waiting, and a page pack adds extra pages without a plan.",
-          ),
-        ],
-      },
+    ],
+    faqs: [
+      ONLY_THREE_PAGES,
+      { q: "How do I send it on WhatsApp without it getting blurry?", a: "Send the PDF as a document; WhatsApp doesn't compress documents." },
+      { q: "The printed lines don't match my notebook.", a: "Check the paper type and paper size in Truehand, and print at Actual size." },
     ],
   },
 ];
