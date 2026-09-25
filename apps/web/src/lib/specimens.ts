@@ -18,6 +18,8 @@ export interface SpecimenJob {
   effect?: "none" | "scan" | "photo";
   /** Writing only, on a transparent background. */
   inkOnly?: boolean;
+  /** Write to this path under public/ as PNG instead of specimens/<name>.webp. */
+  png?: string;
 }
 
 const A4_W = 793.7;
@@ -30,6 +32,15 @@ export const STYLE_SAMPLE = (name: string) =>
 
 export function specimenJobs(): SpecimenJob[] {
   const jobs: SpecimenJob[] = [
+    {
+      // Social preview image, 1200 × 630.
+      name: "og",
+      style: DEFAULT_SETTINGS.styleId,
+      doc: spec({ text: SAMPLE_TEXT, holes: "three" }),
+      scale: 1.5,
+      crop: [0, 50, 800, 420],
+      png: "og.png",
+    },
     {
       name: "hero",
       style: DEFAULT_SETTINGS.styleId,
@@ -58,6 +69,24 @@ export function specimenJobs(): SpecimenJob[] {
       inkOnly: true,
     });
   }
+  // The 404 page's scrawl, in red ballpoint.
+  jobs.push({
+    name: "not-found",
+    style: "kit",
+    doc: spec({
+      text: "404, oops.",
+      styleId: "kit",
+      paperId: "plain",
+      fontSize: 1.9,
+      messiness: 0.5,
+      seed: 9,
+      penId: "ballpoint-red",
+      underlineHeadings: false,
+    }),
+    scale: 2,
+    crop: [66, 36, 196, 66],
+    inkOnly: true,
+  });
   // "Is it a font?" comparison: the same line three times, without and with Truehand.
   const repeat = Array.from({ length: 3 }, () => "Handwriting never repeats itself exactly.").join("\n");
   for (const [name, off] of [

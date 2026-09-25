@@ -1,4 +1,4 @@
-import { STYLES } from "@truehand/catalog";
+import { PAPERS, PENS, STYLES } from "@truehand/catalog";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { BuyButton } from "@/components/BuyButton";
@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   title: "Pricing",
   description: "Truehand is free with ads. Pro removes ads and unlocks every hand, paper and pen, paid once for a week, a month or a year. No subscription.",
 };
+
+const freePapers = PAPERS.filter((p) => p.tier === "free").length;
+const freePens = PENS.filter((p) => p.tier === "free").length;
 
 const REGION_LABEL = { IN: "India", A: "your region", B: "your region", C: "your region" } as const;
 
@@ -51,7 +54,9 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
             </header>
             <ul className={s.list}>
               <li>{STYLES.filter((st) => st.tier === "free").length} handwriting styles, including the messy everyday ones</li>
-              <li>5 papers and 3 ballpoint pens</li>
+              <li>
+                {freePapers} papers and {freePens} ballpoint pens
+              </li>
               <li>
                 {free.pagesPerExport} pages per download, {free.pagesPerDay} a day
               </li>
@@ -133,8 +138,8 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
           <tbody>
             {[
               ["Handwriting styles", `${STYLES.filter((st) => st.tier === "free").length}`, `${STYLES.length}`],
-              ["Papers", "5", "12"],
-              ["Pens and ink", "3 ballpoints", "9 pens + any colour"],
+              ["Papers", `${freePapers}`, `${PAPERS.length}`],
+              ["Pens and ink", `${freePens} ballpoints`, `${PENS.length} pens + any colour`],
               ["Pages per download", `${free.pagesPerExport}`, "Unlimited"],
               ["Pages per day", `${free.pagesPerDay}`, "Unlimited"],
               ["Resolution", "150 dpi", "300 dpi"],

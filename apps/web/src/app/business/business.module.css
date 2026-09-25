@@ -1,0 +1,190 @@
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.uses {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.uses h3,
+.output h3 {
+  margin: 14px 0 6px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.uses p,
+.output p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--ink-3);
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.icon svg,
+.output > svg {
+  width: 20px;
+  height: 20px;
+}
+
+.outputs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.output {
+  padding: 24px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg);
+  box-shadow: var(--shadow-card);
+}
+
+.output > svg {
+  color: var(--blue);
+}
+
+.api {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.apiText {
+  margin: 0 0 20px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.code {
+  margin: 0;
+  padding: 18px 20px;
+  overflow-x: auto;
+  border-radius: var(--radius-l);
+  background: #0f1115;
+  color: #e4e7ec;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+  padding: 24px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg);
+  box-shadow: var(--shadow-card);
+}
+
+.form h3 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.form label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.form input,
+.form select,
+.form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-size: 15px;
+}
+
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  border-color: var(--blue);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--blue-soft);
+}
+
+.formNote {
+  margin: 0;
+  color: var(--ink-3);
+}
+
+.error {
+  margin: 0;
+  font-size: 14px;
+  color: var(--red);
+}
+
+.more {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 28px 0 0;
+  font-size: 15px;
+}
+
+.more a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.more span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-3);
+}
+
+.more svg {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 900px) {
+  .uses,
+  .outputs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .api {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .uses,
+  .outputs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

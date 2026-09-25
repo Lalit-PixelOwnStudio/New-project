@@ -53,7 +53,7 @@ async function renderSpecimens() {
   await mkdir(out, { recursive: true });
   const create = (w: number, h: number) => canvas.createCanvas(w, h) as never;
 
-  const version = JSON.stringify({ STYLES, PAPERS, PENS, jobs: specimenJobs().map((j) => j.name) });
+  const version = JSON.stringify({ STYLES, PAPERS, PENS, jobs: specimenJobs().map((j) => [j.name, j.scale, j.crop, j.png, j.doc]) });
   const stamp = join(out, ".stamp");
   const previous = await readFile(stamp, "utf8").catch(() => "");
   const engineStamp = await newestMtime(join(app, "..", "..", "packages", "engine", "src"));
@@ -85,7 +85,8 @@ async function renderSpecimens() {
     const [x, y, w, h] = job.crop.map((v) => Math.round(v * job.scale)) as [number, number, number, number];
     const cropped = canvas.createCanvas(w, h);
     cropped.getContext("2d").drawImage(page, x, y, w, h, 0, 0, w, h);
-    await writeFile(join(out, `${job.name}.webp`), await cropped.encode("webp", 82));
+    if (job.png) await writeFile(join(app, "public", job.png), await cropped.encode("png"));
+    else await writeFile(join(out, `${job.name}.webp`), await cropped.encode("webp", 82));
     n++;
   }
   await writeFile(stamp, `${engineStamp}:${version.length}:${hashOf(version)}`);

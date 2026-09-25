@@ -13,10 +13,11 @@ export const metadata: Metadata = {
     template: "%s · Truehand",
   },
   description:
-    "Type or paste text and get pages that look handwritten: real paper, real ink, and a hand that never writes the same letter twice. Free, with PDF and PNG export.",
+    "Turn typed text into realistic handwriting on ruled, grid or plain paper. 41 hands, real ink, every letter slightly different. Free PDF and PNG download, no sign-up.",
   applicationName: "Truehand",
-  openGraph: { type: "website", siteName: "Truehand" },
+  openGraph: { type: "website", siteName: "Truehand", images: ["/og.png"] },
   twitter: { card: "summary_large_image" },
+  alternates: { canonical: "/" },
 };
 
 export const viewport: Viewport = {
