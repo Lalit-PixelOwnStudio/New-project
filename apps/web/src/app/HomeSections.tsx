@@ -1,7 +1,7 @@
 import { STYLES } from "@truehand/catalog";
 import { ArrowRight, Droplet, FileSpreadsheet, Shuffle, Timer, Waves } from "lucide-react";
 import Link from "next/link";
-import { AdSlot } from "@/components/AdSlot";
+import { AdBand } from "@/components/AdBand";
 import { Faq } from "@/components/Faq";
 import { Section } from "@/components/Section";
 import { ButtonLink } from "@/components/ui/Button";
@@ -106,6 +106,7 @@ export function HomeSections() {
           ))}
         </ul>
       </Section>
+      <AdBand />
 
       <Section
         label={`${STYLES.length} hands`}
@@ -159,6 +160,7 @@ export function HomeSections() {
           />
         </div>
       </Section>
+      <AdBand />
 
       <Section label="Questions" title="Good to know">
         <Faq

@@ -69,14 +69,3 @@
   font-size: 13px;
   color: var(--ink-3);
 }
-
-.adBand {
-  padding: 28px var(--gutter);
-  border-top: 1px solid var(--rule);
-  background: var(--bg-page);
-}
-
-.adBand > * {
-  max-width: var(--max);
-  margin: 0 auto;
-}

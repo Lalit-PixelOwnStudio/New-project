@@ -2,6 +2,7 @@ import { PAPERS, paperById } from "@truehand/catalog";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/Section";
+import { AdBand } from "@/components/AdBand";
 import { AdSlot } from "@/components/AdSlot";
 import { Editor } from "@/editor/Editor";
 import d from "../../styles/[id]/detail.module.css";
@@ -26,6 +27,7 @@ export default async function PaperPage({ params }: { params: Promise<{ id: stri
   return (
     <main>
       <PageHero eyebrow={p.tier === "pro" ? "Pro paper" : "Free paper"} title={`Handwriting on ${p.name.toLowerCase()} paper`} lede={p.blurb} />
+      <AdBand placement="top" tone="page" desktopOnly />
       <div className={d.work}>
         <Editor initial={{ paperId: p.id }} />
         <AdSlot placement="editor" className={d.ad} />

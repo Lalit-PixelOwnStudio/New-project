@@ -2,7 +2,7 @@ import { STYLES, type StyleCategory } from "@truehand/catalog";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Fragment } from "react";
-import { AdSlot } from "@/components/AdSlot";
+import { AdBand } from "@/components/AdBand";
 import { PageHero, Section } from "@/components/Section";
 import { ProTag } from "@/components/ui/ProTag";
 import s from "./styles.module.css";
@@ -30,15 +30,12 @@ export default function StylesPage() {
         title={`${STYLES.length} hands, from tidy to terrible`}
         lede="Every style is drawn with Truehand's realism engine, so no two letters come out the same. Pick one to try it in the editor; Pro styles can be previewed by anyone."
       />
+      <AdBand placement="top" tone="page" />
       {GROUPS.map((g, i) => {
         const list = STYLES.filter((st) => st.category === g.id);
         return (
           <Fragment key={g.id}>
-            {i === 2 && (
-              <div className={s.adBand}>
-                <AdSlot placement="banner" />
-              </div>
-            )}
+            {(i === 2 || i === 4) && <AdBand placement="banner" tone="page" />}
             <Section id={g.id} label={`${list.length} styles`} title={g.title} lede={g.lede} tone={i % 2 ? "page" : "plain"}>
               <ul className={s.grid}>
                 {list.map((st) => (

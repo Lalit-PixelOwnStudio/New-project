@@ -1,6 +1,7 @@
 import { PAPERS } from "@truehand/catalog";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AdBand } from "@/components/AdBand";
 import { PageHero, Section } from "@/components/Section";
 import { ProTag } from "@/components/ui/ProTag";
 import s from "./papers.module.css";
@@ -19,6 +20,7 @@ export default function PapersPage() {
         title="The right page for the job"
         lede="Ruling sizes match real notebooks, margins sit where they should, and every sheet has its own texture. Handwriting sits on the lines the way it would on paper."
       />
+      <AdBand placement="top" tone="page" />
       <Section tone="page">
         <ul className={s.grid}>
           {PAPERS.map((p) => (

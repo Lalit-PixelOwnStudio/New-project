@@ -70,7 +70,21 @@ Checkout confirms the payment in the browser first; the webhooks are the backup 
 
 ### Ads
 
-Until AdSense approves the site, every ad space shows a labelled placeholder. After approval, set `NEXT_PUBLIC_ADSENSE_CLIENT` (`ca-pub-…`) and create one display ad unit each for the editor, the download popup, articles and the banner, putting their ids in `NEXT_PUBLIC_ADSENSE_SLOT_EDITOR`, `_EXPORT`, `_ARTICLE` and `_BANNER`. Pro users never load ad code.
+Until AdSense approves the site, every ad space shows a labelled placeholder. After approval, set `NEXT_PUBLIC_ADSENSE_CLIENT` (`ca-pub-…`), create one responsive display ad unit and put its id in `NEXT_PUBLIC_ADSENSE_SLOT_DISPLAY`; it fills every placement. To compare placements in AdSense reports, give any of them its own unit (`NEXT_PUBLIC_ADSENSE_SLOT_TOP`, `_EDITOR`, `_FEED`, `_ARTICLE`, `_BANNER`, `_FOOTER`, `_EXPORT`, `_ANCHOR`, `_RAIL`). Pro users never load ad code.
+
+| Placement | Where                                                              | Size                         |
+| --------- | ------------------------------------------------------------------ | ---------------------------- |
+| `top`     | Under the page intro, above the editor and on index pages          | 728 × 90, 320 × 100 on phones |
+| `editor`  | Below the editor                                                   | Responsive                   |
+| `feed`    | Between sections on the home, style, use-case and batch pages      | Responsive                   |
+| `banner`  | Between style groups                                               | Responsive                   |
+| `article` | Inside guides, after every second section                          | Responsive                   |
+| `footer`  | Above the footer, every page                                       | Responsive                   |
+| `export`  | In the download popup while pages are written                      | 336 × 280                    |
+| `anchor`  | Pinned to the bottom of phones, closable                           | 320 × 50                     |
+| `rail`    | Both side margins on screens 1760 px and wider                     | 160 × 600                    |
+
+Pricing, sign-in, account and legal pages carry no ads.
 
 ## Fonts
 

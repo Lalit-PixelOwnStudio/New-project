@@ -29,6 +29,14 @@ export function EntitlementsProvider({ children }: { children: ReactNode }) {
     void refresh();
   }, [refresh]);
 
+  // Ad spaces are reserved in the server HTML so nothing jumps when ads load;
+  // for Pro they collapse (see [data-ads="off"] in the CSS).
+  const ads = entitlements.limits.ads;
+  useEffect(() => {
+    if (ads) delete document.documentElement.dataset.ads;
+    else document.documentElement.dataset.ads = "off";
+  }, [ads]);
+
   return <EntitlementsContext.Provider value={{ entitlements, loading, refresh }}>{children}</EntitlementsContext.Provider>;
 }
 

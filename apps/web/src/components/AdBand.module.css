@@ -1,0 +1,41 @@
+.band {
+  padding: 28px var(--gutter);
+  background: var(--bg);
+}
+
+.band[data-tone="page"] {
+  background: var(--bg-page);
+}
+
+.inner {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+/* The same heights AdSlot reserves, so the band is its final size before the ad renders. */
+.inner[data-placement="top"],
+.inner[data-placement="editor"],
+.inner[data-placement="banner"],
+.inner[data-placement="footer"] {
+  min-height: 118px;
+}
+
+.inner[data-placement="feed"] {
+  min-height: 298px;
+}
+
+@media (max-width: 640px) {
+  .inner[data-placement="top"] {
+    min-height: 128px;
+  }
+}
+
+@media (max-width: 960px) {
+  .band[data-desktop-only] {
+    display: none;
+  }
+}
+
+:global(html[data-ads="off"]) .band {
+  display: none;
+}

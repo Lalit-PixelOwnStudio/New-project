@@ -2,6 +2,7 @@ import { STYLES, styleById } from "@truehand/catalog";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AdBand } from "@/components/AdBand";
 import { PageHero, Section } from "@/components/Section";
 import { ProTag } from "@/components/ui/ProTag";
 import { AdSlot } from "@/components/AdSlot";
@@ -34,6 +35,7 @@ export default async function StylePage({ params }: { params: Promise<{ id: stri
   return (
     <main>
       <PageHero eyebrow={`${category} handwriting`} title={<>{st.name} handwriting</>} lede={st.blurb} />
+      <AdBand placement="top" tone="page" desktopOnly />
       <div className={d.work}>
         <Editor initial={{ styleId: st.id }} />
         <AdSlot placement="editor" className={d.ad} />
@@ -66,6 +68,7 @@ export default async function StylePage({ params }: { params: Promise<{ id: stri
           </dl>
         </div>
       </Section>
+      <AdBand />
       {similar.length > 0 && (
         <Section label="Similar hands" title={`More ${category.toLowerCase()} styles`} tone="page">
           <ul className={s.grid}>

@@ -7,12 +7,33 @@
   padding-top: 18px;
 }
 
-.editor {
+.top,
+.editor,
+.banner,
+.footer {
   min-height: 118px;
 }
 
-.banner {
-  min-height: 118px;
+.feed {
+  min-height: 298px;
+}
+
+@media (max-width: 640px) {
+  .top {
+    min-height: 128px;
+  }
+}
+
+/* Fixed units: exactly the ad's size plus the label. */
+.anchor {
+  width: 320px;
+  height: 68px;
+  padding-top: 18px;
+}
+
+.rail {
+  width: 160px;
+  height: 618px;
 }
 
 .export {

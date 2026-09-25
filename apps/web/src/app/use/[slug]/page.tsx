@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Faq } from "@/components/Faq";
+import { AdBand } from "@/components/AdBand";
 import { PageHero, Section } from "@/components/Section";
 import { USE_CASES, useCaseBySlug } from "@/content/use-cases";
 import { AdSlot } from "@/components/AdSlot";
@@ -30,6 +31,7 @@ export default async function UseCasePage({ params }: { params: Promise<{ slug: 
   return (
     <main>
       <PageHero eyebrow={u.name} title={u.title} lede={u.lede} />
+      <AdBand placement="top" tone="page" desktopOnly />
       <div className={d.work}>
         <Editor initial={u.settings} placeholder={`/specimens/use-${u.slug}-page.webp`} />
         <AdSlot placement="editor" className={d.ad} />
@@ -46,6 +48,7 @@ export default async function UseCasePage({ params }: { params: Promise<{ slug: 
           ))}
         </div>
       </Section>
+      <AdBand />
       <Section label="Questions" title="Good to know" tone="page">
         <Faq items={u.faq} />
       </Section>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AdSlot } from "@/components/AdSlot";
 import { Faq } from "@/components/Faq";
+import { AdBand } from "@/components/AdBand";
 import { PageHero, Section } from "@/components/Section";
 import d from "../styles/[id]/detail.module.css";
 import { BatchTool } from "./BatchTool";
@@ -28,6 +29,7 @@ export default function BatchPage() {
         title="A handwritten letter for everyone on your list"
         lede="Upload a spreadsheet, write one template, and get a different handwritten page for every row, with no two letters looking alike. Everything runs in your browser; your list is never uploaded."
       />
+      <AdBand placement="top" tone="page" desktopOnly />
       <div className={d.work}>
         <BatchTool />
         <AdSlot placement="editor" className={d.ad} />
@@ -43,6 +45,7 @@ export default function BatchPage() {
           ))}
         </ol>
       </Section>
+      <AdBand />
       <Section label="Questions" title="Good to know" tone="page">
         <Faq
           items={[

@@ -54,6 +54,8 @@ html {
 
 body {
   margin: 0;
+  /* Room for the ad strip pinned to the bottom of phones, when it shows. */
+  padding-bottom: var(--anchor-h, 0px);
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-text);

@@ -1,4 +1,5 @@
 import { STYLES } from "@truehand/catalog";
+import { AdBand } from "@/components/AdBand";
 import { AdSlot } from "@/components/AdSlot";
 import { Editor } from "@/editor/Editor";
 import { HomeSections } from "./HomeSections";
@@ -24,6 +25,7 @@ export default function Home() {
           ))}
         </ol>
       </section>
+      <AdBand placement="top" tone="page" desktopOnly />
       <section className={s.work} aria-label="Handwriting editor">
         <Editor placeholder="/specimens/hero.webp" />
       </section>

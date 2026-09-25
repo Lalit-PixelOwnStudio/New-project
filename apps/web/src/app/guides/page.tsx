@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AdBand } from "@/components/AdBand";
 import { PageHero, Section } from "@/components/Section";
 import { GUIDES } from "@/content/guides";
 import s from "./guides.module.css";
@@ -19,6 +20,7 @@ export default function GuidesPage() {
         title="Handwriting, paper and getting it right"
         lede="Short, practical articles on making pages that look written by hand, and on how Truehand does it."
       />
+      <AdBand placement="top" tone="page" />
       <Section tone="page">
         <ul className={s.list}>
           {GUIDES.map((g) => (

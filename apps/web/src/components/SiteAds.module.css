@@ -1,0 +1,51 @@
+.anchor {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: center;
+  height: var(--anchor-h, 78px);
+  padding: 4px 0 6px;
+  border-top: 1px solid var(--rule);
+  background: rgb(255 255 255 / 0.96);
+  box-shadow: 0 -6px 18px rgb(16 24 40 / 0.06);
+}
+
+.close {
+  position: absolute;
+  top: -15px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--ink-2);
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+}
+
+.close svg {
+  width: 16px;
+  height: 16px;
+}
+
+.rail {
+  position: fixed;
+  top: calc(var(--header-h) + 32px);
+  z-index: 5;
+}
+
+/* Centred in the margin beside the 1360px page. */
+.railLeft {
+  left: calc((100vw - var(--max)) / 4 - 80px);
+}
+
+.railRight {
+  right: calc((100vw - var(--max)) / 4 - 80px);
+}

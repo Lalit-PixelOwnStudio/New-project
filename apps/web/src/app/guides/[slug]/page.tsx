@@ -106,7 +106,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                 <Block key={j} block={b} />
               ))}
             </section>
-            {i === 1 && <AdSlot placement="article" />}
+            {i % 2 === 1 && i < g.sections.length - 1 && <AdSlot placement="article" />}
           </Fragment>
         ))}
         <aside className={s.cta}>

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { SiteAds } from "@/components/SiteAds";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { EntitlementsProvider } from "@/lib/entitlements-client";
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <EntitlementsProvider>
           <SiteHeader />
           {children}
+          <SiteAds />
           <SiteFooter />
         </EntitlementsProvider>
       </body>
