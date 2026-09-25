@@ -1,0 +1,82 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 28px;
+  height: var(--header-h);
+  padding: 0 var(--gutter);
+  border-bottom: 1px solid var(--rule);
+  background: rgb(255 255 255 / 0.94);
+  backdrop-filter: saturate(1.4) blur(8px);
+}
+
+.home {
+  text-decoration: none;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 25px;
+  font-weight: 800;
+  font-stretch: 72%;
+  letter-spacing: -0.015em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.dot {
+  color: var(--blue);
+}
+
+.nav {
+  display: flex;
+  gap: 22px;
+}
+
+.nav a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+  text-decoration: none;
+}
+
+.nav a:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.signin {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+  text-decoration: none;
+}
+
+.signin:hover {
+  color: var(--ink);
+}
+
+@media (max-width: 960px) {
+  .nav,
+  .signin {
+    display: none;
+  }
+
+  .header {
+    grid-template-columns: auto 1fr;
+  }
+
+  .actions {
+    justify-self: end;
+  }
+}

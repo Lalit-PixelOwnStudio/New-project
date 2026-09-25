@@ -3,7 +3,7 @@
 // from the google/fonts repository into assets/fonts/<dir>/, together with the
 // licence text. Every family we ship is OFL or Apache-2.0 licensed.
 //
-// Usage: node scripts/fonts/fetch.mjs [dir ...]
+// Usage: node scripts/fonts/fetch.mjs [dir ...]   (no args: every family in families.json)
 
 import { mkdir, writeFile, readFile, access } from "node:fs/promises";
 import { join, dirname } from "node:path";
@@ -50,8 +50,7 @@ function parseMetadata(pb) {
 const exists = (p) => access(p).then(() => true, () => false);
 
 const manifest = [];
-for (const dir of families) {
-  if (only.length && !only.includes(dir)) continue;
+for (const dir of only.length ? only : families) {
   let meta = null;
   let licenseDir = null;
   for (const ld of LICENSE_DIRS) {
@@ -98,6 +97,8 @@ for (const dir of families) {
   console.log(`ok ${dir.padEnd(28)} ${meta.license} ${meta.subsets.join(",")}`);
 }
 
-if (!only.length) {
-  await writeFile(join(outRoot, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
-}
+// Merge into the existing manifest so fetching a few families keeps the rest.
+const manifestPath = join(outRoot, "manifest.json");
+const previous = (await exists(manifestPath)) ? JSON.parse(await readFile(manifestPath, "utf8")) : [];
+const merged = [...previous.filter((m) => !manifest.some((n) => n.dir === m.dir)), ...manifest];
+await writeFile(manifestPath, JSON.stringify(merged, null, 2) + "\n");

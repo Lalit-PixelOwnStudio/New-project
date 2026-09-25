@@ -1,6 +1,6 @@
 import type { Tier } from "./tier";
 
-export type StyleCategory = "print" | "cursive" | "marker" | "elegant";
+export type StyleCategory = "casual" | "print" | "cursive" | "marker" | "elegant";
 
 export interface StyleEntry {
   /** URL-safe id, stable forever: saved documents reference it. */
@@ -14,7 +14,7 @@ export interface StyleEntry {
   /** Font file, relative to assets/fonts. */
   font: { dir: string; file: string; family: string; designer: string; license: "OFL" | "Apache-2.0" };
   /** Scripts beyond basic Latin that the font covers. */
-  scripts: ("latin-ext" | "cyrillic" | "greek" | "vietnamese" | "korean")[];
+  scripts: ("latin-ext" | "cyrillic" | "greek" | "vietnamese")[];
   /** Joined script: letters connect, so per-letter jitter is disabled. */
   connected: boolean;
   /** Per-font calibration so every style sits on the line at a similar size. */
@@ -149,6 +149,118 @@ export const STYLES: StyleEntry[] = [
     scripts: ["cyrillic"],
     connected: false,
     tune: t({ weight: 0.6 }),
+  },
+
+  /* --------------------- Everyday, unpolished hands --------------------- */
+  {
+    id: "zoe",
+    name: "Zoe",
+    blurb: "Loose teenage print with round dots and uneven letters. Nobody's neatest page.",
+    category: "casual",
+    tier: "free",
+    font: { dir: "gloriahallelujah", file: "GloriaHallelujah.ttf", family: "Gloria Hallelujah", designer: "Kimberly Geswein", license: "OFL" },
+    scripts: [],
+    connected: false,
+    tune: t({ sizeAdjust: 0.92, weight: 0.8 }),
+  },
+  {
+    id: "max",
+    name: "Max",
+    blurb: "Chunky school-kid print, pressed hard into the page.",
+    category: "casual",
+    tier: "free",
+    font: { dir: "schoolbell", file: "Schoolbell-Regular.ttf", family: "Schoolbell", designer: "Font Diner", license: "Apache-2.0" },
+    scripts: [],
+    connected: false,
+    tune: t({ weight: 0.5 }),
+  },
+  {
+    id: "lily",
+    name: "Lily",
+    blurb: "Bubbly and friendly, the hand on half the notebooks in any classroom.",
+    category: "casual",
+    tier: "free",
+    font: { dir: "indieflower", file: "IndieFlower-Regular.ttf", family: "Indie Flower", designer: "Kimberly Geswein", license: "OFL" },
+    scripts: ["latin-ext", "vietnamese"],
+    connected: false,
+    tune: t({ sizeAdjust: 0.95 }),
+  },
+  {
+    id: "rory",
+    name: "Rory",
+    blurb: "Capitals and lowercase mixed at random. Written in a hurry, and it shows.",
+    category: "casual",
+    tier: "free",
+    font: { dir: "justmeagaindownhere", file: "JustMeAgainDownHere.ttf", family: "Just Me Again Down Here", designer: "Kimberly Geswein", license: "OFL" },
+    scripts: ["latin-ext"],
+    connected: false,
+    tune: t({ sizeAdjust: 1.05, weight: 0.8 }),
+  },
+  {
+    id: "milo",
+    name: "Milo",
+    blurb: "Wide, round and wobbly, like a kid who has just learnt joined-up letters are optional.",
+    category: "casual",
+    tier: "free",
+    font: { dir: "swankyandmoomoo", file: "SwankyandMooMoo.ttf", family: "Swanky and Moo Moo", designer: "Kimberly Geswein", license: "OFL" },
+    scripts: [],
+    connected: false,
+    tune: t({ sizeAdjust: 0.85 }),
+  },
+  {
+    id: "tara",
+    name: "Tara",
+    blurb: "Thin, loose and slightly lopsided. Everyday notes with no effort to impress.",
+    category: "casual",
+    tier: "free",
+    font: { dir: "chilanka", file: "Chilanka-Regular.ttf", family: "Chilanka", designer: "SMC, Santhosh Thottingal", license: "OFL" },
+    scripts: ["latin-ext"],
+    connected: false,
+    tune: t({ weight: 1.1 }),
+  },
+  {
+    id: "doc",
+    name: "Doc",
+    blurb: "A cramped, sloppy scrawl. Think prescription pad at the end of a long shift.",
+    category: "casual",
+    tier: "pro",
+    font: { dir: "lovedbytheking", file: "LovedbytheKing.ttf", family: "Loved by the King", designer: "Kimberly Geswein", license: "OFL" },
+    scripts: [],
+    connected: false,
+    tune: t({ sizeAdjust: 1.25, weight: 1.1 }),
+  },
+  {
+    id: "remy",
+    name: "Remy",
+    blurb: "Rough brush-pen strokes, fast and uneven.",
+    category: "casual",
+    tier: "pro",
+    font: { dir: "mansalva", file: "Mansalva-Regular.ttf", family: "Mansalva", designer: "Carolina Short", license: "OFL" },
+    scripts: ["latin-ext", "greek", "vietnamese"],
+    connected: false,
+    tune: t({ weight: 0.2 }),
+  },
+  {
+    id: "bea",
+    name: "Bea",
+    blurb: "Heavy felt-tip notes, a bit smudgy and very sure of itself.",
+    category: "casual",
+    tier: "pro",
+    font: { dir: "caveatbrush", file: "CaveatBrush-Regular.ttf", family: "Caveat Brush", designer: "Impallari Type", license: "OFL" },
+    scripts: ["latin-ext"],
+    connected: false,
+    tune: t({ weight: 0.2 }),
+  },
+  {
+    id: "oz",
+    name: "Oz",
+    blurb: "Shaky, hand-drawn outlines. Written on a bus, or with the wrong hand.",
+    category: "casual",
+    tier: "pro",
+    font: { dir: "kranky", file: "Kranky-Regular.ttf", family: "Kranky", designer: "Sideshow", license: "Apache-2.0" },
+    scripts: [],
+    connected: false,
+    tune: t({ sizeAdjust: 0.95, weight: 0.6 }),
   },
 
   /* ------------------------------ Pro ------------------------------- */
@@ -331,11 +443,11 @@ export const STYLES: StyleEntry[] = [
   {
     id: "jin",
     name: "Jin",
-    blurb: "Quick pen strokes, compact and even. Also writes Korean.",
+    blurb: "Quick pen strokes, compact and even.",
     category: "print",
     tier: "pro",
-    font: { dir: "nanumpenscript", file: "NanumPenScript-Regular.ttf", family: "Nanum Pen Script", designer: "Sandoll Communication", license: "OFL" },
-    scripts: ["korean"],
+    font: { dir: "nanumpenscript", file: "NanumPenScript-Latin.ttf", family: "Nanum Pen Script", designer: "Sandoll Communication", license: "OFL" },
+    scripts: [],
     connected: false,
     tune: t({ sizeAdjust: 1.1, weight: 0.5 }),
   },

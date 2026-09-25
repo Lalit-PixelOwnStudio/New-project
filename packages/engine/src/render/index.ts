@@ -19,6 +19,21 @@ export interface RenderOptions {
 
 export const dpiToScale = (dpi: number) => dpi / 96;
 
+/**
+ * Renders only the writing (and highlights) on a transparent surface, for
+ * overlaying on print designs, cards and envelopes.
+ */
+export function renderInk(page: PageLayout, opts: Pick<RenderOptions, "scale" | "pen" | "createSurface">): Surface {
+  const { scale, createSurface: create } = opts;
+  const surface = create(Math.round(page.geometry.widthPx * scale), Math.round(page.geometry.heightPx * scale));
+  const ctx = context(surface);
+  drawHighlights(ctx, page.highlights, scale);
+  const ink = create(surface.width, surface.height);
+  drawInkLayer(context(ink), page.ink, opts.pen, scale, create);
+  ctx.drawImage(asImage(ink), 0, 0);
+  return surface;
+}
+
 /** Renders one laid-out page to a new surface. */
 export function renderPage(page: PageLayout, opts: RenderOptions): Surface {
   const { scale, createSurface: create } = opts;

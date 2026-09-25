@@ -1,0 +1,38 @@
+.slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.editor {
+  min-height: 250px;
+}
+
+.export {
+  min-height: 100px;
+}
+
+.article {
+  min-height: 280px;
+  margin: 32px 0;
+}
+
+.label {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-stretch: 87.5%;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+
+.placeholder {
+  border: 1px dashed var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-4);
+}

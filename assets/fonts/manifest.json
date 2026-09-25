@@ -191,7 +191,7 @@
       "latin",
       "korean"
     ],
-    "file": "NanumPenScript-Regular.ttf"
+    "file": "NanumPenScript-Latin.ttf"
   },
   {
     "dir": "badscript",
@@ -370,5 +370,124 @@
       "vietnamese"
     ],
     "file": "Shalimar-Regular.ttf"
+  },
+  {
+    "dir": "lovedbytheking",
+    "family": "Loved by the King",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "LovedbytheKing.ttf"
+  },
+  {
+    "dir": "gloriahallelujah",
+    "family": "Gloria Hallelujah",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "GloriaHallelujah.ttf"
+  },
+  {
+    "dir": "schoolbell",
+    "family": "Schoolbell",
+    "designer": "Font Diner",
+    "license": "APACHE2",
+    "subsets": [
+      "latin",
+      "menu"
+    ],
+    "file": "Schoolbell-Regular.ttf"
+  },
+  {
+    "dir": "justmeagaindownhere",
+    "family": "Just Me Again Down Here",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin",
+      "latin-ext"
+    ],
+    "file": "JustMeAgainDownHere.ttf"
+  },
+  {
+    "dir": "swankyandmoomoo",
+    "family": "Swanky and Moo Moo",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin"
+    ],
+    "file": "SwankyandMooMoo.ttf"
+  },
+  {
+    "dir": "indieflower",
+    "family": "Indie Flower",
+    "designer": "Kimberly Geswein",
+    "license": "OFL",
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "menu",
+      "vietnamese"
+    ],
+    "file": "IndieFlower-Regular.ttf"
+  },
+  {
+    "dir": "mansalva",
+    "family": "Mansalva",
+    "designer": "Carolina Short",
+    "license": "OFL",
+    "subsets": [
+      "greek",
+      "latin",
+      "latin-ext",
+      "menu",
+      "vietnamese"
+    ],
+    "file": "Mansalva-Regular.ttf"
+  },
+  {
+    "dir": "chilanka",
+    "family": "Chilanka",
+    "designer": "SMC, Santhosh Thottingal",
+    "license": "OFL",
+    "subsets": [
+      "latin",
+      "latin-ext",
+      "malayalam",
+      "menu"
+    ],
+    "file": "Chilanka-Regular.ttf"
+  },
+  {
+    "dir": "kranky",
+    "family": "Kranky",
+    "designer": "Sideshow",
+    "license": "APACHE2",
+    "subsets": [
+      "latin",
+      "menu"
+    ],
+    "file": "Kranky-Regular.ttf"
+  },
+  {
+    "dir": "caveatbrush",
+    "family": "Caveat Brush",
+    "designer": "Impallari Type",
+    "license": "OFL",
+    "subsets": [
+      "menu",
+      "latin",
+      "latin-ext"
+    ],
+    "file": "CaveatBrush-Regular.ttf"
   }
 ]

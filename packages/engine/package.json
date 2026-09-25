@@ -8,7 +8,8 @@
     ".": "./src/index.ts",
     "./render": "./src/render/index.ts",
     "./export": "./src/export/index.ts",
-    "./capture": "./src/capture/index.ts"
+    "./capture": "./src/capture/index.ts",
+    "./paper": "./src/layout/paper.ts"
   },
   "scripts": {
     "test": "vitest run",

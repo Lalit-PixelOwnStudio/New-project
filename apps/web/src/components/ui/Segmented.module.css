@@ -1,0 +1,48 @@
+.group {
+  display: flex;
+  margin: 0;
+  padding: 2px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--bg-sunk);
+  min-width: 0;
+}
+
+.option {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 28px;
+  padding: 0 8px;
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-3);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 120ms var(--ease), background-color 120ms var(--ease);
+}
+
+.option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.option:hover {
+  color: var(--ink);
+}
+
+.option[data-checked] {
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: 0 0 0 1px var(--rule-strong);
+}
+
+.option:has(input:focus-visible) {
+  outline: 2px solid var(--blue);
+  outline-offset: 1px;
+}
