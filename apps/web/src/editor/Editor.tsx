@@ -20,12 +20,14 @@ interface Props {
   initial?: Partial<EditorSettings>;
   /** Pre-rendered first page, shown instantly while the engine loads. */
   placeholder?: string;
+  /** Where this editor remembers its settings; pages with sample text keep their own, away from the main document. */
+  storageKey?: string;
 }
 
 type Tab = "text" | "style";
 
-export function Editor({ initial, placeholder }: Props) {
-  const { settings, update, patch } = useSettings(initial);
+export function Editor({ initial, placeholder, storageKey }: Props) {
+  const { settings, update, patch } = useSettings(initial, storageKey);
   const preview = usePreview(settings);
   const [exporting, setExporting] = useState(false);
   const [tab, setTab] = useState<Tab>("text");

@@ -33,7 +33,7 @@ export default async function UseCasePage({ params }: { params: Promise<{ slug: 
       <PageHero eyebrow={u.name} title={u.title} lede={u.lede} />
       <AdBand placement="top" tone="page" desktopOnly />
       <div className={d.work}>
-        <Editor initial={u.settings} placeholder={`/specimens/use-${u.slug}-page.webp`} />
+        <Editor initial={u.settings} storageKey={`truehand:use:${u.slug}:v1`} placeholder={`/specimens/use-${u.slug}-page.webp`} />
         <AdSlot placement="editor" className={d.ad} />
       </div>
       <Section label="Guide" title={`Tips for ${u.name.toLowerCase()}`}>

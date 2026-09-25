@@ -33,8 +33,6 @@ The assassination of Archduke Franz Ferdinand in Sarajevo on 28 June 1914 was th
 - The Schlieffen Plan, which required an attack through Belgium`,
       paperId: "college",
       styleId: "mira",
-      headerLeft: "Aarav Mehta · 10B",
-      headerRight: "History",
       pageNumbers: true,
     },
     sections: [
@@ -101,8 +99,6 @@ The assassination of Archduke Franz Ferdinand in Sarajevo on 28 June 1914 was th
       paperId: "college",
       styleId: "theo",
       messiness: 0.2,
-      headerLeft: "Expt. No. 4",
-      headerRight: "Date: 25/09",
       pageNumbers: true,
       underlineHeadings: true,
     },

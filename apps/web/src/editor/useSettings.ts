@@ -4,11 +4,21 @@ import { DEFAULT_SETTINGS, type EditorSettings } from "@/lib/settings";
 
 const DEFAULT_KEY = "truehand:settings:v1";
 
+/**
+ * Sample page headers the use-case pages once filled in, which were saved into
+ * the main document. Nobody typed them, so they're cleared when found.
+ */
+const SAMPLE_HEADERS = new Set(["Aarav Mehta · 10B", "Expt. No. 4"]);
+
 function load(key: string): EditorSettings | null {
   try {
     const raw = localStorage.getItem(key);
     if (!raw) return null;
-    return { ...DEFAULT_SETTINGS, ...(JSON.parse(raw) as Partial<EditorSettings>) };
+    const saved = { ...DEFAULT_SETTINGS, ...(JSON.parse(raw) as Partial<EditorSettings>) };
+    if (SAMPLE_HEADERS.has(saved.headerLeft)) {
+      return { ...saved, headerLeft: "", headerRight: "", pageNumbers: DEFAULT_SETTINGS.pageNumbers };
+    }
+    return saved;
   } catch {
     return null;
   }
