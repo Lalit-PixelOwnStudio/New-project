@@ -17,6 +17,8 @@ const MM_H = BOX.read.y1 - BOX.read.y0;
 const BASELINE = (BOX.baseline - BOX.read.y0) / MM_H;
 /** Pen width as a share of the pad's width (about 0.6 mm on paper). */
 const PEN = 0.042;
+/** The fewest characters that make a usable hand. */
+export const MIN_DRAWN = 10;
 
 type Stroke = [number, number][];
 
@@ -28,10 +30,15 @@ type Stroke = [number, number][];
 export function DrawPad({ onDone, onCancel }: { onDone: (cells: CellInk[]) => void; onCancel: () => void }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const root = useRef<HTMLDivElement>(null);
-  // Bring the pad fully into view, clear of the sticky header.
-  useEffect(() => root.current?.scrollIntoView({ block: "start", behavior: "smooth" }), []);
+  // Bring the pad fully into view, clear of the sticky header. The braces matter:
+  // newer browsers return a promise from scrollIntoView, and React would try to
+  // call it as the effect's cleanup when the pad closes.
+  useEffect(() => {
+    root.current?.scrollIntoView({ block: "start", behavior: "smooth" });
+  }, []);
   const [index, setIndex] = useState(0);
   const [drawings, setDrawings] = useState<Stroke[][]>(() => DRAW_CHARS.map(() => []));
+  const [notice, setNotice] = useState("");
   const active = useRef<Stroke | null>(null);
   const char = DRAW_CHARS[index]!;
   const strokes = drawings[index]!;
@@ -87,6 +94,13 @@ export function DrawPad({ onDone, onCancel }: { onDone: (cells: CellInk[]) => vo
   const setStrokes = (next: Stroke[]) => setDrawings((d) => d.map((x, i) => (i === index ? next : x)));
 
   const finish = () => {
+    // Stay on the pad, with every drawing kept, until there's enough to make a hand.
+    if (done < MIN_DRAWN) {
+      const first = drawings.findIndex((d) => !d.length);
+      setNotice(`Draw at least ${MIN_DRAWN} characters to make your handwriting. You've drawn ${done} so far.`);
+      if (first >= 0) setIndex(first);
+      return;
+    }
     const cells: CellInk[] = [];
     drawings.forEach((d, i) => {
       if (d.length) cells.push(rasterise(DRAW_CHARS[i]!, d));
@@ -124,6 +138,7 @@ export function DrawPad({ onDone, onCancel }: { onDone: (cells: CellInk[]) => vo
         onPointerUp={() => {
           if (active.current) setStrokes([...strokes, active.current]);
           active.current = null;
+          setNotice("");
         }}
         onPointerCancel={() => {
           active.current = null;
@@ -147,13 +162,18 @@ export function DrawPad({ onDone, onCancel }: { onDone: (cells: CellInk[]) => vo
           {index < DRAW_CHARS.length - 1 ? "Next" : "Finish"}
         </Button>
       </div>
+      {notice && (
+        <p className={s.padNotice} role="status">
+          {notice}
+        </p>
+      )}
       <div className={s.padFoot}>
         <span>{done} drawn. Anything you skip is written in the default hand.</span>
         <span className={s.padLinks}>
           <button type="button" className={s.linkButton} onClick={onCancel}>
             Cancel
           </button>
-          <button type="button" className={s.linkButton} onClick={finish} disabled={done < 10}>
+          <button type="button" className={s.linkButton} onClick={finish}>
             Finish now
           </button>
         </span>

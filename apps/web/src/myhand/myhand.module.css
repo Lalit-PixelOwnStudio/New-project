@@ -136,6 +136,15 @@
   gap: 8px;
 }
 
+.padNotice {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: var(--blue-soft);
+  font-size: 14.5px;
+  color: var(--ink);
+}
+
 .padFoot {
   display: flex;
   flex-wrap: wrap;
@@ -158,11 +167,6 @@
   font-weight: 600;
   color: var(--blue);
   cursor: pointer;
-}
-
-.linkButton:disabled {
-  color: var(--ink-4);
-  cursor: default;
 }
 
 /* Review */

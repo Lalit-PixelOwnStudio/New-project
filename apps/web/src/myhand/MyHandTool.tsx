@@ -9,14 +9,18 @@ import { usePreview } from "@/editor/usePreview";
 import { rememberStyle } from "@/editor/useSettings";
 import { DEFAULT_SETTINGS, type EditorSettings } from "@/lib/settings";
 import { buildHand, CaptureError, captureTemplate, traceCells, type CellInk } from "./capture";
-import { DrawPad } from "./DrawPad";
+import { DrawPad, MIN_DRAWN } from "./DrawPad";
 import { MINE_PREFIX, saveHand, uploadHand } from "./store";
 import { CELLS } from "./template";
 import { photoPixels, templatePdf } from "./templateFile";
 import s from "./myhand.module.css";
 
 type Phase =
-  { name: "choose" } | { name: "reading" } | { name: "draw" } | { name: "review"; hand: CapturedHand; missing: string[] } | { name: "error"; message: string };
+  | { name: "choose" }
+  | { name: "reading" }
+  | { name: "draw" }
+  | { name: "review"; hand: CapturedHand; missing: string[]; drawn: boolean }
+  | { name: "error"; message: string };
 
 const ALL = [...new Set(CELLS)];
 const PREVIEW_TEXT = `# My own handwriting
@@ -55,7 +59,7 @@ export function MyHandTool({ priceLabel }: { priceLabel: string }) {
     try {
       const px = await photoPixels(f);
       const { hand, missing } = captureTemplate(px.data, px.width, px.height);
-      setPhase({ name: "review", hand, missing });
+      setPhase({ name: "review", hand, missing, drawn: false });
     } catch (e) {
       setPhase({ name: "error", message: e instanceof CaptureError ? e.message : "We couldn't read that image. Try a JPG or PNG photo of the whole page." });
     }
@@ -63,13 +67,13 @@ export function MyHandTool({ priceLabel }: { priceLabel: string }) {
 
   const fromDrawing = (cells: CellInk[]) => {
     const traced = traceCells(cells);
-    if (traced.length < 10) {
-      setPhase({ name: "error", message: "Draw at least ten characters to make a handwriting." });
+    if (traced.length < MIN_DRAWN) {
+      setPhase({ name: "error", message: `Some drawings were too small to read. Draw at least ${MIN_DRAWN} characters a little bigger.` });
       return;
     }
     const hand = buildHand(traced);
     const found = new Set(traced.map((c) => c.char));
-    setPhase({ name: "review", hand, missing: ALL.filter((c) => !found.has(c)) });
+    setPhase({ name: "review", hand, missing: ALL.filter((c) => !found.has(c)), drawn: true });
   };
 
   const save = (hand: CapturedHand) => {
@@ -87,11 +91,14 @@ export function MyHandTool({ priceLabel }: { priceLabel: string }) {
       <div className={s.review} ref={review}>
         <div className={s.reviewHead}>
           <h2>
-            We read {ALL.length - phase.missing.length} of {ALL.length} characters
+            {phase.drawn
+              ? `You drew ${ALL.length - phase.missing.length} characters`
+              : `We read ${ALL.length - phase.missing.length} of ${ALL.length} characters`}
           </h2>
           {phase.missing.length > 0 && (
             <p>
-              Not found: <span className={s.missing}>{phase.missing.join(" ")}</span>. Those are written in the default hand, or retake the photo to add them.
+              Not found: <span className={s.missing}>{phase.missing.join(" ")}</span>. Those are written in the default hand
+              {phase.drawn ? "." : ", or retake the photo to add them."}
             </p>
           )}
         </div>
