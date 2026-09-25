@@ -47,7 +47,11 @@ function parseMetadata(pb) {
   };
 }
 
-const exists = (p) => access(p).then(() => true, () => false);
+const exists = (p) =>
+  access(p).then(
+    () => true,
+    () => false,
+  );
 
 const manifest = [];
 for (const dir of only.length ? only : families) {
@@ -65,10 +69,7 @@ for (const dir of only.length ? only : families) {
     console.warn(`!! ${dir}: not found`);
     continue;
   }
-  const regular =
-    meta.fonts.find((f) => f.style === "normal" && f.weight === 400) ??
-    meta.fonts.find((f) => f.style === "normal") ??
-    meta.fonts[0];
+  const regular = meta.fonts.find((f) => f.style === "normal" && f.weight === 400) ?? meta.fonts.find((f) => f.style === "normal") ?? meta.fonts[0];
   const outDir = join(outRoot, dir);
   await mkdir(outDir, { recursive: true });
   const fontPath = join(outDir, regular.filename);

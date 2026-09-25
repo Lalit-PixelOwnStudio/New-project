@@ -26,14 +26,7 @@ export function Segmented<T extends string>({
       <legend className="visually-hidden">{label}</legend>
       {options.map((o) => (
         <label key={o.value} className={s.option} data-checked={o.value === value || undefined}>
-          <input
-            type="radio"
-            name={name}
-            value={o.value}
-            checked={o.value === value}
-            disabled={o.disabled}
-            onChange={() => onChange(o.value)}
-          />
+          <input type="radio" name={name} value={o.value} checked={o.value === value} disabled={o.disabled} onChange={() => onChange(o.value)} />
           <span>{o.label}</span>
         </label>
       ))}

@@ -19,7 +19,8 @@ export const USE_CASES: UseCase[] = [
     slug: "assignments",
     name: "Assignments",
     title: "Typed assignments, written out by hand",
-    description: "Turn a typed assignment into ruled notebook pages that look handwritten, with headings, underlines, page numbers and your name in the corner. Free PDF download.",
+    description:
+      "Turn a typed assignment into ruled notebook pages that look handwritten, with headings, underlines, page numbers and your name in the corner. Free PDF download.",
     lede: "Paste your answer, add your name and date, and download notebook pages with the headings underlined and the pages numbered.",
     settings: {
       text: `# The causes of the First World War
@@ -65,16 +66,26 @@ The assassination of Archduke Franz Ferdinand in Sarajevo on 28 June 1914 was th
       },
     ],
     faq: [
-      { q: "Is it free?", a: "Yes. Free downloads include 3 pages at a time and 10 pages a day, with 16 handwriting styles and no watermark. Pro removes the limits and the ads." },
-      { q: "Can I use my own handwriting?", a: "Capturing your own handwriting from a photo is being built now. Until then, pick the style closest to yours and adjust size, slant and messiness." },
-      { q: "Does my assignment get uploaded anywhere?", a: "No. The pages are drawn in your browser. Your text never leaves your device unless you choose to save it to your account." },
+      {
+        q: "Is it free?",
+        a: "Yes. Free downloads include 3 pages at a time and 10 pages a day, with 16 handwriting styles and no watermark. Pro removes the limits and the ads.",
+      },
+      {
+        q: "Can I use my own handwriting?",
+        a: "Capturing your own handwriting from a photo is being built now. Until then, pick the style closest to yours and adjust size, slant and messiness.",
+      },
+      {
+        q: "Does my assignment get uploaded anywhere?",
+        a: "No. The pages are drawn in your browser. Your text never leaves your device unless you choose to save it to your account.",
+      },
     ],
   },
   {
     slug: "lab-records",
     name: "Lab records",
     title: "Lab record and practical file pages, handwritten",
-    description: "Write up experiments with aim, apparatus, procedure, observations and result on ruled pages that look handwritten. Numbered steps, bold labels, free PDF.",
+    description:
+      "Write up experiments with aim, apparatus, procedure, observations and result on ruled pages that look handwritten. Numbered steps, bold labels, free PDF.",
     lede: "Aim, apparatus, procedure, observations, result. Type the write-up once and get tidy, handwritten practical-file pages.",
     settings: {
       text: `# Experiment 4: Verifying Ohm's law
@@ -117,7 +128,10 @@ The assassination of Archduke Franz Ferdinand in Sarajevo on 28 June 1914 was th
       },
     ],
     faq: [
-      { q: "Can I add the experiment number and date to every page?", a: "Yes. Put them in the Top left and Top right boxes under Page. They are written on every page, and page numbers can be added too." },
+      {
+        q: "Can I add the experiment number and date to every page?",
+        a: "Yes. Put them in the Top left and Top right boxes under Page. They are written on every page, and page numbers can be added too.",
+      },
       { q: "What about graphs?", a: "Draw graphs on graph paper and file them next to the write-up; that is what most examiners expect in any case." },
     ],
   },
@@ -125,7 +139,8 @@ The assassination of Archduke Franz Ferdinand in Sarajevo on 28 June 1914 was th
     slug: "cornell-notes",
     name: "Cornell notes",
     title: "Cornell notes, written out by hand",
-    description: "Cornell-style note pages with a cue column and summary box, filled with your typed notes in realistic handwriting. Print, then add cues and a summary by hand.",
+    description:
+      "Cornell-style note pages with a cue column and summary box, filled with your typed notes in realistic handwriting. Print, then add cues and a summary by hand.",
     lede: "Your notes go in the main column; the cue column and summary box are left for you to fill in by hand when you revise.",
     settings: {
       text: `# Cellular respiration
@@ -160,7 +175,8 @@ Without oxygen, cells fall back on ==fermentation==: lactic acid in muscles, eth
     slug: "letters",
     name: "Letters & cards",
     title: "Handwritten letters and cards, from typed text",
-    description: "Write thank-you notes, cards and letters that look handwritten in pen, on plain, kraft or vintage paper. Elegant cursive and relaxed everyday hands.",
+    description:
+      "Write thank-you notes, cards and letters that look handwritten in pen, on plain, kraft or vintage paper. Elegant cursive and relaxed everyday hands.",
     lede: "Thank-you notes, birthday cards and letters that look written with a real pen, on plain, kraft or vintage paper.",
     settings: {
       text: `Dear Maya,
@@ -190,14 +206,18 @@ Sam`,
       },
     ],
     faq: [
-      { q: "Can I send many personalised letters at once?", a: "Yes, with batch letters: write one template with {{name}} and other fields, upload a spreadsheet, and download one letter per row. It is part of Pro and described on the business page." },
+      {
+        q: "Can I send many personalised letters at once?",
+        a: "Yes, with batch letters: write one template with {{name}} and other fields, upload a spreadsheet, and download one letter per row. It is part of Pro and described on the business page.",
+      },
     ],
   },
   {
     slug: "journal",
     name: "Journals",
     title: "Journal and diary pages in handwriting",
-    description: "Turn typed journal entries into dot-grid or lined diary pages that look handwritten, with highlights and underlines. Free and private: nothing is uploaded.",
+    description:
+      "Turn typed journal entries into dot-grid or lined diary pages that look handwritten, with highlights and underlines. Free and private: nothing is uploaded.",
     lede: "Type the way you think, keep pages that look like you wrote them. Nothing is uploaded; it all happens in your browser.",
     settings: {
       text: `Thursday, late

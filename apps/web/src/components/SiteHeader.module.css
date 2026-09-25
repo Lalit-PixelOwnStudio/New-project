@@ -60,7 +60,9 @@
   font-weight: 500;
   color: var(--ink-3);
   text-decoration: none;
-  transition: color 120ms var(--ease), background-color 120ms var(--ease);
+  transition:
+    color 120ms var(--ease),
+    background-color 120ms var(--ease);
 }
 
 .nav a:hover {

@@ -130,7 +130,14 @@ export const PAPERS: PaperEntry[] = [
     name: "Kraft",
     blurb: "Plain brown kraft paper for notes, tags and letters.",
     tier: "pro",
-    spec: ruled({ ruling: "plain", spacingMm: 8, paperColor: "#d8bf98", marginLine: null, texture: "recycled", margins: { topMm: 22, bottomMm: 18, leftMm: 20, rightMm: 18 } }),
+    spec: ruled({
+      ruling: "plain",
+      spacingMm: 8,
+      paperColor: "#d8bf98",
+      marginLine: null,
+      texture: "recycled",
+      margins: { topMm: 22, bottomMm: 18, leftMm: 20, rightMm: 18 },
+    }),
   },
 ];
 

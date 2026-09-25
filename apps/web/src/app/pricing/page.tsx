@@ -157,12 +157,30 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
       <Section label="Questions" title="Before you buy">
         <Faq
           items={[
-            { q: "Does anything renew automatically?", a: "No. Every purchase is a one-time payment. When your week, month or year ends, your account goes back to Free. Buy again whenever you need it; new time is added on top of any you have left." },
-            { q: "How can I pay?", a: "In India, through Razorpay: UPI, debit and credit cards, net banking and wallets, in rupees. Everywhere else, through PayPal, with a PayPal account or a card, in US dollars." },
-            { q: "Why are prices different in different countries?", a: "Prices are adjusted to local purchasing power, so a student in Jakarta and one in Chicago pay a similar share of what things cost where they live. The price is set by your location at checkout." },
-            { q: "Do I need an account?", a: "Not for Free. To buy anything you sign in with your email or Google, so what you buy is kept safe on your account and works on any device." },
-            { q: "Can I get a refund?", a: "If something went wrong, yes: write to us within 7 days of buying and we'll refund unused time. The details are on the refunds page." },
-            { q: "What happens to my pages when Pro ends?", a: "Everything you downloaded is yours to keep. Your text and settings stay in your browser; Pro styles simply show a Pro tag again." },
+            {
+              q: "Does anything renew automatically?",
+              a: "No. Every purchase is a one-time payment. When your week, month or year ends, your account goes back to Free. Buy again whenever you need it; new time is added on top of any you have left.",
+            },
+            {
+              q: "How can I pay?",
+              a: "In India, through Razorpay: UPI, debit and credit cards, net banking and wallets, in rupees. Everywhere else, through PayPal, with a PayPal account or a card, in US dollars.",
+            },
+            {
+              q: "Why are prices different in different countries?",
+              a: "Prices are adjusted to local purchasing power, so a student in Jakarta and one in Chicago pay a similar share of what things cost where they live. The price is set by your location at checkout.",
+            },
+            {
+              q: "Do I need an account?",
+              a: "Not for Free. To buy anything you sign in with your email or Google, so what you buy is kept safe on your account and works on any device.",
+            },
+            {
+              q: "Can I get a refund?",
+              a: "If something went wrong, yes: write to us within 7 days of buying and we'll refund unused time. The details are on the refunds page.",
+            },
+            {
+              q: "What happens to my pages when Pro ends?",
+              a: "Everything you downloaded is yours to keep. Your text and settings stay in your browser; Pro styles simply show a Pro tag again.",
+            },
           ]}
         />
       </Section>

@@ -12,6 +12,11 @@
     "typecheck": "pnpm -r --if-present typecheck",
     "lint": "pnpm -r --if-present lint",
     "fonts:fetch": "node scripts/fonts/fetch.mjs",
-    "qa:render": "pnpm --filter @truehand/engine qa"
+    "qa:render": "pnpm --filter @truehand/engine qa",
+    "format": "prettier --write \"apps/**/*.{ts,tsx,css,json}\" \"packages/**/*.{ts,tsx,json}\" \"scripts/**/*.{mjs,json}\"",
+    "format:check": "prettier --check \"apps/**/*.{ts,tsx,css,json}\" \"packages/**/*.{ts,tsx,json}\" \"scripts/**/*.{mjs,json}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.9.9"
   }
 }

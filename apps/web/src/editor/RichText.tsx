@@ -35,7 +35,19 @@ interface Props {
   footer: ReactNode;
 }
 
-function ToolButton({ label, active, onClick, children, disabled }: { label: string; active?: boolean; onClick: () => void; children: ReactNode; disabled?: boolean }) {
+function ToolButton({
+  label,
+  active,
+  onClick,
+  children,
+  disabled,
+}: {
+  label: string;
+  active?: boolean;
+  onClick: () => void;
+  children: ReactNode;
+  disabled?: boolean;
+}) {
   return (
     <button type="button" className={s.tool} aria-label={label} title={label} aria-pressed={active} onClick={onClick} disabled={disabled}>
       {children}

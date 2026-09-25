@@ -36,9 +36,15 @@ export async function wordmarkSvg(styleId: string, seed: number, text = "Truehan
     { id: entry.id, sources: [src], connected: entry.connected, ...entry.tune },
   );
   const items = layout.pages[0]!.ink as InkItem[];
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  let minX = Infinity,
+    minY = Infinity,
+    maxX = -Infinity,
+    maxY = -Infinity;
   const grow = (x: number, y: number) => {
-    minX = Math.min(minX, x); minY = Math.min(minY, y); maxX = Math.max(maxX, x); maxY = Math.max(maxY, y);
+    minX = Math.min(minX, x);
+    minY = Math.min(minY, y);
+    maxX = Math.max(maxX, x);
+    maxY = Math.max(maxY, y);
   };
   const paths: string[] = [];
   for (const item of items) {
@@ -60,7 +66,9 @@ export async function wordmarkSvg(styleId: string, seed: number, text = "Truehan
         d += `L${p[i]!.toFixed(2)} ${p[i + 1]!.toFixed(2)}`;
         grow(p[i]!, p[i + 1]!);
       }
-      paths.push(`<path d="${d}" fill="none" stroke="${color}" stroke-width="${(item.width * 1.1).toFixed(2)}" stroke-linecap="round" stroke-linejoin="round"/>`);
+      paths.push(
+        `<path d="${d}" fill="none" stroke="${color}" stroke-width="${(item.width * 1.1).toFixed(2)}" stroke-linecap="round" stroke-linejoin="round"/>`,
+      );
     }
   }
   const pad = 3;

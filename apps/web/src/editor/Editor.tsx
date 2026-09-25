@@ -86,7 +86,14 @@ export function Editor({ initial, placeholder }: Props) {
             )}
           </div>
           <div className={s.previewActions}>
-            <button type="button" className={s.zoom} onClick={() => setZoom((z) => !z)} aria-pressed={zoom} aria-label={zoom ? "Fit page to width" : "Zoom in"} title={zoom ? "Fit" : "Zoom in"}>
+            <button
+              type="button"
+              className={s.zoom}
+              onClick={() => setZoom((z) => !z)}
+              aria-pressed={zoom}
+              aria-label={zoom ? "Fit page to width" : "Zoom in"}
+              title={zoom ? "Fit" : "Zoom in"}
+            >
               {zoom ? <Minimize2 /> : <Maximize2 />}
             </button>
             <span className={s.desktopOnly}>{download}</span>
@@ -94,7 +101,11 @@ export function Editor({ initial, placeholder }: Props) {
         </header>
         {preview.stats && preview.stats.missing.length > 0 && (
           <p className={s.missing}>
-            Not in this handwriting, skipped: {preview.stats.missing.slice(0, 8).map((c) => String.fromCodePoint(c)).join(" ")}
+            Not in this handwriting, skipped:{" "}
+            {preview.stats.missing
+              .slice(0, 8)
+              .map((c) => String.fromCodePoint(c))
+              .join(" ")}
           </p>
         )}
         <div className={s.stage} data-zoom={zoom || undefined}>

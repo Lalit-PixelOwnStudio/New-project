@@ -116,7 +116,9 @@ export async function fulfilOrder(provider: Provider, providerOrderId: string, p
       });
     }
     if (grant.credits) {
-      await tx.insert(schema.creditLedger).values({ id: id(), userId: order.userId, delta: grant.credits, reason: `order:${order.product}`, orderId: order.id });
+      await tx
+        .insert(schema.creditLedger)
+        .values({ id: id(), userId: order.userId, delta: grant.credits, reason: `order:${order.product}`, orderId: order.id });
     }
     if (grant.style && order.styleId) {
       await tx.insert(schema.styleUnlocks).values({ userId: order.userId, styleId: order.styleId, orderId: order.id }).onConflictDoNothing();

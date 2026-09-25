@@ -72,18 +72,16 @@ async function renderSpecimens() {
       sources.set(entry.id, src);
     }
     const layout = layoutDocument(job.doc, { id: entry.id, sources: [src], connected: entry.connected, ...entry.tune });
-    const page = (
-      job.inkOnly
-        ? renderInk(layout.pages[0]!, { scale: job.scale, pen: job.doc.pen, createSurface: create })
-        : renderPage(layout.pages[0]!, {
-            scale: job.scale,
-            paper: job.doc.paper,
-            pen: job.doc.pen,
-            effect: job.effect ?? "none",
-            seed: job.doc.realism.seed,
-            createSurface: create,
-          })
-    ) as unknown as InstanceType<typeof canvas.Canvas>;
+    const page = (job.inkOnly
+      ? renderInk(layout.pages[0]!, { scale: job.scale, pen: job.doc.pen, createSurface: create })
+      : renderPage(layout.pages[0]!, {
+          scale: job.scale,
+          paper: job.doc.paper,
+          pen: job.doc.pen,
+          effect: job.effect ?? "none",
+          seed: job.doc.realism.seed,
+          createSurface: create,
+        })) as unknown as InstanceType<typeof canvas.Canvas>;
     const [x, y, w, h] = job.crop.map((v) => Math.round(v * job.scale)) as [number, number, number, number];
     const cropped = canvas.createCanvas(w, h);
     cropped.getContext("2d").drawImage(page, x, y, w, h, 0, 0, w, h);

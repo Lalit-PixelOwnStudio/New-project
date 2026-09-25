@@ -156,13 +156,7 @@ export function unitFor(source: GlyphSource, xHeight: number): number {
   return xHeight / visual;
 }
 
-export function shapeWord(
-  pieces: Piece[],
-  spaces: number,
-  trailingMarks: Mark[],
-  key: number,
-  ctx: WordContext,
-): Word {
+export function shapeWord(pieces: Piece[], spaces: number, trailingMarks: Mark[], key: number, ctx: WordContext): Word {
   const { style } = ctx;
   const glyphs: PlacedGlyph[] = [];
   let pen = 0;
@@ -213,14 +207,7 @@ export function shapeWord(
   const spaceUnit = unitFor(primary, ctx.xHeight);
   const spaceGlyph = primary.shape(" ")[0];
   const spaceAdvance = (spaceGlyph?.advance ?? primary.upem * 0.28) * spaceUnit;
-  const space =
-    spaces > 0
-      ? spaces *
-        spaceAdvance *
-        style.wordSpace *
-        ctx.wordSpacing *
-        Math.max(0.55, 1 + gaussian(key, 2) * 0.16 * ctx.spacingJitter)
-      : 0;
+  const space = spaces > 0 ? spaces * spaceAdvance * style.wordSpace * ctx.wordSpacing * Math.max(0.55, 1 + gaussian(key, 2) * 0.16 * ctx.spacingJitter) : 0;
 
   return { text, key, glyphs, width: Math.max(0, pen - tracking), space, trailingMarks };
 }

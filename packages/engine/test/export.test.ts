@@ -8,7 +8,13 @@ const png = () => new Uint8Array(createCanvas(20, 28).toBuffer("image/png"));
 
 describe("export", () => {
   it("builds a PDF with one A4 page per image", async () => {
-    const bytes = await buildPdf([{ bytes: png(), format: "png" }, { bytes: png(), format: "png" }], { title: "Notes", size: "a4" });
+    const bytes = await buildPdf(
+      [
+        { bytes: png(), format: "png" },
+        { bytes: png(), format: "png" },
+      ],
+      { title: "Notes", size: "a4" },
+    );
     const doc = await PDFDocument.load(bytes);
     expect(doc.getPageCount()).toBe(2);
     const { width, height } = doc.getPage(0).getSize();
@@ -18,7 +24,10 @@ describe("export", () => {
   });
 
   it("zips pages with padded names", () => {
-    const zip = buildZip([{ bytes: png(), format: "png" }, { bytes: png(), format: "png" }]);
+    const zip = buildZip([
+      { bytes: png(), format: "png" },
+      { bytes: png(), format: "png" },
+    ]);
     expect(Object.keys(unzipSync(zip))).toEqual(["page-01.png", "page-02.png"]);
   });
 });

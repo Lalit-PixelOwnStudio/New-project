@@ -37,10 +37,7 @@ export function paperGeometry(spec: PaperSpec): PaperGeometry {
     for (let y = start; y <= end; y += cell) rules.push(y);
   }
 
-  const every =
-    spec.ruling === "grid" || spec.ruling === "dot"
-      ? Math.max(1, spec.linesEvery ?? Math.round(8.5 / spec.spacingMm))
-      : 1;
+  const every = spec.ruling === "grid" || spec.ruling === "dot" ? Math.max(1, spec.linesEvery ?? Math.round(8.5 / spec.spacingMm)) : 1;
   const step = cell * every;
 
   // Writing lines: the first one sits on the first rule at or below the top margin.

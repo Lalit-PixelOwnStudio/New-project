@@ -52,11 +52,7 @@ const DEG = Math.PI / 180;
 
 /** y of the line's baseline at page x, including tilt and wobble. */
 export function baselineAt(line: LineFrame, x: number): number {
-  return (
-    line.baseline +
-    (x - line.startX) * Math.tan(line.slope) +
-    line.wobble * noise1(line.key, x / line.wavelength)
-  );
+  return line.baseline + (x - line.startX) * Math.tan(line.slope) + line.wobble * noise1(line.key, x / line.wavelength);
 }
 
 /**
@@ -68,12 +64,7 @@ export function baselineAt(line: LineFrame, x: number): number {
  * The warp field lives in word space, so a word keeps its exact shape when a
  * reflow moves it, and joins in cursive words stay connected.
  */
-export function placeWord(
-  word: Word,
-  x: number,
-  line: LineFrame,
-  ctx: PlaceContext,
-): { fill: InkFill; spans: PlacedSpan[]; bold: boolean } {
+export function placeWord(word: Word, x: number, line: LineFrame, ctx: PlaceContext): { fill: InkFill; spans: PlacedSpan[]; bold: boolean } {
   const { amounts: a, xHeight: xh } = ctx;
   const k = word.key;
   const f = line.fatigue;
@@ -151,14 +142,7 @@ function inkFor(k: number, ctx: PlaceContext, fatigue: number, bold: boolean) {
 }
 
 /** A hand-drawn horizontal line (underline or strike-through) from x0 to x1. */
-export function drawnLine(
-  x0: number,
-  x1: number,
-  offset: number,
-  line: LineFrame,
-  ctx: PlaceContext,
-  key: number,
-): InkLine {
+export function drawnLine(x0: number, x1: number, offset: number, line: LineFrame, ctx: PlaceContext, key: number): InkLine {
   const a = ctx.amounts;
   const len = Math.max(1, x1 - x0);
   const n = Math.max(2, Math.ceil(len / 6));
@@ -185,13 +169,7 @@ export function drawnLine(
 }
 
 /** A loose highlighter band behind [x0, x1] on a line. */
-export function highlightBand(
-  x0: number,
-  x1: number,
-  line: LineFrame,
-  ctx: PlaceContext,
-  key: number,
-): Highlight {
+export function highlightBand(x0: number, x1: number, line: LineFrame, ctx: PlaceContext, key: number): Highlight {
   const xh = ctx.xHeight;
   const top: number[] = [];
   const bottom: number[] = [];

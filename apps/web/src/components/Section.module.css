@@ -1,3 +1,7 @@
+.section {
+  background: var(--bg);
+}
+
 .section[data-tone="page"],
 .hero {
   background: var(--bg-page);

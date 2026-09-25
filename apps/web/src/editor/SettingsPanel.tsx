@@ -47,10 +47,34 @@ export function SettingsPanel({ settings, update }: { settings: EditorSettings; 
           <PenList settings={settings} update={update} />
         </Group>
         <Group title="Writing">
-          <Slider label="Size" value={settings.fontSize} min={0.75} max={1.45} step={0.01} format={(v) => `${Math.round(v * 100)}%`} onChange={(v) => update("fontSize", v)} />
+          <Slider
+            label="Size"
+            value={settings.fontSize}
+            min={0.75}
+            max={1.45}
+            step={0.01}
+            format={(v) => `${Math.round(v * 100)}%`}
+            onChange={(v) => update("fontSize", v)}
+          />
           <Slider label="Messiness" value={settings.messiness} min={0} max={1} step={0.01} format={handLabel} onChange={(v) => update("messiness", v)} />
-          <Slider label="Slant" value={settings.slant} min={-12} max={16} step={0.5} format={(v) => `${v > 0 ? "+" : ""}${v.toFixed(1)}°`} onChange={(v) => update("slant", v)} />
-          <Slider label="Letter spacing" value={settings.letterSpacing} min={-0.06} max={0.2} step={0.005} format={(v) => `${v >= 0 ? "+" : ""}${Math.round(v * 100)}`} onChange={(v) => update("letterSpacing", v)} />
+          <Slider
+            label="Slant"
+            value={settings.slant}
+            min={-12}
+            max={16}
+            step={0.5}
+            format={(v) => `${v > 0 ? "+" : ""}${v.toFixed(1)}°`}
+            onChange={(v) => update("slant", v)}
+          />
+          <Slider
+            label="Letter spacing"
+            value={settings.letterSpacing}
+            min={-0.06}
+            max={0.2}
+            step={0.005}
+            format={(v) => `${v >= 0 ? "+" : ""}${Math.round(v * 100)}`}
+            onChange={(v) => update("letterSpacing", v)}
+          />
           <Slider
             label="Fatigue"
             after={!pro.fatigue ? <ProTag /> : null}

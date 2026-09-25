@@ -1,12 +1,4 @@
-import {
-  DEFAULT_PAPER_ID,
-  DEFAULT_PEN_ID,
-  DEFAULT_STYLE_ID,
-  paperById,
-  penById,
-  styleById,
-  type Tier,
-} from "@truehand/catalog";
+import { DEFAULT_PAPER_ID, DEFAULT_PEN_ID, DEFAULT_STYLE_ID, paperById, penById, styleById, type Tier } from "@truehand/catalog";
 import type { DocumentSpec, PaperSize } from "@truehand/engine";
 
 export type Effect = "none" | "scan" | "photo";
@@ -68,8 +60,7 @@ export const DEFAULT_SETTINGS: EditorSettings = {
 
 /** Countries that mostly use US Letter paper. */
 const LETTER_COUNTRIES = new Set(["US", "CA", "MX", "PH", "CL", "CO", "VE", "GT", "CR", "PA", "DO", "PR", "SV", "NI", "HN", "BO"]);
-export const defaultPaperSize = (country: string | null | undefined): PaperSize =>
-  country && LETTER_COUNTRIES.has(country.toUpperCase()) ? "letter" : "a4";
+export const defaultPaperSize = (country: string | null | undefined): PaperSize => (country && LETTER_COUNTRIES.has(country.toUpperCase()) ? "letter" : "a4");
 
 export function toDocumentSpec(s: EditorSettings): DocumentSpec {
   const paper = paperById(s.paperId) ?? paperById(DEFAULT_PAPER_ID)!;

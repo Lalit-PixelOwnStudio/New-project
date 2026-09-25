@@ -37,7 +37,19 @@ describe("markup <-> editor document", () => {
   });
 
   it("moves spaces outside marks", () => {
-    const doc = { type: "doc", content: [{ type: "paragraph", content: [{ type: "text", text: "a " }, { type: "text", text: "bold ", marks: [{ type: "bold" }] }, { type: "text", text: "b" }] }] };
+    const doc = {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [
+            { type: "text", text: "a " },
+            { type: "text", text: "bold ", marks: [{ type: "bold" }] },
+            { type: "text", text: "b" },
+          ],
+        },
+      ],
+    };
     expect(docToMarkup(doc)).toBe("a **bold** b");
   });
 });

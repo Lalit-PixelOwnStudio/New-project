@@ -19,7 +19,10 @@ export async function POST(req: Request) {
     payload?: { payment?: { entity?: { id: string; order_id: string; amount: number; currency: string } } };
   };
   const eventId = req.headers.get("x-razorpay-event-id") ?? crypto.randomUUID();
-  await db.insert(schema.webhookEvents).values({ id: `razorpay:${eventId}`, provider: "razorpay", type: event.event, payload: event }).onConflictDoNothing();
+  await db
+    .insert(schema.webhookEvents)
+    .values({ id: `razorpay:${eventId}`, provider: "razorpay", type: event.event, payload: event })
+    .onConflictDoNothing();
 
   const payment = event.payload?.payment?.entity;
   if ((event.event === "payment.captured" || event.event === "order.paid") && payment?.order_id) {

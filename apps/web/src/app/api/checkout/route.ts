@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     });
     return NextResponse.json({
       ...start,
-      razorpayKey: start.provider === "razorpay" ? process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ?? process.env.RAZORPAY_KEY_ID : undefined,
+      razorpayKey: start.provider === "razorpay" ? (process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ?? process.env.RAZORPAY_KEY_ID) : undefined,
       email: user.email,
       name: user.name,
     });

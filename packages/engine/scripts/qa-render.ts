@@ -71,7 +71,9 @@ async function render(name: string, s: HandStyle, d: DocumentSpec, effect: Effec
   const t2 = performance.now();
   const buf = (surface as unknown as { toBuffer(t: string): Buffer }).toBuffer("image/png");
   writeFileSync(join(out, `${name}.png`), buf);
-  console.log(`${name.padEnd(28)} layout ${(t1 - t0).toFixed(0)}ms render ${(t2 - t1).toFixed(0)}ms pages=${layout.stats.pages} missing=${layout.stats.missing.map((c) => String.fromCodePoint(c)).join("")}`);
+  console.log(
+    `${name.padEnd(28)} layout ${(t1 - t0).toFixed(0)}ms render ${(t2 - t1).toFixed(0)}ms pages=${layout.stats.pages} missing=${layout.stats.missing.map((c) => String.fromCodePoint(c)).join("")}`,
+  );
 }
 
 const styles: Record<string, () => Promise<HandStyle>> = {
@@ -90,7 +92,11 @@ for (const [name, make] of Object.entries(styles)) {
 if (!only.length) {
   const s = await styles.caveat!();
   await render("caveat-messy-gel", s, doc(college, pens.gel!, 0.9));
-  await render("caveat-pencil-grid", s, doc({ ...college, ruling: "grid", spacingMm: 5, lineColor: "#a9c4b8", marginLine: null, holes: "none" }, pens.pencil!, 0.4));
+  await render(
+    "caveat-pencil-grid",
+    s,
+    doc({ ...college, ruling: "grid", spacingMm: 5, lineColor: "#a9c4b8", marginLine: null, holes: "none" }, pens.pencil!, 0.4),
+  );
   await render("caveat-scan", s, doc(college, pens.ballpoint!, 0.4), "scan");
   await render("caveat-photo", s, doc(college, pens.fountain!, 0.4), "photo");
 }

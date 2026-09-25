@@ -2,15 +2,7 @@ import { gaussian, hash, hashString } from "../math/random";
 import { parseDocument, type Block, type Mark, type Span } from "../text/markup";
 import type { DocumentLayout, DocumentSpec, HandStyle, PageLayout } from "../types";
 import { paperGeometry } from "./paper";
-import {
-  drawnLine,
-  highlightBand,
-  placeWord,
-  type Amounts,
-  type LineFrame,
-  type PlaceContext,
-  type PlacedSpan,
-} from "./place";
+import { drawnLine, highlightBand, placeWord, type Amounts, type LineFrame, type PlaceContext, type PlacedSpan } from "./place";
 import { shapeWord, splitWide, splitWords, type Word, type WordContext } from "./words";
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
@@ -91,11 +83,7 @@ export function layoutDocument(doc: DocumentSpec, style: HandStyle): DocumentLay
     const em = style.sources[0]!.upem * (xh / style.sources[0]!.xHeight);
     return {
       key,
-      baseline:
-        geo.baselines[slot]! -
-        style.baselineShift * em -
-        xh * 0.03 +
-        gaussian(key, 2) * 0.03 * xh * amounts.baseline * free,
+      baseline: geo.baselines[slot]! - style.baselineShift * em - xh * 0.03 + gaussian(key, 2) * 0.03 * xh * amounts.baseline * free,
       slope: pageTilt + gaussian(key, 1) * 0.0032 * amounts.slope * fatigue * free,
       startX: startX + gaussian(key, 3) * 0.12 * xh * amounts.letter,
       wobble: 0.045 * xh * amounts.baseline * fatigue * (plain ? 1.5 : 1),
@@ -113,9 +101,7 @@ export function layoutDocument(doc: DocumentSpec, style: HandStyle): DocumentLay
     const seen = new Map<string, number>();
     const ctx = wordCtx(xh);
     return splitWords(spans).map((w) => {
-      const pieces = extraMarks.length
-        ? w.pieces.map((p) => ({ ...p, marks: [...new Set([...p.marks, ...extraMarks])] }))
-        : w.pieces;
+      const pieces = extraMarks.length ? w.pieces.map((p) => ({ ...p, marks: [...new Set([...p.marks, ...extraMarks])] })) : w.pieces;
       const trailing = extraMarks.length && w.spaces ? [...new Set([...w.trailingMarks, ...extraMarks])] : w.trailingMarks;
       const text = pieces.map((p) => p.text).join("");
       const n = seen.get(text) ?? 0;
@@ -255,9 +241,7 @@ function writeFurniture(
   const ctx = placeCtx(xh);
   const write = (page: PageBuild, text: string, y: number, align: "left" | "right", key: number) => {
     const spans: Span[] = [{ text, marks: [] }];
-    const list = splitWords(spans).map((w, i) =>
-      shapeWord(w.pieces, w.spaces, [], hash(seed, key, i, page.index), wordCtx(xh)),
-    );
+    const list = splitWords(spans).map((w, i) => shapeWord(w.pieces, w.spaces, [], hash(seed, key, i, page.index), wordCtx(xh)));
     const width = list.reduce((s, w, i) => s + w.width + (i < list.length - 1 ? w.space : 0), 0);
     let x = align === "left" ? geo.textLeft : geo.textRight - width;
     const line: LineFrame = {

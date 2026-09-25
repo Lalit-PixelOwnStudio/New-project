@@ -46,14 +46,8 @@ export class HarfBuzzSource implements GlyphSource {
     this.descender = ext.descender;
     // Handwriting fonts often have one odd letter, so take the median height of
     // several flat-topped letters instead of trusting "x" or the OS/2 table.
-    this.xHeight =
-      this.medianTop("acemnorsuvwxz") ??
-      this.font.getMetricPosition(hb.MetricsTag.X_HEIGHT) ??
-      this.upem * 0.48;
-    this.capHeight =
-      this.medianTop("EFHILTZ") ??
-      this.font.getMetricPosition(hb.MetricsTag.CAP_HEIGHT) ??
-      this.upem * 0.7;
+    this.xHeight = this.medianTop("acemnorsuvwxz") ?? this.font.getMetricPosition(hb.MetricsTag.X_HEIGHT) ?? this.upem * 0.48;
+    this.capHeight = this.medianTop("EFHILTZ") ?? this.font.getMetricPosition(hb.MetricsTag.CAP_HEIGHT) ?? this.upem * 0.7;
   }
 
   private medianTop(chars: string): number | undefined {

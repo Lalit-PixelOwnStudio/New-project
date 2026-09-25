@@ -18,7 +18,11 @@ export function HeaderAccount() {
       {entitlements.signedIn ? (
         <Link href="/account" className={s.avatar} aria-label="Your account">
           <span>{initial}</span>
-          {entitlements.plan === "pro" ? <em className={s.badge}>Pro</em> : entitlements.credits > 0 ? <em className={s.badge}>{entitlements.credits}</em> : null}
+          {entitlements.plan === "pro" ? (
+            <em className={s.badge}>Pro</em>
+          ) : entitlements.credits > 0 ? (
+            <em className={s.badge}>{entitlements.credits}</em>
+          ) : null}
         </Link>
       ) : (
         <Link href="/login" className={s.signin}>

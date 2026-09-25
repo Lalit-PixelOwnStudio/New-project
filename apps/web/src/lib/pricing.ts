@@ -67,9 +67,7 @@ export const PRICES: Record<Region, { currency: Currency; amounts: Record<Produc
 const TIER_B = new Set(
   "AL AM AR AZ BA BG BR BY CL CN CO CR CU DO DZ EC GE GT HU IQ IR JM JO KZ LB MA MD ME MK MX MY PA PE PL PY RO RS RU TH TN TR UA UY ZA".split(" "),
 );
-const TIER_C = new Set(
-  "AF BD BO CI CM EG ET GH HN HT ID KE KG KH LA LK MG MM MN MW MZ NG NI NP PH PK RW SD SN SV TJ TZ UG UZ VE VN YE ZM ZW".split(" "),
-);
+const TIER_C = new Set("AF BD BO CI CM EG ET GH HN HT ID KE KG KH LA LK MG MM MN MW MZ NG NI NP PH PK RW SD SN SV TJ TZ UG UZ VE VN YE ZM ZW".split(" "));
 
 export function regionFor(country: string | null | undefined): Region {
   const c = (country ?? "").toUpperCase();

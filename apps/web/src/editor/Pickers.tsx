@@ -89,7 +89,13 @@ export function PenList({ settings, update }: { settings: EditorSettings; update
       ))}
       <li>
         <label className={s.pen} aria-pressed={Boolean(settings.inkColor)}>
-          <input className={s.color} type="color" value={settings.inkColor ?? "#1f3c8f"} onChange={(e) => update("inkColor", e.target.value)} aria-label="Custom ink colour" />
+          <input
+            className={s.color}
+            type="color"
+            value={settings.inkColor ?? "#1f3c8f"}
+            onChange={(e) => update("inkColor", e.target.value)}
+            aria-label="Custom ink colour"
+          />
           <span className={s.penName}>Any colour</span>
           {!entitlements.limits.customInk && <ProTag />}
         </label>

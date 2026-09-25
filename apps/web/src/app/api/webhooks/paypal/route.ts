@@ -15,7 +15,10 @@ export async function POST(req: Request) {
   if (!event || !(await verifyPaypalWebhook(req.headers, event))) {
     return NextResponse.json({ error: "bad_signature" }, { status: 400 });
   }
-  await db.insert(schema.webhookEvents).values({ id: `paypal:${event.id}`, provider: "paypal", type: event.event_type, payload: event }).onConflictDoNothing();
+  await db
+    .insert(schema.webhookEvents)
+    .values({ id: `paypal:${event.id}`, provider: "paypal", type: event.event_type, payload: event })
+    .onConflictDoNothing();
 
   const orderId = event.resource?.supplementary_data?.related_ids?.order_id;
   if (event.event_type === "PAYMENT.CAPTURE.COMPLETED" && orderId && event.resource?.amount) {

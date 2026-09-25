@@ -8,14 +8,7 @@ import { paperTile, toneMap } from "./textures";
 /** Printed rule thickness in CSS px (about 0.14 mm). */
 const RULE = 0.52;
 
-export function drawPaper(
-  ctx: Ctx2D,
-  spec: PaperSpec,
-  geo: PaperGeometry,
-  scale: number,
-  seed: number,
-  create: SurfaceFactory,
-) {
+export function drawPaper(ctx: Ctx2D, spec: PaperSpec, geo: PaperGeometry, scale: number, seed: number, create: SurfaceFactory) {
   const W = geo.widthPx;
   const H = geo.heightPx;
 
@@ -59,7 +52,7 @@ export function drawPaper(
     }
   } else if (spec.ruling === "grid" || spec.ruling === "dot") {
     const cell = spec.spacingMm * PX_PER_MM;
-    const offsetX = ((W % cell) + cell) / 2 % cell;
+    const offsetX = (((W % cell) + cell) / 2) % cell;
     const offsetY = geo.rules[0] ?? 0;
     if (spec.ruling === "grid") {
       ctx.strokeStyle = css(line, 0.55);

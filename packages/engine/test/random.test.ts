@@ -33,7 +33,11 @@ describe("noise", () => {
   });
 
   it("tiles seamlessly", () => {
-    for (const [x, y] of [[0.3, 0.9], [5.5, 2.25], [9.1, 7.7]] as const) {
+    for (const [x, y] of [
+      [0.3, 0.9],
+      [5.5, 2.25],
+      [9.1, 7.7],
+    ] as const) {
       expect(tileNoise2(4, x, y, 16)).toBeCloseTo(tileNoise2(4, x + 16, y + 32, 16), 6);
     }
   });

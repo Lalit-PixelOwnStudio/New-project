@@ -70,10 +70,7 @@ export function flatten(commands: PathCommand[], tolerance: number): Outline {
       }
       case "C": {
         const [x1, y1, x2, y2, x3, y3] = v as [number, number, number, number, number, number];
-        const m = Math.max(
-          Math.hypot(cx - 2 * x1 + x2, cy - 2 * y1 + y2),
-          Math.hypot(x1 - 2 * x2 + x3, y1 - 2 * y2 + y3),
-        );
+        const m = Math.max(Math.hypot(cx - 2 * x1 + x2, cy - 2 * y1 + y2), Math.hypot(x1 - 2 * x2 + x3, y1 - 2 * y2 + y3));
         const n = Math.max(1, Math.min(96, Math.ceil(Math.sqrt((3 * m) / (4 * tolerance)))));
         for (let i = 1; i <= n; i++) {
           const t = i / n;

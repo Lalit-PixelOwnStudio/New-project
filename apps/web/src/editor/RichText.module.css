@@ -154,7 +154,13 @@
 }
 
 .prose mark {
-  background: linear-gradient(176deg, transparent 12%, color-mix(in srgb, var(--hl) 80%, transparent) 12%, color-mix(in srgb, var(--hl) 80%, transparent) 88%, transparent 88%);
+  background: linear-gradient(
+    176deg,
+    transparent 12%,
+    color-mix(in srgb, var(--hl) 80%, transparent) 12%,
+    color-mix(in srgb, var(--hl) 80%, transparent) 88%,
+    transparent 88%
+  );
   color: inherit;
 }
 
