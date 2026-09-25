@@ -1,5 +1,5 @@
 "use client";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Star } from "lucide-react";
 import { useId, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import s from "./FeedbackForm.module.css";
@@ -47,17 +47,19 @@ const SCALE = [1, 2, 3, 4, 5] as const;
 export function FeedbackForm({
   context,
   title = "How did your pages come out?",
-  ends = ["Not usable", "Perfect"],
+  labels = ["Not usable", "Poor", "Okay", "Good", "Perfect"],
   onSkip,
 }: {
   context: FeedbackContext;
   title?: string;
-  /** Labels under the lowest and highest rating. */
-  ends?: [string, string];
+  /** What each number of stars means, from one to five. */
+  labels?: [string, string, string, string, string];
   onSkip?: () => void;
 }) {
   const id = useId();
   const [rating, setRating] = useState<number | null>(null);
+  const [hover, setHover] = useState<number | null>(null);
+  const shown = hover ?? rating;
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -98,17 +100,23 @@ export function FeedbackForm({
     >
       <fieldset className={s.rating}>
         <legend>{title}</legend>
-        <div className={s.scale}>
+        <div className={s.stars} onMouseLeave={() => setHover(null)}>
           {SCALE.map((n) => (
-            <label key={n} className={s.point}>
-              <input type="radio" name={`${id}-rating`} value={n} checked={rating === n} onChange={() => setRating(n)} />
-              <span>{n}</span>
+            <label key={n} className={s.star} data-on={shown !== null && n <= shown ? "" : undefined} onMouseEnter={() => setHover(n)}>
+              <input
+                type="radio"
+                name={`${id}-rating`}
+                value={n}
+                checked={rating === n}
+                onChange={() => setRating(n)}
+                aria-label={`${n} ${n === 1 ? "star" : "stars"}, ${labels[n - 1]}`}
+              />
+              <Star aria-hidden="true" />
             </label>
           ))}
-        </div>
-        <div className={s.ends} aria-hidden="true">
-          <span>{ends[0]}</span>
-          <span>{ends[1]}</span>
+          <span className={s.meaning} aria-hidden="true">
+            {shown !== null ? labels[shown - 1] : "Tap a star"}
+          </span>
         </div>
       </fieldset>
 

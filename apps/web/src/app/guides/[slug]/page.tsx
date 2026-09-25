@@ -140,7 +140,11 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           <ButtonLink href={g.cta.href}>{g.cta.label}</ButtonLink>
         </aside>
         <div className={s.feedback}>
-          <FeedbackForm context={{ source: "guide", guide: g.slug }} title="Did this guide help?" ends={["Not really", "A lot"]} />
+          <FeedbackForm
+            context={{ source: "guide", guide: g.slug }}
+            title="Did this guide help?"
+            labels={["Not at all", "Not really", "Somewhat", "Yes", "A lot"]}
+          />
         </div>
         {related.length > 0 && (
           <nav className={s.related} aria-label="Related guides">

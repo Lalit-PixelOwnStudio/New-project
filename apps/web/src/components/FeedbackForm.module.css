@@ -23,58 +23,60 @@
   font-weight: 650;
 }
 
-.scale {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 6px;
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
-.point {
+.star {
   position: relative;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-.point input {
+.star input {
   position: absolute;
   inset: 0;
+  margin: 0;
   opacity: 0;
   cursor: pointer;
 }
 
-.point span {
-  display: grid;
-  place-items: center;
-  height: 40px;
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--radius);
-  background: var(--bg);
-  font-family: var(--font-mono);
-  font-size: 14px;
-  color: var(--ink-2);
+.star svg {
+  width: 32px;
+  height: 32px;
+  fill: transparent;
+  stroke: var(--ink-3);
+  stroke-width: 1.5;
   transition:
-    background 120ms var(--ease),
-    border-color 120ms var(--ease),
-    color 120ms var(--ease);
+    fill 100ms var(--ease),
+    stroke 100ms var(--ease),
+    transform 100ms var(--ease);
 }
 
-.point:hover span {
-  border-color: var(--blue);
+.star[data-on] svg {
+  fill: var(--star);
+  stroke: var(--star-edge);
 }
 
-.point input:checked + span {
-  border-color: var(--blue);
-  background: var(--blue);
-  color: #fff;
+.star:hover svg {
+  transform: scale(1.1);
 }
 
-.point input:focus-visible + span {
+.star:has(input:focus-visible) {
   outline: 2px solid var(--blue);
-  outline-offset: 2px;
+  outline-offset: 1px;
 }
 
-.ends {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
+.meaning {
+  margin-left: 10px;
+  font-size: 14px;
+  font-weight: 550;
   color: var(--ink-3);
 }
 

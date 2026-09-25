@@ -21,6 +21,8 @@
   --red: #d92d20;
   --red-soft: #fef3f2;
   --green: #12805c;
+  --star: #fbbf24;
+  --star-edge: #e8a400;
 
   --font-display: var(--font-host), ui-sans-serif, system-ui, sans-serif;
   --font-text: var(--font-host), ui-sans-serif, system-ui, sans-serif;

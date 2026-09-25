@@ -47,7 +47,7 @@ export default async function FeedbackAdmin() {
           <ol className={s.bars}>
             {[5, 4, 3, 2, 1].map((r) => (
               <li key={r}>
-                <span className={s.barLabel}>{r}</span>
+                <span className={s.barLabel}>{r}★</span>
                 <span className={s.bar}>
                   <span style={{ width: `${((byRating[r] ?? 0) / most) * 100}%` }} />
                 </span>
@@ -89,7 +89,7 @@ export default async function FeedbackAdmin() {
                       <td className={s.nowrap}>{when(f.createdAt)}</td>
                       <td>
                         <span className={s.rating} data-low={f.rating <= 2 || undefined}>
-                          {f.rating}
+                          {f.rating}★
                         </span>
                       </td>
                       <td className={s.message}>{f.message ?? <span className={s.muted}>—</span>}</td>
