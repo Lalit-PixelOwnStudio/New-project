@@ -1,5 +1,6 @@
 "use client";
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { syncHands } from "@/myhand/store";
 import { FREE_ENTITLEMENTS, type Entitlements } from "./plans";
 
 interface Ctx {
@@ -31,6 +32,12 @@ export function EntitlementsProvider({ children }: { children: ReactNode }) {
 
   // Ad spaces are reserved in the server HTML so nothing jumps when ads load;
   // for Pro they collapse (see [data-ads="off"] in the CSS).
+  // Signed in: bring the handwritings saved on the account to this browser, and back.
+  const signedIn = entitlements.signedIn;
+  useEffect(() => {
+    if (signedIn) void syncHands();
+  }, [signedIn]);
+
   const ads = entitlements.limits.ads;
   useEffect(() => {
     if (ads) delete document.documentElement.dataset.ads;
@@ -42,6 +49,10 @@ export function EntitlementsProvider({ children }: { children: ReactNode }) {
 
 export const useEntitlements = () => useContext(EntitlementsContext);
 
-/** True if the user may export with this Pro style (Pro plan or bought individually). */
+/**
+ * True if the user may export with this style: free styles always; Pro styles
+ * with any plan or bought individually. Handwriting made from your own writing
+ * ("mine:…") is unlocked by any plan or by one purchase that covers all of it.
+ */
 export const canUseStyle = (e: Entitlements, styleId: string, tier: "free" | "pro") =>
-  tier === "free" || e.limits.proStyles || e.unlockedStyles.includes(styleId);
+  tier === "free" || e.limits.proStyles || e.unlockedStyles.includes(styleId.startsWith("mine:") ? "mine" : styleId);

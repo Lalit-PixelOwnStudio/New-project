@@ -9,6 +9,7 @@ const COLUMNS = [
       { href: "/", label: "Write" },
       { href: "/styles", label: "Handwriting styles" },
       { href: "/papers", label: "Papers" },
+      { href: "/my-handwriting", label: "Your own handwriting" },
       { href: "/batch", label: "Batch letters" },
       { href: "/pricing", label: "Pricing" },
     ],

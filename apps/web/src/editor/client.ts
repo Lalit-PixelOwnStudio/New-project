@@ -1,14 +1,13 @@
 import { styleById, DEFAULT_STYLE_ID, type StyleEntry } from "@truehand/catalog";
-import type { DocumentSpec, LayoutStats } from "@truehand/engine";
+import { getHand, isMine } from "@/myhand/store";
+import type { CapturedHand, DocumentSpec, LayoutStats } from "@truehand/engine";
 import type { Effect } from "@/lib/settings";
 import type { ExportOptions, StyleRef, WorkerRequest, WorkerResponse } from "./protocol";
 
-export const styleRef = (entry: StyleEntry): StyleRef => ({
-  id: entry.id,
-  url: `/hands/${entry.id}.ttf`,
-  connected: entry.connected,
-  tune: entry.tune,
-});
+export const styleRef = (entry: StyleEntry): StyleRef =>
+  isMine(entry.id)
+    ? { id: entry.id, url: "", connected: false, tune: entry.tune, captured: true }
+    : { id: entry.id, url: `/hands/${entry.id}.ttf`, connected: entry.connected, tune: entry.tune };
 
 /** Mira covers Latin Extended and Cyrillic, so it fills gaps in narrower hands. */
 export const fallbackRef = () => styleRef(styleById(DEFAULT_STYLE_ID)!);
@@ -24,6 +23,8 @@ export class RendererClient {
   private readonly worker: Worker;
   private nextId = 1;
   private readonly pending = new Map<number, Pending>();
+  /** Custom hands this worker already has. */
+  private readonly hands = new Map<string, unknown>();
 
   constructor() {
     this.worker = new Worker(new URL("./render.worker.ts", import.meta.url), { type: "module", name: "truehand-render" });
@@ -57,7 +58,21 @@ export class RendererClient {
     return { id, promise };
   }
 
+  /** Gives the worker a custom hand's drawings, if it doesn't have these ones yet. */
+  registerHand(styleId: string, data: CapturedHand) {
+    if (this.hands.get(styleId) === data) return;
+    this.hands.set(styleId, data);
+    this.worker.postMessage({ type: "hand", id: 0, handId: styleId, data } satisfies WorkerRequest);
+  }
+
+  private ensureHand(styleId: string) {
+    if (!isMine(styleId)) return;
+    const hand = getHand(styleId);
+    if (hand) this.registerHand(styleId, hand.data);
+  }
+
   layout(spec: DocumentSpec, style: StyleEntry) {
+    this.ensureHand(style.id);
     return this.send<Extract<WorkerResponse, { type: "layout" }>>((id) => ({
       type: "layout",
       id,
@@ -72,6 +87,7 @@ export class RendererClient {
   }
 
   export(spec: DocumentSpec, style: StyleEntry, options: ExportOptions, progress?: Pending["progress"]) {
+    this.ensureHand(style.id);
     return this.send<Extract<WorkerResponse, { type: "export" }>>(
       (id) => ({ type: "export", id, spec, style: styleRef(style), fallback: fallbackRef(), options }),
       progress,

@@ -22,6 +22,13 @@
       "when": 1790329201380,
       "tag": "0002_plan_tiers",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790332094494,
+      "tag": "0003_custom_hands",
+      "breakpoints": true
     }
   ]
 }

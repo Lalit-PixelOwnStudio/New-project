@@ -1,11 +1,12 @@
 "use client";
-import { PENS, penById, styleById } from "@truehand/catalog";
+import { DEFAULT_STYLE_ID, PENS, penById } from "@truehand/catalog";
 import { Download, Maximize2, Minimize2, PenLine, SlidersHorizontal } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import type { EditorSettings } from "@/lib/settings";
 import s from "./Editor.module.css";
 import { ExportDialog } from "./ExportDialog";
+import { getHand, isMine, MINE_PREFIX, resolveStyle } from "@/myhand/store";
 import { useHandFont } from "./handFonts";
 import { QuickPickers } from "./Pickers";
 import { Preview } from "./Preview";
@@ -31,8 +32,13 @@ export function Editor({ initial, placeholder }: Props) {
   const [zoom, setZoom] = useState(false);
   const font = useHandFont(settings.styleId);
   const pen = penById(settings.penId) ?? PENS[0]!;
-  const style = styleById(settings.styleId);
+  const style = resolveStyle(settings.styleId);
   const words = preview.stats?.words ?? 0;
+
+  // A handwriting of your own that was deleted (or made in another browser) falls back to the default.
+  useEffect(() => {
+    if (isMine(settings.styleId) && !getHand(settings.styleId) && settings.styleId !== `${MINE_PREFIX}draft`) update("styleId", DEFAULT_STYLE_ID);
+  }, [settings.styleId, update]);
   const pagesLabel = `${preview.pages} ${preview.pages === 1 ? "page" : "pages"}`;
   const download = (
     <Button onClick={() => setExporting(true)} disabled={!preview.client}>

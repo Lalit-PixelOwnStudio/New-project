@@ -1,14 +1,16 @@
 "use client";
-import { DEFAULT_PAPER_ID, DEFAULT_PEN_ID, DEFAULT_STYLE_ID, STYLES, paperById, penById, styleById } from "@truehand/catalog";
+import { DEFAULT_PAPER_ID, DEFAULT_PEN_ID, DEFAULT_STYLE_ID, paperById, penById } from "@truehand/catalog";
 import { CheckCircle2, Download } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { AdSlot } from "@/components/AdSlot";
+import { BuyButton } from "@/components/BuyButton";
 import { FeedbackForm, feedbackDue } from "@/components/FeedbackForm";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { ProTag } from "@/components/ui/ProTag";
 import { Segmented } from "@/components/ui/Segmented";
 import { canUseStyle, useEntitlements } from "@/lib/entitlements-client";
 import { RESOLUTIONS, resolutionName, type Dpi } from "@/lib/resolution";
+import { isMine, resolveStyle } from "@/myhand/store";
 import { proFeaturesUsed, toDocumentSpec, type EditorSettings } from "@/lib/settings";
 import type { RendererClient } from "./client";
 import s from "./ExportDialog.module.css";
@@ -27,8 +29,13 @@ interface Props {
 /** Pro choices in these settings that this user is not entitled to. */
 function lockedChoices(settings: EditorSettings, e: ReturnType<typeof useEntitlements>["entitlements"]) {
   const out: { key: string; label: string; reset: Partial<EditorSettings> }[] = [];
-  const style = styleById(settings.styleId);
-  if (style && !canUseStyle(e, style.id, style.tier)) out.push({ key: "style", label: `${style.name} handwriting`, reset: { styleId: DEFAULT_STYLE_ID } });
+  const style = resolveStyle(settings.styleId);
+  if (!canUseStyle(e, style.id, style.tier))
+    out.push({
+      key: "style",
+      label: isMine(style.id) ? `Your handwriting (${style.name})` : `${style.name} handwriting`,
+      reset: { styleId: DEFAULT_STYLE_ID },
+    });
   const paper = paperById(settings.paperId);
   if (paper?.tier === "pro" && !e.limits.proPapers) out.push({ key: "paper", label: `${paper.name} paper`, reset: { paperId: DEFAULT_PAPER_ID } });
   const pen = penById(settings.penId);
@@ -134,7 +141,7 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
     // when rendering is instant; Pro skips straight to the file.
     const minimum = limits.ads ? new Promise((r) => setTimeout(r, 3000)) : Promise.resolve();
     try {
-      const style = styleById(settings.styleId) ?? STYLES[0]!;
+      const style = resolveStyle(settings.styleId);
       const title = fileTitle(settings.text);
       const [result] = await Promise.all([
         client.export(
@@ -288,9 +295,15 @@ export function ExportDialog({ open, onClose, settings, patch, client, pages }: 
                   {transparentLocked && <li>Transparent background</li>}
                 </ul>
                 <div className={s.noticeActions}>
-                  <ButtonLink href="/pricing" size="s">
-                    See plans
-                  </ButtonLink>
+                  {locked.some((l) => l.key === "style") && isMine(settings.styleId) ? (
+                    <BuyButton product="my_hand" size="s">
+                      Unlock your handwriting
+                    </BuyButton>
+                  ) : (
+                    <ButtonLink href="/pricing" size="s">
+                      See plans
+                    </ButtonLink>
+                  )}
                   <Button
                     type="button"
                     size="s"

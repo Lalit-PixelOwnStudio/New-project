@@ -9,8 +9,7 @@ import { CheckoutError, startCheckout } from "@/server/commerce";
 export const dynamic = "force-dynamic";
 
 const Body = z.object({
-  product: z.enum(["pass_week", "pass_month", "pass_year", "pages_100", "style"]),
-  styleId: z.string().max(40).nullish(),
+  product: z.enum(["pass_week", "pass_month", "pass_year", "pages_100", "my_hand"]),
   currency: z.enum(["INR", "USD"]).nullish(),
 });
 
@@ -24,7 +23,6 @@ export async function POST(req: Request) {
       userId: user.id,
       email: user.email,
       product: parsed.data.product,
-      styleId: parsed.data.styleId,
       country: countryFromHeaders(await headers()),
       currency: parsed.data.currency,
     });

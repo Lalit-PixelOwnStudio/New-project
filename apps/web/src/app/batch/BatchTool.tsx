@@ -1,5 +1,5 @@
 "use client";
-import { PENS, STYLES, penById, styleById } from "@truehand/catalog";
+import { PENS, penById } from "@truehand/catalog";
 import type { PaperSize } from "@truehand/engine";
 import { zipSync } from "fflate";
 import { PDFDocument } from "pdf-lib";
@@ -9,6 +9,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { Button } from "@/components/ui/Button";
 import { ProTag } from "@/components/ui/ProTag";
 import { Segmented } from "@/components/ui/Segmented";
+import { resolveStyle } from "@/myhand/store";
 import { useHandFont } from "@/editor/handFonts";
 import { QuickPickers } from "@/editor/Pickers";
 import { Preview } from "@/editor/Preview";
@@ -107,7 +108,7 @@ export function BatchTool() {
 
     cancelled.current = false;
     setJob({ done: 0, total: rows.length });
-    const style = styleById(settings.styleId) ?? STYLES[0]!;
+    const style = resolveStyle(settings.styleId);
     const files: { name: string; bytes: Uint8Array }[] = [];
     const started = Date.now();
     try {

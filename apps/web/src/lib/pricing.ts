@@ -7,7 +7,7 @@
  */
 import { PLANS, type PaidPlan } from "./plans";
 
-export type ProductId = "pass_week" | "pass_month" | "pass_year" | "pages_100" | "style";
+export type ProductId = "pass_week" | "pass_month" | "pass_year" | "pages_100" | "my_hand";
 export type Region = "IN" | "A" | "B" | "C";
 export type Provider = "razorpay" | "paypal";
 export type Currency = "INR" | "USD";
@@ -17,8 +17,8 @@ export interface Product {
   name: string;
   short: string;
   description: string;
-  /** A plan (for its days, with its pages as credits), page credits, or one style. */
-  grant: { plan?: PaidPlan; credits?: number; style?: true };
+  /** A plan (for its days, with its pages as credits), page credits, or your own handwriting. */
+  grant: { plan?: PaidPlan; credits?: number; hand?: true };
 }
 
 export const PRODUCTS: Record<ProductId, Product> = {
@@ -50,21 +50,21 @@ export const PRODUCTS: Record<ProductId, Product> = {
     description: "Download past the free limits. Credits never expire.",
     grant: { credits: 100 },
   },
-  style: {
-    id: "style",
-    name: "One handwriting, forever",
-    short: "Style",
-    description: "Keep a single Pro hand for good, without a plan.",
-    grant: { style: true },
+  my_hand: {
+    id: "my_hand",
+    name: "Your own handwriting",
+    short: "Your handwriting",
+    description: "Download pages in the handwriting you made from your own writing. Once, for good.",
+    grant: { hand: true },
   },
 };
 
 /** Minor units: paise for INR, cents for USD. */
 export const PRICES: Record<Region, { currency: Currency; amounts: Record<ProductId, number> }> = {
-  IN: { currency: "INR", amounts: { pass_week: 4900, pass_month: 14900, pass_year: 99900, pages_100: 7900, style: 4900 } },
-  A: { currency: "USD", amounts: { pass_week: 299, pass_month: 599, pass_year: 3900, pages_100: 299, style: 199 } },
-  B: { currency: "USD", amounts: { pass_week: 199, pass_month: 349, pass_year: 2400, pages_100: 199, style: 129 } },
-  C: { currency: "USD", amounts: { pass_week: 99, pass_month: 199, pass_year: 1200, pages_100: 99, style: 99 } },
+  IN: { currency: "INR", amounts: { pass_week: 4900, pass_month: 14900, pass_year: 99900, pages_100: 7900, my_hand: 4900 } },
+  A: { currency: "USD", amounts: { pass_week: 299, pass_month: 599, pass_year: 3900, pages_100: 299, my_hand: 199 } },
+  B: { currency: "USD", amounts: { pass_week: 199, pass_month: 349, pass_year: 2400, pages_100: 199, my_hand: 129 } },
+  C: { currency: "USD", amounts: { pass_week: 99, pass_month: 199, pass_year: 1200, pages_100: 99, my_hand: 99 } },
 };
 
 const TIER_B = new Set(

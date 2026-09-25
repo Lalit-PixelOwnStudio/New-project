@@ -41,8 +41,8 @@ export default async function AccountPage() {
             <dd>{ent.credits}</dd>
           </div>
           <div>
-            <dt>Hands you own</dt>
-            <dd>{ent.unlockedStyles.length ? ent.unlockedStyles.join(", ") : "—"}</dd>
+            <dt>Your own handwriting</dt>
+            <dd>{ent.plan !== "free" || ent.unlockedStyles.includes("mine") ? "Unlocked" : "Free to make; locked for downloads"}</dd>
           </div>
         </dl>
         <div className={s.row}>

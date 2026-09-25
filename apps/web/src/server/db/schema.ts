@@ -203,3 +203,20 @@ export const feedback = pgTable(
   },
   (t) => [index("feedback_created_idx").on(t.createdAt), index("feedback_anon_idx").on(t.anonId, t.createdAt)],
 );
+
+/** Handwritings people made from their own writing, kept on their account. */
+export const customHands = pgTable(
+  "custom_hands",
+  {
+    id: text("id").notNull(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    /** CapturedHand JSON (see packages/engine/src/fonts/captured.ts). */
+    data: jsonb("data").notNull(),
+    createdAt: now(),
+    updatedAt: ts("updated_at").notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("custom_hands_user_id_idx").on(t.userId, t.id)],
+);

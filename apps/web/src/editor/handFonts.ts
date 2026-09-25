@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { DEFAULT_STYLE_ID } from "@truehand/catalog";
 import metrics from "@/lib/hand-metrics.json";
 
 const loaded = new Map<string, Promise<void>>();
@@ -24,7 +25,9 @@ export function loadHandFont(id: string): Promise<void> {
  * Loads the style's font for on-screen text. `ratio` is the hand's x-height
  * as a fraction of its font size, for sizing every hand to the same visual size.
  */
-export function useHandFont(id: string) {
+export function useHandFont(styleId: string) {
+  // Custom hands have no font file; the editor shows the default hand while the preview shows yours.
+  const id = styleId.startsWith("mine:") ? DEFAULT_STYLE_ID : styleId;
   const [ready, setReady] = useState<string | null>(null);
   useEffect(() => {
     let alive = true;

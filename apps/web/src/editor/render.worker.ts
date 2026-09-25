@@ -4,7 +4,7 @@
  * document change; pages are rasterised on request so only visible pages cost
  * anything, and exports render at print resolution without blocking the UI.
  */
-import { createFontSource, layoutDocument, type DocumentLayout, type GlyphSource, type HandStyle } from "@truehand/engine";
+import { createCapturedSource, createFontSource, layoutDocument, type DocumentLayout, type GlyphSource, type HandStyle } from "@truehand/engine";
 import { buildPdf, buildZip, type PageImage } from "@truehand/engine/export";
 import { renderPage, renderInk, type SurfaceFactory } from "@truehand/engine/render";
 import type { StyleRef, WorkerRequest, WorkerResponse } from "./protocol";
@@ -13,9 +13,15 @@ declare const self: DedicatedWorkerGlobalScope;
 
 const create: SurfaceFactory = (w, h) => new OffscreenCanvas(Math.max(1, w), Math.max(1, h));
 const fonts = new Map<string, Promise<GlyphSource>>();
+/** Hands captured from people's own writing, sent by the page before it uses them. */
+const captured = new Map<string, GlyphSource>();
 let current: { id: number; layout: DocumentLayout; spec: WorkerRequest & { type: "layout" } } | null = null;
 
 function font(ref: StyleRef): Promise<GlyphSource> {
+  if (ref.captured) {
+    const source = captured.get(ref.id);
+    return source ? Promise.resolve(source) : Promise.reject(new Error("Your handwriting isn't loaded yet. Pick it again from the Hand menu."));
+  }
   let p = fonts.get(ref.url);
   if (!p) {
     p = fetch(ref.url)
@@ -46,6 +52,11 @@ async function toBytes(surface: OffscreenCanvas, type: string, quality?: number)
 self.onmessage = async (event: MessageEvent<WorkerRequest>) => {
   const msg = event.data;
   try {
+    if (msg.type === "hand") {
+      captured.set(msg.handId, createCapturedSource(msg.handId, msg.data));
+      return;
+    }
+
     if (msg.type === "layout") {
       const style = await handStyle(msg.style, msg.fallback);
       const layout = layoutDocument(msg.spec, style);

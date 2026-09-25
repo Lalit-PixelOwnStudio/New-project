@@ -52,7 +52,6 @@ function loadScript(src: string) {
  */
 export function BuyButton({
   product,
-  styleId,
   currency,
   children,
   variant = "primary",
@@ -60,7 +59,6 @@ export function BuyButton({
   size = "m",
 }: {
   product: ProductId;
-  styleId?: string;
   /** Only honoured for India, which may pay in USD instead of INR. */
   currency?: Currency;
   children: React.ReactNode;
@@ -92,7 +90,7 @@ export function BuyButton({
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ product, styleId, currency }),
+        body: JSON.stringify({ product, currency }),
       });
       if (res.status === 401) {
         router.push(`/login?next=${encodeURIComponent(pathname + window.location.search)}`);

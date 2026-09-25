@@ -1,0 +1,307 @@
+/* Choosing how to capture */
+
+.paths {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 16px;
+}
+
+.path {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 24px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg);
+  box-shadow: var(--shadow-card);
+}
+
+.path h2 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.path p {
+  margin: 0;
+  color: var(--ink-3);
+}
+
+.pathIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.pathIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.steps {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 20px;
+  color: var(--ink-2);
+}
+
+.pathActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.small {
+  font-size: 13.5px;
+}
+
+.error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: #fef3f2;
+  color: var(--red) !important;
+}
+
+/* Drawing pad */
+
+.pad,
+.review {
+  scroll-margin-top: calc(var(--header-h) + 16px);
+}
+
+.pad {
+  display: grid;
+  gap: 14px;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg);
+  box-shadow: var(--shadow-card);
+}
+
+.padHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.padHead p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.padChar {
+  display: inline-grid;
+  place-items: center;
+  min-width: 38px;
+  height: 38px;
+  margin: 0 4px;
+  padding: 0 8px;
+  border-radius: 10px;
+  background: var(--blue-soft);
+  font-size: 22px;
+  color: var(--blue);
+}
+
+.padCount {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.padCanvas {
+  width: 100%;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: #fffefb;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.padActions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.padFoot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+
+.padLinks {
+  display: flex;
+  gap: 14px;
+}
+
+.linkButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--blue);
+  cursor: pointer;
+}
+
+.linkButton:disabled {
+  color: var(--ink-4);
+  cursor: default;
+}
+
+/* Review */
+
+.review {
+  display: grid;
+  gap: 20px;
+}
+
+.reviewHead h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.reviewHead p {
+  margin: 6px 0 0;
+  color: var(--ink-3);
+}
+
+.missing {
+  font-family: var(--font-mono);
+  color: var(--ink);
+}
+
+.glyphs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg);
+  list-style: none;
+}
+
+.glyphs li {
+  display: grid;
+  place-items: center;
+  height: 58px;
+  border-radius: 8px;
+  background: var(--bg-page);
+}
+
+.glyphs svg {
+  width: 100%;
+  height: 50px;
+  fill: #1c2a6b;
+}
+
+.previewBox {
+  max-height: 420px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg-sunk);
+}
+
+.saveRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+}
+
+.nameField {
+  display: grid;
+  gap: 6px;
+  flex: 1 1 220px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.nameField input {
+  height: 48px;
+  padding: 0 12px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.priceNote {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 800px) {
+  .paths {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .padActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Hands already made */
+
+.yours {
+  margin-bottom: 20px;
+  padding: 18px 20px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-l);
+  background: var(--bg);
+}
+
+.yours h2 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.yours ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.yours li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.yours li > svg {
+  width: 18px;
+  height: 18px;
+  color: var(--blue);
+}
+
+.yours li > span {
+  flex: 1;
+  font-weight: 600;
+}

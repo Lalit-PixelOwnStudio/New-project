@@ -10,7 +10,6 @@ import { LIMITS, PLANS, type PaidPlan } from "@/lib/plans";
 import { countryFromHeaders, priceFor, PRODUCTS, regionFor, yearlyPerMonth, type Currency, type ProductId } from "@/lib/pricing";
 import { resolutionName } from "@/lib/resolution";
 import { PlanRow } from "./PlanRow";
-import { StyleUnlock } from "./StyleUnlock";
 import s from "./pricing.module.css";
 
 export const metadata: Metadata = {
@@ -54,7 +53,6 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
   const pay: Currency | null = india && params.currency?.toLowerCase() === "usd" ? "USD" : null;
   const price = (p: ProductId) => priceFor(p, country, pay);
   const currency = price("pass_month").currency;
-  const proStyles = STYLES.filter((st) => st.tier === "pro").map((st) => ({ id: st.id, name: st.name }));
   const free = LIMITS.free;
 
   return (
@@ -177,9 +175,19 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
             </BuyButton>
           </div>
           <div className={s.addon}>
-            <h3>{PRODUCTS.style.name}</h3>
-            <p>Keep one Pro handwriting for good, without a plan. Pick it below: each name is written in its own hand.</p>
-            <StyleUnlock styles={proStyles} priceLabel={price("style").display} currency={pay ?? undefined} />
+            <h3>{PRODUCTS.my_hand.name}</h3>
+            <p>
+              Write one page by hand (or draw the letters on your phone) and Truehand turns it into your own handwriting. Making it and trying it is free; this
+              lets you download pages in it, for good. Every plan includes it too.
+            </p>
+            <div className={s.addonActions}>
+              <ButtonLink href="/my-handwriting" variant="secondary">
+                Make yours free
+              </ButtonLink>
+              <BuyButton product="my_hand" currency={pay ?? undefined}>
+                Buy for {price("my_hand").display}
+              </BuyButton>
+            </div>
           </div>
         </div>
       </Section>
@@ -214,6 +222,7 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
                 ["Papers", `${freePapers}`, `${PAPERS.length}`, `${PAPERS.length}`, `${PAPERS.length}`],
                 ["Pens and ink", `${freePens} ballpoints`, `${PENS.length} + any colour`, `${PENS.length} + any colour`, `${PENS.length} + any colour`],
                 ["Scanned and photo finishes", "Preview", "Preview", "Yes", "Yes"],
+                ["Your own handwriting", `Make free, ${price("my_hand").display} to download`, "Included", "Included", "Included"],
                 ["Batch letters", "—", "—", "Yes", "Yes"],
                 ["Transparent PNG", "—", "—", "Yes", "Yes"],
                 ["Ads", "Yes", "None", "None", "None"],

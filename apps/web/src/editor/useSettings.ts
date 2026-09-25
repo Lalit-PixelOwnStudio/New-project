@@ -50,3 +50,13 @@ export function useSettings(initial?: Partial<EditorSettings>, storageKey = DEFA
 
   return { settings, update, patch, setSettings };
 }
+
+/** Makes a style the one the editor opens with next time. */
+export function rememberStyle(styleId: string) {
+  try {
+    const saved = load(DEFAULT_KEY) ?? DEFAULT_SETTINGS;
+    localStorage.setItem(DEFAULT_KEY, JSON.stringify({ ...saved, styleId }));
+  } catch {
+    // Storage blocked: the editor opens with its defaults.
+  }
+}

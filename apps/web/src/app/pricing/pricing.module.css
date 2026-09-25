@@ -220,87 +220,10 @@
   color: var(--ink-3);
 }
 
-.unlock {
-  display: grid;
-  gap: 12px;
-}
-
-/* Each Pro hand's name, written in that hand. */
-.hands {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
-  gap: 8px;
-  max-height: 248px;
-  margin: 0;
-  padding: 2px;
-  overflow-y: auto;
-  border: 0;
-}
-
-.hand {
-  position: relative;
-  display: grid;
-  place-items: center;
-  height: 52px;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius);
-  background: var(--bg);
-  cursor: pointer;
-}
-
-.hand input {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.hand img {
-  width: auto;
-  max-width: 88%;
-  height: 30px;
-  object-fit: contain;
-  pointer-events: none;
-}
-
-.hand:hover {
-  border-color: var(--rule-strong);
-}
-
-.hand[data-checked] {
-  border-color: var(--blue);
-  background: var(--blue-soft);
-  box-shadow: 0 0 0 1px var(--blue);
-}
-
-.hand:has(input:focus-visible) {
-  outline: 2px solid var(--blue);
-  outline-offset: 2px;
-}
-
-.sample {
-  margin: 0;
-  padding: 8px;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius);
-  background: var(--bg);
-}
-
-.sample img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.sample figcaption {
-  margin-top: 6px;
-  font-size: 13.5px;
-  color: var(--ink-3);
-}
-
-.sample a {
-  color: var(--blue);
+.addonActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .tableWrap {

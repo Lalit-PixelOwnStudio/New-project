@@ -1,4 +1,4 @@
-import type { DocumentSpec, LayoutStats } from "@truehand/engine";
+import type { CapturedHand, DocumentSpec, LayoutStats } from "@truehand/engine";
 import type { StyleEntry } from "@truehand/catalog";
 import type { Effect } from "@/lib/settings";
 
@@ -8,6 +8,8 @@ export interface StyleRef {
   url: string;
   connected: boolean;
   tune: StyleEntry["tune"];
+  /** A hand captured from someone's writing, registered with a "hand" message first. */
+  captured?: boolean;
 }
 
 export interface ExportOptions {
@@ -22,6 +24,7 @@ export interface ExportOptions {
 }
 
 export type WorkerRequest =
+  | { type: "hand"; id: number; handId: string; data: CapturedHand }
   | { type: "layout"; id: number; spec: DocumentSpec; style: StyleRef; fallback: StyleRef }
   | { type: "page"; id: number; layoutId: number; index: number; scale: number; effect: Effect }
   | { type: "export"; id: number; spec: DocumentSpec; style: StyleRef; fallback: StyleRef; options: ExportOptions };

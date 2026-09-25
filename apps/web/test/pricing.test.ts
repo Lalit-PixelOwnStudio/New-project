@@ -21,7 +21,7 @@ describe("regional pricing", () => {
   });
 
   it("orders tiers from richest to cheapest", () => {
-    for (const p of ["pass_week", "pass_month", "pass_year", "pages_100", "style"] as const) {
+    for (const p of ["pass_week", "pass_month", "pass_year", "pages_100", "my_hand"] as const) {
       expect(priceFor(p, "US").amount).toBeGreaterThanOrEqual(priceFor(p, "BR").amount);
       expect(priceFor(p, "BR").amount).toBeGreaterThanOrEqual(priceFor(p, "PK").amount);
     }

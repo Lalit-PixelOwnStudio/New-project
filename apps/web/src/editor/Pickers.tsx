@@ -1,11 +1,13 @@
 "use client";
-import { PAPERS, PENS, STYLES, paperById, penById, styleById, type StyleCategory } from "@truehand/catalog";
-import { ChevronDown } from "lucide-react";
+import { PAPERS, PENS, STYLES, paperById, penById, type StyleCategory } from "@truehand/catalog";
+import { ChevronDown, PenLine, Plus } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { ProTag } from "@/components/ui/ProTag";
 import { canUseStyle, useEntitlements } from "@/lib/entitlements-client";
 import type { EditorSettings } from "@/lib/settings";
+import { isMine, MINE_PREFIX, resolveStyle, useHands } from "@/myhand/store";
 import s from "./Pickers.module.css";
 
 type Update = <K extends keyof EditorSettings>(key: K, value: EditorSettings[K]) => void;
@@ -23,8 +25,22 @@ export function HandList({ value, onPick }: { value: string; onPick: (id: string
   const { entitlements } = useEntitlements();
   const [category, setCategory] = useState<StyleCategory | "all">("all");
   const list = STYLES.filter((st) => category === "all" || st.category === category);
+  const mine = useHands();
   return (
     <div className={s.hands}>
+      <div className={s.mine}>
+        {mine.map((h) => (
+          <button key={h.id} type="button" className={s.mineHand} aria-pressed={value === MINE_PREFIX + h.id} onClick={() => onPick(MINE_PREFIX + h.id)}>
+            <PenLine aria-hidden="true" />
+            <span>{h.name}</span>
+            {!canUseStyle(entitlements, MINE_PREFIX + h.id, "pro") && <ProTag />}
+          </button>
+        ))}
+        <Link href="/my-handwriting" className={s.create}>
+          <Plus aria-hidden="true" />
+          {mine.length ? "Make another from your writing" : "Use your own handwriting"}
+        </Link>
+      </div>
       <div className={s.chips} role="tablist" aria-label="Handwriting categories">
         {CATEGORIES.map((c) => (
           <button key={c.id} type="button" role="tab" aria-selected={category === c.id} className={s.chip} onClick={() => setCategory(c.id)}>
@@ -107,7 +123,7 @@ export function PenList({ settings, update }: { settings: EditorSettings; update
 /** Hand, paper and ink: the three choices people make most, kept in the toolbar. */
 export function QuickPickers({ settings, update }: { settings: EditorSettings; update: Update }) {
   const { entitlements } = useEntitlements();
-  const style = styleById(settings.styleId) ?? STYLES[0]!;
+  const style = resolveStyle(settings.styleId);
   const paper = paperById(settings.paperId) ?? PAPERS[0]!;
   const pen = penById(settings.penId) ?? PENS[0]!;
   const ink = settings.inkColor ?? pen.spec.color;
@@ -119,8 +135,12 @@ export function QuickPickers({ settings, update }: { settings: EditorSettings; u
         trigger={
           <>
             <span className={s.triggerLabel}>Hand</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className={s.triggerHand} src={`/specimens/name-${style.id}.webp`} alt={style.name} width={105} height={26} />
+            {isMine(style.id) ? (
+              <span className={s.triggerMine}>{style.name}</span>
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img className={s.triggerHand} src={`/specimens/name-${style.id}.webp`} alt={style.name} width={105} height={26} />
+            )}
             {!canUseStyle(entitlements, style.id, style.tier) && <ProTag />}
             <ChevronDown className={s.chev} aria-hidden="true" />
           </>

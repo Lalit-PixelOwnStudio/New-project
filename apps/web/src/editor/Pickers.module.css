@@ -27,6 +27,69 @@
   gap: 6px;
 }
 
+.triggerMine {
+  max-width: 120px;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Hands made from the visitor's own writing, above the catalogue. */
+.mine {
+  display: grid;
+  gap: 4px;
+  padding: 4px 4px 8px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.mineHand,
+.create {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: none;
+  font: inherit;
+  font-size: 14.5px;
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.mineHand span {
+  flex: 1;
+  font-weight: 600;
+}
+
+.mineHand:hover,
+.create:hover {
+  background: var(--bg-page);
+}
+
+.mineHand[aria-pressed="true"] {
+  border-color: var(--blue);
+  background: var(--blue-soft);
+}
+
+.mineHand svg,
+.create svg {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  color: var(--blue);
+}
+
+.create {
+  font-weight: 600;
+  color: var(--blue);
+  text-decoration: none;
+}
+
 .chips {
   display: flex;
   gap: 4px;

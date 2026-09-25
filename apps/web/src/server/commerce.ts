@@ -1,5 +1,4 @@
 import "server-only";
-import { STYLES } from "@truehand/catalog";
 import { and, eq, gt, inArray, ne, sql } from "drizzle-orm";
 import { PLAN_RANK, PLANS, type PaidPlan } from "@/lib/plans";
 import { PRODUCTS, priceFor, type Currency, type ProductId, type Provider } from "@/lib/pricing";
@@ -34,20 +33,15 @@ export async function startCheckout(input: {
   userId: string;
   email: string;
   product: ProductId;
-  styleId?: string | null;
   country: string | null;
   /** The currency the buyer picked on the pricing page, if any. */
   currency?: Currency | null;
 }): Promise<CheckoutStart> {
   const product = PRODUCTS[input.product];
   if (!product) throw new CheckoutError("Unknown product");
-  if (product.grant.style) {
-    const style = STYLES.find((s) => s.id === input.styleId);
-    if (!style || style.tier !== "pro") throw new CheckoutError("Choose a Pro handwriting to unlock");
-  }
   const price = priceFor(input.product, input.country, input.currency);
   const orderId = id();
-  const description = product.grant.style ? `${product.name}: ${STYLES.find((s) => s.id === input.styleId)?.name}` : product.name;
+  const description = product.name;
 
   let providerOrderId: string;
   if (price.provider === "razorpay") {
@@ -67,7 +61,7 @@ export async function startCheckout(input: {
     id: orderId,
     userId: input.userId,
     product: input.product,
-    styleId: product.grant.style ? (input.styleId ?? null) : null,
+    styleId: null,
     provider: price.provider,
     providerOrderId,
     amount: price.amount,
@@ -127,8 +121,9 @@ export async function fulfilOrder(provider: Provider, providerOrderId: string, p
         .insert(schema.creditLedger)
         .values({ id: id(), userId: order.userId, delta: grant.credits, reason: `order:${order.product}`, orderId: order.id });
     }
-    if (grant.style && order.styleId) {
-      await tx.insert(schema.styleUnlocks).values({ userId: order.userId, styleId: order.styleId, orderId: order.id }).onConflictDoNothing();
+    if (grant.hand) {
+      // One unlock covers every handwriting the person makes from their own writing.
+      await tx.insert(schema.styleUnlocks).values({ userId: order.userId, styleId: "mine", orderId: order.id }).onConflictDoNothing();
     }
     return true;
   });

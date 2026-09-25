@@ -87,7 +87,9 @@ export function toDocumentSpec(s: EditorSettings): DocumentSpec {
 export function proFeaturesUsed(s: EditorSettings): string[] {
   const used: string[] = [];
   const tierOf = (t: Tier | undefined) => t === "pro";
-  if (tierOf(styleById(s.styleId)?.tier)) used.push(`style:${s.styleId}`);
+  // Every custom hand ("mine:…") is covered by the same unlock.
+  if (s.styleId.startsWith("mine:")) used.push("style:mine");
+  else if (tierOf(styleById(s.styleId)?.tier)) used.push(`style:${s.styleId}`);
   if (tierOf(paperById(s.paperId)?.tier)) used.push(`paper:${s.paperId}`);
   if (tierOf(penById(s.penId)?.tier)) used.push(`pen:${s.penId}`);
   if (s.inkColor) used.push("ink-color");
