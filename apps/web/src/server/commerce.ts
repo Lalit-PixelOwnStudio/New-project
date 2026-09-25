@@ -47,7 +47,7 @@ export async function startCheckout(input: {
   if (price.provider === "razorpay") {
     const order = await createRazorpayOrder({
       amount: price.amount,
-      currency: "INR",
+      currency: price.currency,
       receipt: orderId,
       notes: { orderId, product: input.product, email: input.email },
     });

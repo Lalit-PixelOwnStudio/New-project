@@ -53,7 +53,8 @@ The full list with comments is in [`apps/web/.env.example`](apps/web/.env.exampl
 | `RESEND_API_KEY`, `EMAIL_FROM`                                                    | Emailing sign-in codes                            |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`                                        | Optional "Continue with Google"                   |
 | `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`, `NEXT_PUBLIC_RAZORPAY_KEY_ID` | Payments from India (INR, UPI)    |
-| `PAYPAL_ENV`, `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_WEBHOOK_ID`, `NEXT_PUBLIC_PAYPAL_CLIENT_ID` | Payments from everywhere else (USD) |
+| `NEXT_PUBLIC_RAZORPAY_INTERNATIONAL`                                               | `1` sends payments from outside India through Razorpay (cards, USD) instead of PayPal |
+| `PAYPAL_ENV`, `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_WEBHOOK_ID`, `NEXT_PUBLIC_PAYPAL_CLIENT_ID` | Payments from everywhere else (USD), while the setting above is off |
 | `NEXT_PUBLIC_ADSENSE_CLIENT`, `NEXT_PUBLIC_ADSENSE_SLOT_*`                         | Ads, once AdSense is approved                     |
 | `NEXT_PUBLIC_AD_PLACEHOLDERS`                                                     | `0` hides the labelled ad placeholders            |
 | `NEXT_PUBLIC_BUSINESS_*`, `NEXT_PUBLIC_SUPPORT_EMAIL`                              | Your legal name and address on the legal pages    |
@@ -65,6 +66,7 @@ Empty values count as unset, so pasting the whole example file with blanks is sa
 Both providers take one-time payments; there are no subscriptions to manage.
 
 - **Razorpay:** Dashboard → Account & Settings → API Keys for the key id and secret. Webhooks → add `https://<your-domain>/api/webhooks/razorpay`, event `payment.captured`, and copy its secret into `RAZORPAY_WEBHOOK_SECRET`.
+- **Razorpay for the rest of the world (recommended):** in the Razorpay dashboard, apply for International Payments. Once approved, set `NEXT_PUBLIC_RAZORPAY_INTERNATIONAL=1` and redeploy: buyers outside India then pay by card in US dollars through Razorpay, and PayPal isn't needed. Razorpay charges no fixed fee per payment, while PayPal's fixed fee takes a large share of small payments like $1.99.
 - **PayPal:** developer.paypal.com → Apps & Credentials → create an app for the client id and secret. Add a webhook to `https://<your-domain>/api/webhooks/paypal` with event `PAYMENT.CAPTURE.COMPLETED` and put its id in `PAYPAL_WEBHOOK_ID`. Use `PAYPAL_ENV=sandbox` to test, `live` for real payments.
 
 Checkout confirms the payment in the browser first; the webhooks are the backup if the tab closes mid-payment. Fulfilment is idempotent, so both arriving is fine.

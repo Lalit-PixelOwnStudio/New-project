@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { PLANS } from "@/lib/plans";
 import { formatMoney, priceFor, PRODUCTS, regionFor, regionForCheckout, yearlyPerMonth } from "@/lib/pricing";
 
@@ -12,6 +12,22 @@ describe("regional pricing", () => {
     expect(regionFor(null)).toBe("A");
     expect(priceFor("pass_month", "IN").provider).toBe("razorpay");
     expect(priceFor("pass_month", "DE").provider).toBe("paypal");
+  });
+
+  it("takes dollars through Razorpay too once its international payments are on", async () => {
+    vi.stubEnv("NEXT_PUBLIC_RAZORPAY_INTERNATIONAL", "1");
+    vi.resetModules();
+    try {
+      const pricing = await import("@/lib/pricing");
+      expect(pricing.priceFor("my_hand", "US")).toMatchObject({ provider: "razorpay", currency: "USD", amount: 199 });
+      expect(pricing.priceFor("pass_month", "PK")).toMatchObject({ provider: "razorpay", currency: "USD" });
+      expect(pricing.priceFor("pass_month", "IN")).toMatchObject({ provider: "razorpay", currency: "INR" });
+      expect(pricing.priceFor("pass_month", "IN", "USD")).toMatchObject({ provider: "razorpay", currency: "USD" });
+      expect(pricing.USD_METHODS).not.toContain("PayPal");
+    } finally {
+      vi.unstubAllEnvs();
+      vi.resetModules();
+    }
   });
 
   it("charges India in rupees and everyone else in dollars", () => {

@@ -80,7 +80,19 @@ export function regionFor(country: string | null | undefined): Region {
   return "A";
 }
 
-export const providerFor = (region: Region): Provider => (region === "IN" ? "razorpay" : "paypal");
+/**
+ * Outside India, payments go through PayPal until Razorpay's international
+ * payments are switched on for the account. Then set
+ * NEXT_PUBLIC_RAZORPAY_INTERNATIONAL=1 and everyone pays through Razorpay, in
+ * dollars outside India: on small amounts it costs far less than PayPal, which
+ * adds a fixed fee to every payment.
+ */
+export const RAZORPAY_ABROAD = process.env.NEXT_PUBLIC_RAZORPAY_INTERNATIONAL === "1";
+
+export const providerFor = (region: Region): Provider => (region === "IN" || RAZORPAY_ABROAD ? "razorpay" : "paypal");
+
+/** How people pay in dollars, in a few words. */
+export const USD_METHODS = RAZORPAY_ABROAD ? "Visa, Mastercard and Amex" : "PayPal and cards";
 
 export function formatMoney(amount: number, currency: Currency): string {
   const major = amount / 100;
@@ -98,8 +110,7 @@ export interface Price {
 }
 
 /**
- * Visitors from India can also choose to pay in dollars (through PayPal), at
- * the US price. Nobody else can switch to rupees, so the Indian price stays
+ * Visitors from India can also choose to pay in dollars, at the US price. Nobody else can switch to rupees, so the Indian price stays
  * for India.
  */
 export function regionForCheckout(country: string | null | undefined, currency?: Currency | null): Region {

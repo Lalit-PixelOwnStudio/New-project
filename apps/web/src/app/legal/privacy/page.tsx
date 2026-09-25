@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Prose } from "@/components/Prose";
+import { RAZORPAY_ABROAD } from "@/lib/pricing";
 import { BUSINESS, LEGAL_UPDATED } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Privacy policy", alternates: { canonical: "/legal/privacy" } };
@@ -64,8 +65,8 @@ export default function PrivacyPage() {
 
       <h2>Payments</h2>
       <p>
-        Payments are handled by Razorpay (in India) and PayPal (elsewhere). They receive your payment details directly; we never see or store card numbers or
-        UPI credentials. Their own privacy policies apply to the data they process.
+        Payments are handled by {RAZORPAY_ABROAD ? "Razorpay" : "Razorpay (in India) and PayPal (elsewhere)"}. They receive your payment details directly; we
+        never see or store card numbers or UPI credentials. Their own privacy policies apply to the data they process.
       </p>
 
       <h2>Advertising</h2>
