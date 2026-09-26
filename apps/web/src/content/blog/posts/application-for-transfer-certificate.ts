@@ -3,6 +3,7 @@ import type { BlogPost } from "../types";
 
 const post: BlogPost = {
   slug: "application-for-transfer-certificate",
+  category: "applications",
   title: "Application for a transfer certificate (TC): samples to copy",
   seoTitle: "Application for Transfer Certificate (TC)",
   description:
@@ -93,7 +94,7 @@ const post: BlogPost = {
     },
     { q: "Is a TC the same as a school leaving certificate?", a: "Yes. Different schools and states use either name for the same document." },
   ],
-  related: ["leave-application-for-school", "formal-letter-format", "text-to-handwriting-converter"],
+  related: ["application-for-bonafide-certificate", "leave-application-for-school", "formal-letter-format"],
 };
 
 export default post;

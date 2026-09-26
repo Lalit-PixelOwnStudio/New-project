@@ -3,6 +3,7 @@ import type { BlogPost } from "../types";
 
 const post: BlogPost = {
   slug: "certificate-for-project-file",
+  category: "project-files",
   title: "Certificate for a project file: samples for school and college",
   seoTitle: "Certificate for Project File: Samples to Copy",
   description: "Ready-to-copy certificate pages for school and college project files and practical files, with where each person signs. Free to use.",
@@ -91,7 +92,7 @@ const post: BlogPost = {
       a: "The certificate is your teacher confirming the work is yours. The acknowledgement is you thanking the people who helped.",
     },
   ],
-  related: ["acknowledgement-for-project-file", "index-for-project-file", "text-to-handwriting-converter"],
+  related: ["project-file-cover-page", "acknowledgement-for-project-file", "index-for-project-file"],
 };
 
 export default post;

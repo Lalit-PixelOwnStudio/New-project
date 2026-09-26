@@ -3,6 +3,7 @@ import type { BlogPost } from "../types";
 
 const post: BlogPost = {
   slug: "index-for-project-file",
+  category: "project-files",
   title: "Index for a project file: format and example",
   seoTitle: "Index for Project File: Format and Example",
   description: "How to write the index page of a school project or practical file, the right order of pages, and a ready-to-copy example.",
@@ -79,7 +80,7 @@ const post: BlogPost = {
     },
     { q: "When should I write the index?", a: "Last. Finish the file and number the pages first, then the page numbers in the index will be right." },
   ],
-  related: ["acknowledgement-for-project-file", "certificate-for-project-file", "how-to-improve-handwriting"],
+  related: ["acknowledgement-for-project-file", "bibliography-for-project-file", "certificate-for-project-file"],
 };
 
 export default post;

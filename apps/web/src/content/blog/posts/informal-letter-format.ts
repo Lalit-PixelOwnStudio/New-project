@@ -3,6 +3,7 @@ import type { BlogPost } from "../types";
 
 const post: BlogPost = {
   slug: "informal-letter-format",
+  category: "letters",
   title: "Informal letter format, with examples",
   seoTitle: "Informal Letter Format with Examples",
   description:
@@ -87,7 +88,7 @@ const post: BlogPost = {
       a: "With a friendly close that fits the person: Your loving friend, Yours affectionately, With love, or Your loving son or daughter, followed by your name.",
     },
   ],
-  related: ["formal-letter-format", "notice-writing-format", "how-to-improve-handwriting"],
+  related: ["formal-letter-format", "diary-entry-format", "thank-you-note-for-teacher"],
 };
 
 export default post;

@@ -3,6 +3,7 @@ import type { BlogPost } from "../types";
 
 const post: BlogPost = {
   slug: "how-to-improve-handwriting",
+  category: "handwriting",
   title: "How to improve your handwriting: 12 tips that work",
   seoTitle: "How to Improve Your Handwriting: 12 Tips",
   description:

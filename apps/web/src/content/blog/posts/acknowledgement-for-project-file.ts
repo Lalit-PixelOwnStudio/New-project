@@ -3,6 +3,7 @@ import type { BlogPost } from "../types";
 
 const post: BlogPost = {
   slug: "acknowledgement-for-project-file",
+  category: "project-files",
   title: "Acknowledgement for a project file: 6 samples you can copy",
   seoTitle: "Acknowledgement for Project File: 6 Samples",
   description:
@@ -146,7 +147,7 @@ const post: BlogPost = {
       a: "Use “I” for your own project and “we” for a group project, where you can also list the group members at the end.",
     },
   ],
-  related: ["certificate-for-project-file", "index-for-project-file", "how-to-improve-handwriting"],
+  related: ["certificate-for-project-file", "index-for-project-file", "project-file-cover-page"],
 };
 
 export default post;

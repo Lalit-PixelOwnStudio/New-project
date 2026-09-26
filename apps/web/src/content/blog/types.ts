@@ -13,8 +13,12 @@ export interface BlogTemplate {
 export type BlogBlock =
   { kind: "p"; text: string } | { kind: "list" | "steps"; items: string[] } | { kind: "note"; text: string } | { kind: "template"; template: BlogTemplate };
 
+/** Where a post sits on the blog page. */
+export type BlogCategory = "project-files" | "applications" | "letters" | "handwriting";
+
 export interface BlogPost {
   slug: string;
+  category: BlogCategory;
   /** The headline on the page. */
   title: string;
   /** The <title>, when the headline is too long for search results. */

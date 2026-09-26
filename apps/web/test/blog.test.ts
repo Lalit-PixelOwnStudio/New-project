@@ -23,14 +23,15 @@ describe("blog posts", () => {
     for (const g of GUIDES) expect(g.title.length, g.slug).toBeLessThanOrEqual(60);
   });
 
-  it("each has samples with unique ids, in hands and papers that exist", () => {
+  it("each has samples with unique ids, in free hands and papers", () => {
     for (const b of BLOG) {
       const templates = templatesOf(b);
       expect(templates.length, b.slug).toBeGreaterThan(0);
       expect(new Set(templates.map((t) => t.id)).size, b.slug).toBe(templates.length);
       for (const t of templates) {
-        if (t.settings?.styleId) expect(STYLES.some((s) => s.id === t.settings!.styleId)).toBe(true);
-        if (t.settings?.paperId) expect(PAPERS.some((p) => p.id === t.settings!.paperId)).toBe(true);
+        // A sample opens in the editor for everyone, so it may only use what's free.
+        if (t.settings?.styleId) expect(STYLES.find((s) => s.id === t.settings!.styleId)?.tier, `${b.slug}/${t.id}`).toBe("free");
+        if (t.settings?.paperId) expect(PAPERS.find((p) => p.id === t.settings!.paperId)?.tier, `${b.slug}/${t.id}`).toBe("free");
       }
     }
   });

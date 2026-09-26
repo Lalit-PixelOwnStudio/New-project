@@ -3,6 +3,7 @@ import type { BlogPost } from "../types";
 
 const post: BlogPost = {
   slug: "notice-writing-format",
+  category: "letters",
   title: "Notice writing format, with examples",
   seoTitle: "Notice Writing Format with Examples",
   description: "The notice writing format used in school exams, part by part, with three examples: a school trip, a lost and found notice and a competition.",
@@ -73,7 +74,7 @@ const post: BlogPost = {
     { q: "What is the word limit for a notice?", a: "About 50 words for the body in CBSE Class 10 and 12 exams. Stick close to it." },
     { q: "Is the box necessary?", a: "Yes, in school exams the notice is written inside a box. The heading and date go inside it too." },
   ],
-  related: ["formal-letter-format", "informal-letter-format", "text-to-handwriting-converter"],
+  related: ["formal-letter-format", "diary-entry-format", "informal-letter-format"],
 };
 
 export default post;
