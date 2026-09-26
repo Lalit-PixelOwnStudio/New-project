@@ -1,14 +1,20 @@
 import "server-only";
-import { and, eq, gt, sql } from "drizzle-orm";
+import { z } from "zod";
 import type { Entitlements } from "@/lib/plans";
-import { db, schema } from "./db";
+import { addCredits } from "../repositories/credits";
+import { freePagesSince, logExport, type Visitor } from "../repositories/exports";
+import { withTransaction } from "../repositories/transaction";
+import { getEntitlements } from "./entitlements";
+import { ServiceError } from "./errors";
 
-export interface ExportRequest {
-  pages: number;
-  dpi: number;
+/** What the download window asks for before rendering. */
+export const ExportInput = z.object({
+  pages: z.number().int().min(1).max(500),
+  dpi: z.number().int().min(72).max(600),
   /** Pro-only choices the export uses (style:x, paper:y, effect:z…). */
-  pro: string[];
-}
+  pro: z.array(z.string().max(64)).max(20),
+});
+export type ExportRequest = z.infer<typeof ExportInput>;
 
 export interface ExportGrant {
   allowed: number;
@@ -17,12 +23,12 @@ export interface ExportGrant {
   creditsLeft: number;
 }
 
-export class QuotaError extends Error {
+export class QuotaError extends ServiceError {
   constructor(
     message: string,
-    readonly code: "pro_required" | "daily_limit" | "bad_request",
+    override readonly code: "pro_required" | "daily_limit" | "bad_request",
   ) {
-    super(message);
+    super(message, code === "bad_request" ? 400 : 402, code);
   }
 }
 
@@ -55,29 +61,16 @@ export function decide(req: ExportRequest, ent: Entitlements, usedToday: number)
   return { allowed, creditsUsed, freeLeftToday: freeLeftToday - free, creditsLeft: ent.credits - creditsUsed };
 }
 
-export async function pagesUsedToday(who: { userId: string | null; anonId: string | null }) {
-  const since = new Date(Date.now() - 86_400_000);
-  const owner = who.userId ? eq(schema.exportLog.userId, who.userId) : who.anonId ? eq(schema.exportLog.anonId, who.anonId) : null;
-  if (!owner) return 0;
-  const [row] = await db
-    .select({ total: sql<number>`coalesce(sum(${schema.exportLog.pages} - ${schema.exportLog.creditsUsed}), 0)` })
-    .from(schema.exportLog)
-    .where(and(owner, gt(schema.exportLog.createdAt, since)));
-  return Number(row?.total ?? 0);
-}
+/** Free pages used in the last 24 hours. */
+export const pagesUsedToday = (who: Visitor) => freePagesSince(who, new Date(Date.now() - 86_400_000));
 
-export async function recordExport(who: { userId: string | null; anonId: string | null }, grant: ExportGrant, dpi: number) {
-  await db.transaction(async (tx) => {
-    await tx.insert(schema.exportLog).values({
-      id: crypto.randomUUID(),
-      userId: who.userId,
-      anonId: who.userId ? null : who.anonId,
-      pages: grant.allowed,
-      creditsUsed: grant.creditsUsed,
-      dpi,
-    });
-    if (grant.creditsUsed && who.userId) {
-      await tx.insert(schema.creditLedger).values({ id: crypto.randomUUID(), userId: who.userId, delta: -grant.creditsUsed, reason: "export" });
-    }
+/** Decides an export for this visitor and records it, spending credits if it needs them. */
+export async function reserveExport(who: Visitor, req: ExportRequest): Promise<ExportGrant> {
+  const ent = await getEntitlements(who.userId);
+  const grant = decide(req, ent, await pagesUsedToday(who));
+  await withTransaction(async (tx) => {
+    await logExport(tx, who, { pages: grant.allowed, creditsUsed: grant.creditsUsed, dpi: req.dpi });
+    if (grant.creditsUsed && who.userId) await addCredits(tx, { userId: who.userId, delta: -grant.creditsUsed, reason: "export" });
   });
+  return grant;
 }

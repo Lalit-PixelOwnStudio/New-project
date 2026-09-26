@@ -1,4 +1,3 @@
-import { desc, eq } from "drizzle-orm";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { PageHero, Section } from "@/components/Section";
@@ -6,8 +5,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { planName } from "@/lib/plans";
 import { formatMoney, PRODUCTS, type Currency, type ProductId } from "@/lib/pricing";
 import { currentUser } from "@/server/auth";
-import { db, schema } from "@/server/db";
-import { getEntitlements } from "@/server/entitlements";
+import { accountOverview } from "@/server/services/account";
 import { AccountActions } from "./AccountActions";
 import s from "./account.module.css";
 
@@ -19,8 +17,7 @@ const date = (d: Date | string) => new Date(d).toLocaleDateString("en-GB", { day
 export default async function AccountPage() {
   const user = await currentUser();
   if (!user) redirect("/login?next=/account");
-  const ent = await getEntitlements(user.id);
-  const orders = await db.select().from(schema.orders).where(eq(schema.orders.userId, user.id)).orderBy(desc(schema.orders.createdAt)).limit(50);
+  const { entitlements: ent, orders } = await accountOverview(user.id);
   const paid = orders.filter((o) => o.status === "paid");
 
   return (

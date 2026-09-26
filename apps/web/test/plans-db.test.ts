@@ -6,8 +6,8 @@ import { beforeAll, describe, expect, it } from "vitest";
 // A throwaway embedded database, migrated like production.
 process.env.PGLITE_DIR = mkdtempSync(join(tmpdir(), "truehand-plans-"));
 const { db, schema } = await import("@/server/db");
-const { fulfilOrder } = await import("@/server/commerce");
-const { getEntitlements } = await import("@/server/entitlements");
+const { fulfilOrder } = await import("@/server/services/checkout");
+const { getEntitlements } = await import("@/server/services/entitlements");
 const { migrate } = await import("drizzle-orm/pglite/migrator");
 
 const DAY = 86_400_000;

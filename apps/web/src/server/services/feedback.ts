@@ -1,11 +1,13 @@
 import "server-only";
-import { and, avg, count, desc, eq, gte } from "drizzle-orm";
 import { z } from "zod";
 import { present } from "@/lib/env";
-import { db, schema } from "./db";
+import type { Visitor } from "../repositories/exports";
+import { feedbackCountSince, feedbackStats, insertFeedback } from "../repositories/feedback";
+import { getEntitlements } from "./entitlements";
+import { ServiceError } from "./errors";
 
 /** What the browser may send. The written text itself is never part of it. */
-export const FeedbackBody = z.object({
+export const FeedbackInput = z.object({
   rating: z.number().int().min(1).max(5),
   message: z.string().trim().max(2000).optional(),
   email: z.union([z.literal(""), z.string().trim().email().max(200)]).optional(),
@@ -23,35 +25,24 @@ export const FeedbackBody = z.object({
     })
     .strict(),
 });
-export type FeedbackInput = z.infer<typeof FeedbackBody>;
+export type Feedback = z.infer<typeof FeedbackInput>;
 
 /** More than this from one visitor in a day is someone spamming the form. */
 export const DAILY_LIMIT = 20;
 
-export async function feedbackToday(who: { userId: string | null; anonId: string | null }) {
+/** Stores a rating, with the visitor's plan and country for context. */
+export async function submitFeedback(input: Feedback, who: Visitor, country: string | null) {
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
-  const whose = who.userId ? eq(schema.feedback.userId, who.userId) : who.anonId ? eq(schema.feedback.anonId, who.anonId) : null;
-  if (!whose) return 0;
-  const [row] = await db
-    .select({ n: count() })
-    .from(schema.feedback)
-    .where(and(whose, gte(schema.feedback.createdAt, since)));
-  return row?.n ?? 0;
-}
-
-export async function saveFeedback(
-  input: FeedbackInput,
-  who: { userId: string | null; anonId: string | null },
-  extra: { plan: string; country: string | null },
-) {
-  await db.insert(schema.feedback).values({
+  if ((await feedbackCountSince(who, since)) >= DAILY_LIMIT) throw new ServiceError("too_many", 429, "too_many");
+  const { plan } = await getEntitlements(who.userId);
+  await insertFeedback({
     id: crypto.randomUUID(),
     rating: input.rating,
     message: input.message || null,
     email: input.email ? input.email.toLowerCase() : null,
     userId: who.userId,
     anonId: who.anonId,
-    context: { ...input.context, ...extra },
+    context: { ...input.context, plan, country },
   });
 }
 
@@ -65,14 +56,13 @@ export function isAdmin(email: string | null | undefined) {
   return admins.includes(email.toLowerCase());
 }
 
+/** Totals, the spread of ratings, and the latest comments, for the admin page. */
 export async function feedbackSummary() {
-  const [totals] = await db.select({ n: count(), average: avg(schema.feedback.rating) }).from(schema.feedback);
-  const byRating = await db.select({ rating: schema.feedback.rating, n: count() }).from(schema.feedback).groupBy(schema.feedback.rating);
-  const latest = await db.select().from(schema.feedback).orderBy(desc(schema.feedback.createdAt)).limit(200);
+  const stats = await feedbackStats();
   return {
-    total: totals?.n ?? 0,
-    average: totals?.average ? Number(totals.average) : null,
-    byRating: Object.fromEntries(byRating.map((r) => [r.rating, r.n])) as Record<number, number>,
-    latest,
+    total: stats.total,
+    average: stats.average ? Number(stats.average) : null,
+    byRating: Object.fromEntries(stats.byRating.map((r) => [r.rating, r.n])) as Record<number, number>,
+    latest: stats.latest,
   };
 }
