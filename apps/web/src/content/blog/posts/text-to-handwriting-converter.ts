@@ -3,6 +3,7 @@ import type { BlogPost } from "../types";
 
 const post: BlogPost = {
   slug: "text-to-handwriting-converter",
+  category: "handwriting",
   title: "Text to handwriting converter: how it works, and how to make it look real",
   seoTitle: "Text to Handwriting Converter: How It Works",
   description: "What a text to handwriting converter does, why most results look fake, and how to make typed text look genuinely handwritten on ruled paper.",
@@ -75,7 +76,7 @@ const post: BlogPost = {
       a: "Yes. Fill in a one-page template by hand, take a photo, and Truehand turns it into your own handwriting.",
     },
   ],
-  related: ["how-to-improve-handwriting", "acknowledgement-for-project-file", "leave-application-for-school"],
+  related: ["how-to-improve-handwriting", "project-file-cover-page", "leave-application-for-school"],
 };
 
 export default post;

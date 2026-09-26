@@ -3,6 +3,7 @@ import type { BlogPost } from "../types";
 
 const post: BlogPost = {
   slug: "formal-letter-format",
+  category: "letters",
   title: "Formal letter format, with examples",
   seoTitle: "Formal Letter Format with Examples",
   description:
@@ -109,7 +110,7 @@ const post: BlogPost = {
     { q: "Where does the date go in a formal letter?", a: "Below your address, before the receiver's address, in the block format used by CBSE." },
     { q: "Is the subject line necessary?", a: "Yes. In school exams, missing the subject line costs a format mark." },
   ],
-  related: ["informal-letter-format", "notice-writing-format", "leave-application-for-school"],
+  related: ["informal-letter-format", "resignation-letter", "leave-application-for-school"],
 };
 
 export default post;

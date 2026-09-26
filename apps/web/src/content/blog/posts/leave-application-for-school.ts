@@ -3,6 +3,7 @@ import type { BlogPost } from "../types";
 
 const post: BlogPost = {
   slug: "leave-application-for-school",
+  category: "applications",
   title: "Leave application for school: 7 samples for students",
   seoTitle: "Leave Application for School: 7 Samples",
   description:
@@ -149,7 +150,7 @@ const post: BlogPost = {
       a: "For sick leave of more than two or three days, most schools ask for one. Mention it in the letter and attach it.",
     },
   ],
-  related: ["application-for-transfer-certificate", "formal-letter-format", "how-to-improve-handwriting"],
+  related: ["leave-application-for-college", "apology-letter-to-teacher", "application-for-transfer-certificate"],
 };
 
 export default post;
