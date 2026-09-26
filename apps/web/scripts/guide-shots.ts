@@ -10,7 +10,7 @@
  * throwaway email and reads the code from the server's log (without an email
  * provider set up, the server prints the code instead of sending it).
  *
- * Writes public/guides/<name>.webp and src/content/guide-images.json (sizes).
+ * Writes public/guides/<name>.webp and src/content/guides/images.json (sizes).
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -444,7 +444,7 @@ async function main() {
   await page.context().close();
 
   await browser.close();
-  writeFileSync(join(ROOT, "src", "content", "guide-images.json"), `${JSON.stringify(sizes, null, 2)}\n`);
+  writeFileSync(join(ROOT, "src", "content", "guides", "images.json"), `${JSON.stringify(sizes, null, 2)}\n`);
   console.log(`guide shots: ${Object.keys(sizes).length} written`);
 }
 
