@@ -2,7 +2,11 @@ import { STYLES } from "@truehand/catalog";
 import type { Metadata } from "next";
 import { Prose } from "@/components/Prose";
 
-export const metadata: Metadata = { title: "Font credits", alternates: { canonical: "/credits" } };
+export const metadata: Metadata = {
+  title: "Font credits",
+  description: "The open-source handwriting fonts behind Truehand's styles, with their designers and licences.",
+  alternates: { canonical: "/credits" },
+};
 
 export default function CreditsPage() {
   const fonts = [...new Map(STYLES.map((s) => [s.font.family, s])).values()].sort((a, b) => a.font.family.localeCompare(b.font.family));

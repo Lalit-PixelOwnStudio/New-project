@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { Prose } from "@/components/Prose";
 import { BUSINESS, LEGAL_UPDATED } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Shipping and delivery", alternates: { canonical: "/legal/shipping" } };
+export const metadata: Metadata = {
+  title: "Shipping and delivery",
+  description: "Everything Truehand sells is digital and reaches your account within seconds. Nothing is shipped; available worldwide.",
+  alternates: { canonical: "/legal/shipping" },
+};
 
 export default function ShippingPage() {
   return (

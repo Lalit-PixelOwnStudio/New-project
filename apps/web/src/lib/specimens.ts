@@ -1,4 +1,5 @@
 import { PAPERS, STYLES } from "@truehand/catalog";
+import { BLOG, templatesOf } from "@/content/blog";
 import { USE_CASES } from "@/content/use-cases";
 import type { DocumentSpec } from "@truehand/engine";
 import { DEFAULT_SETTINGS, SAMPLE_TEXT, toDocumentSpec, type EditorSettings } from "./settings";
@@ -117,6 +118,18 @@ export function specimenJobs(): SpecimenJob[] {
       scale: 1.4,
       crop: [0, 0, A4_W, A4_H],
     });
+  }
+  // Every blog sample, handwritten: the picture on its post, and the preview while the editor loads.
+  for (const post of BLOG) {
+    for (const t of templatesOf(post)) {
+      jobs.push({
+        name: `blog-${post.slug}-${t.id}`,
+        style: t.settings?.styleId ?? DEFAULT_SETTINGS.styleId,
+        doc: spec({ text: t.text, ...t.settings }),
+        scale: 1,
+        crop: [0, 0, A4_W, A4_H],
+      });
+    }
   }
   for (const p of PAPERS) {
     jobs.push({

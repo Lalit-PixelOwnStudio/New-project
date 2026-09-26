@@ -8,8 +8,9 @@ import { ProTag } from "@/components/ui/ProTag";
 import s from "./styles.module.css";
 
 export const metadata: Metadata = {
-  title: "Handwriting styles",
+  title: `${STYLES.length} realistic handwriting styles and fonts`,
   description: `${STYLES.length} realistic handwriting styles: messy everyday hands, neat print, joined cursive, marker and elegant scripts. Preview any of them free.`,
+  alternates: { canonical: "/styles" },
 };
 
 const GROUPS: { id: StyleCategory; title: string; lede: string }[] = [

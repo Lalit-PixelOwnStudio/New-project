@@ -1,5 +1,6 @@
 import { PAPERS, STYLES } from "@truehand/catalog";
 import type { MetadataRoute } from "next";
+import { BLOG } from "@/content/blog";
 import { GUIDES } from "@/content/guides";
 import { USE_CASES } from "@/content/use-cases";
 import { SITE_URL } from "@/lib/site";
@@ -25,6 +26,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...STYLES.map((s) => page(`/styles/${s.id}`, 0.7)),
     ...PAPERS.map((p) => page(`/papers/${p.id}`, 0.5)),
     ...GUIDES.map((g) => ({ ...page(`/guides/${g.slug}`, 0.6), lastModified: new Date(g.updated) })),
+    page("/blog", 0.7, "weekly"),
+    ...BLOG.map((b) => ({ ...page(`/blog/${b.slug}`, 0.7), lastModified: new Date(b.updated) })),
     page("/about", 0.3, "yearly"),
     page("/contact", 0.3, "yearly"),
     page("/credits", 0.2, "yearly"),

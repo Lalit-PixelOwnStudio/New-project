@@ -10,15 +10,16 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Truehand: Convert text to realistic handwriting",
+    default: "Text to Handwriting Converter, Free & Realistic | Truehand",
     template: "%s · Truehand",
   },
   description:
-    "Turn typed text into realistic handwriting on ruled, grid or plain paper. 41 hands, real ink, every letter slightly different. Free PDF and PNG download, no sign-up.",
+    "Convert typed text into realistic handwriting on ruled notebook paper. 41 handwriting styles, every letter different. Free PDF download, no sign-up.",
   applicationName: "Truehand",
-  openGraph: { type: "website", siteName: "Truehand", images: ["/og.png"] },
+  // No canonical here: each page sets its own, so none of them points at the home page by mistake.
+  openGraph: { type: "website", siteName: "Truehand", locale: "en_IN", images: ["/og.png"] },
   twitter: { card: "summary_large_image" },
-  alternates: { canonical: "/" },
+  icons: { apple: "/brand/apple-touch-icon.png" },
 };
 
 export const viewport: Viewport = {

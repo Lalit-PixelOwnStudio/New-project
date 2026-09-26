@@ -3,7 +3,11 @@ import { Prose } from "@/components/Prose";
 import { RAZORPAY_ABROAD } from "@/lib/pricing";
 import { BUSINESS, LEGAL_UPDATED } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Refunds, cancellation and delivery", alternates: { canonical: "/legal/refunds" } };
+export const metadata: Metadata = {
+  title: "Refunds, cancellation and delivery",
+  description: "Truehand's refund and cancellation policy: one-time payments, refunds within 7 days, and how to ask for one.",
+  alternates: { canonical: "/legal/refunds" },
+};
 
 export default function RefundsPage() {
   return (

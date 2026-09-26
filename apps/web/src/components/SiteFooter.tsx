@@ -28,6 +28,7 @@ const COLUMNS = [
     title: "Learn",
     links: [
       { href: "/guides", label: "Guides" },
+      { href: "/blog", label: "Samples & blog" },
       { href: "/guides/getting-started", label: "Getting started" },
       { href: "/credits", label: "Font credits" },
     ],

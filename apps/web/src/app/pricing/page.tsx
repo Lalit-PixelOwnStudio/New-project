@@ -13,8 +13,9 @@ import { PlanRow } from "./PlanRow";
 import s from "./pricing.module.css";
 
 export const metadata: Metadata = {
-  title: "Pricing",
+  title: "Pricing: free text to handwriting, paid plans",
   description: `Truehand is free with ads. Three one-time plans add pages, every hand, paper and pen, and up to 4K quality: Week, Month or Year. Nothing renews.`,
+  alternates: { canonical: "/pricing" },
 };
 
 const freeStyles = STYLES.filter((st) => st.tier === "free").length;

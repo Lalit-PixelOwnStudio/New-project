@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Prose } from "@/components/Prose";
 
-export const metadata: Metadata = { title: "About", alternates: { canonical: "/about" } };
+export const metadata: Metadata = {
+  title: "About",
+  description: "Truehand turns typed text into realistic handwriting right in your browser. Who makes it, why, and how your text stays private.",
+  alternates: { canonical: "/about" },
+};
 
 export default function AboutPage() {
   return (

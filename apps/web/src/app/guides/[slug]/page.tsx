@@ -5,10 +5,11 @@ import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { AdSlot } from "@/components/AdSlot";
 import { Faq } from "@/components/Faq";
+import { JsonLd } from "@/components/JsonLd";
 import { FeedbackForm } from "@/components/FeedbackForm";
 import { ButtonLink } from "@/components/ui/Button";
 import { GUIDES, guideBySlug, type GuideBlock } from "@/content/guides";
-import { SITE_URL } from "@/lib/site";
+import { articleLd, breadcrumbLd } from "@/lib/seo";
 import s from "../guides.module.css";
 
 export const dynamicParams = false;
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const g = guideBySlug((await params).slug);
   if (!g) return {};
   return {
-    title: g.title,
+    title: { absolute: g.title },
     description: g.description,
     alternates: { canonical: `/guides/${g.slug}` },
     openGraph: { type: "article", modifiedTime: g.updated },
@@ -89,16 +90,13 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
   if (!g) notFound();
   const related = g.related.map(guideBySlug).filter((x) => x !== undefined);
   const firstImage = g.sections.flatMap((sec) => sec.blocks).find((b) => b.kind === "image");
-  const ld = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: g.title,
-    description: g.description,
-    dateModified: g.updated,
-    author: { "@type": "Organization", name: "Truehand" },
-    publisher: { "@type": "Organization", name: "Truehand", logo: { "@type": "ImageObject", url: `${SITE_URL}/brand/mark.svg` } },
-    mainEntityOfPage: `${SITE_URL}/guides/${g.slug}`,
-  };
+  const ld = [
+    articleLd({ path: `/guides/${g.slug}`, headline: g.title, description: g.description, modified: g.updated, image: firstImage?.image?.src }),
+    breadcrumbLd([
+      { name: "Guides", path: "/guides" },
+      { name: g.title, path: `/guides/${g.slug}` },
+    ]),
+  ];
 
   return (
     <main className={s.page}>
@@ -157,7 +155,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           </nav>
         )}
       </article>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />
+      <JsonLd items={ld} />
     </main>
   );
 }
