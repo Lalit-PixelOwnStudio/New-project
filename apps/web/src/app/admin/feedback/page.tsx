@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { PageHero } from "@/components/Section";
 import { currentUser } from "@/server/auth";
-import { feedbackSummary, isAdmin } from "@/server/feedback";
+import { feedbackSummary, isAdmin } from "@/server/services/feedback";
 import s from "./admin.module.css";
 
 export const dynamic = "force-dynamic";

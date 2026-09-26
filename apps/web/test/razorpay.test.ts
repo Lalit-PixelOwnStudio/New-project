@@ -1,6 +1,6 @@
 import { createHmac } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { verifyCheckoutSignature, verifyWebhookSignature } from "@/server/payments/razorpay";
+import { verifyCheckoutSignature, verifyWebhookSignature } from "@/server/integrations/razorpay";
 
 describe("razorpay signatures", () => {
   it("accepts a valid checkout signature and rejects tampering", () => {

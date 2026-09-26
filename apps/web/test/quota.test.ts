@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { FREE_ENTITLEMENTS, LIMITS, type Entitlements } from "@/lib/plans";
-import { decide, QuotaError } from "@/server/quota";
+import { decide, QuotaError } from "@/server/services/quota";
 
 const free: Entitlements = FREE_ENTITLEMENTS;
 const plan = (id: "week" | "month" | "year", credits: number): Entitlements => ({

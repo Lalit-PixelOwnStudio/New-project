@@ -6,7 +6,7 @@ import { emailOTP } from "better-auth/plugins";
 import { headers } from "next/headers";
 import { present, toOrigin } from "@/lib/env";
 import { db, schema } from "./db";
-import { codeEmail, sendEmail } from "./email";
+import { codeEmail, sendEmail } from "./integrations/email";
 
 const google =
   process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET

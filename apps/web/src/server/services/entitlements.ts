@@ -1,20 +1,14 @@
 import "server-only";
-import { and, eq, gt, sql } from "drizzle-orm";
 import { FREE_ENTITLEMENTS, LIMITS, PLAN_RANK, type Entitlements, type PlanId } from "@/lib/plans";
-import { db, schema } from "./db";
+import { creditBalance } from "../repositories/credits";
+import { runningPasses } from "../repositories/passes";
+import { unlockedStyles } from "../repositories/unlocks";
 
+/** What a person may do right now: their plan, pages left and unlocks. */
 export async function getEntitlements(userId: string | null | undefined): Promise<Entitlements> {
   if (!userId) return FREE_ENTITLEMENTS;
   const now = new Date();
-  const running = await db
-    .select({ plan: schema.passes.plan, startsAt: schema.passes.startsAt, endsAt: schema.passes.endsAt })
-    .from(schema.passes)
-    .where(and(eq(schema.passes.userId, userId), gt(schema.passes.endsAt, now)));
-  const [credit] = await db
-    .select({ total: sql<number>`coalesce(sum(${schema.creditLedger.delta}), 0)` })
-    .from(schema.creditLedger)
-    .where(eq(schema.creditLedger.userId, userId));
-  const unlocks = await db.select({ styleId: schema.styleUnlocks.styleId }).from(schema.styleUnlocks).where(eq(schema.styleUnlocks.userId, userId));
+  const [running, credits, unlocks] = await Promise.all([runningPasses(userId, now), creditBalance(userId), unlockedStyles(userId)]);
 
   // The best plan that has started; later plans queued behind it don't count yet.
   let plan: PlanId = "free";
@@ -28,8 +22,8 @@ export async function getEntitlements(userId: string | null | undefined): Promis
   return {
     plan,
     proUntil: plan === "free" ? null : (until?.toISOString() ?? null),
-    credits: Math.max(0, Number(credit?.total ?? 0)),
-    unlockedStyles: unlocks.map((u) => u.styleId),
+    credits: Math.max(0, credits),
+    unlockedStyles: unlocks,
     limits: LIMITS[plan],
     signedIn: true,
   };

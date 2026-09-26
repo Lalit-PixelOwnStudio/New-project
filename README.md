@@ -10,7 +10,11 @@ Type text, get it back handwritten: realistic handwriting on ruled paper, render
 | `packages/engine`   | The handwriting engine: HarfBuzz shaping, layout on ruled paper, controlled randomness, Canvas renderer, PDF/ZIP |
 | `packages/catalog`  | Handwriting styles, papers and pens, with their free/Pro tier                                                    |
 | `assets/fonts`      | The open-source handwriting fonts (OFL / Apache 2.0) and their licences                                          |
-| `docs/`             | Requirement analysis and product/architecture notes                                                              |
+| `docs/`             | Requirement analysis, product notes, and the code architecture                                                   |
+
+### Code structure
+
+The web app is split into three tiers: presentation (`src/app`, components, editor), business (`src/server/services`) and data (`src/server/repositories` for SQL, `src/server/integrations` for Razorpay, PayPal and email). Each tier only calls the one below it, and a test fails if code skips a tier. Blog posts, guides and use cases are one file each under `src/content/`. See [docs/03-code-architecture.md](docs/03-code-architecture.md).
 
 ## Run it locally
 
@@ -98,9 +102,10 @@ After a download the popup asks for a 1–5 rating, with an optional comment and
 The screenshots in the guides (`apps/web/public/guides`) are taken from the running site, with the controls each step mentions outlined and numbered. After changing the editor, retake them:
 
 ```sh
-pnpm --filter @truehand/web build && pnpm --filter @truehand/web start
-# in another terminal; CHROME_PATH points at any Chrome or Chromium
-CHROME_PATH=/path/to/chrome pnpm --filter @truehand/web guide:shots http://localhost:3000
+pnpm --filter @truehand/web build && pnpm --filter @truehand/web start > server.log
+# in another terminal; CHROME_PATH points at any Chrome or Chromium. The script signs in
+# with a throwaway email and reads the code from server.log (no email provider needed).
+GUIDE_SERVER_LOG=server.log CHROME_PATH=/path/to/chrome pnpm --filter @truehand/web guide:shots http://localhost:3000
 ```
 
 ## Fonts
