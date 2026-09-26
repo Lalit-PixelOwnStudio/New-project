@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { Prose } from "@/components/Prose";
 import { LEGAL_UPDATED } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Cookies and local storage", alternates: { canonical: "/legal/cookies" } };
+export const metadata: Metadata = {
+  title: "Cookies and local storage",
+  description: "The cookies and browser storage Truehand uses, what each one is for, and how to clear them.",
+  alternates: { canonical: "/legal/cookies" },
+};
 
 export default function CookiesPage() {
   return (

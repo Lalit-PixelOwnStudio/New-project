@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { Prose } from "@/components/Prose";
 import { BUSINESS } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Contact", alternates: { canonical: "/contact" } };
+export const metadata: Metadata = {
+  title: "Contact",
+  description: "How to reach Truehand about downloads, payments, refunds or your account, and what to include so we can help quickly.",
+  alternates: { canonical: "/contact" },
+};
 
 export default function ContactPage() {
   return (

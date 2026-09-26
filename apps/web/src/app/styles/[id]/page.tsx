@@ -1,4 +1,4 @@
-import { STYLES, styleById } from "@truehand/catalog";
+import { STYLES, styleById, type StyleCategory } from "@truehand/catalog";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -6,7 +6,9 @@ import { AdBand } from "@/components/AdBand";
 import { PageHero, Section } from "@/components/Section";
 import { ProTag } from "@/components/ui/ProTag";
 import { AdSlot } from "@/components/AdSlot";
+import { JsonLd } from "@/components/JsonLd";
 import { Editor } from "@/editor/Editor";
+import { breadcrumbLd } from "@/lib/seo";
 import s from "../styles.module.css";
 import d from "./detail.module.css";
 
@@ -16,13 +18,17 @@ export const generateStaticParams = () => STYLES.map((st) => ({ id: st.id }));
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const st = styleById((await params).id);
   if (!st) return {};
+  const long = `${st.blurb} Write any text in ${st.name} and download it free as PDF or PNG.`;
   return {
-    title: `${st.name} handwriting`,
-    description: `${st.blurb} Write any text in the ${st.name} handwriting style and download it as PDF or PNG.`,
+    title: `${st.name}: ${KIND[st.category]} handwriting font`,
+    description: long.length <= 155 ? long : `${st.blurb} Try it free.`,
     alternates: { canonical: `/styles/${st.id}` },
     openGraph: { images: [`/specimens/style-${st.id}.webp`] },
   };
 }
+
+/** How each category reads in a page title. */
+const KIND: Record<StyleCategory, string> = { casual: "everyday", print: "print", cursive: "cursive", marker: "marker", elegant: "elegant script" };
 
 const scriptNames: Record<string, string> = { "latin-ext": "Latin Extended", cyrillic: "Cyrillic", greek: "Greek", vietnamese: "Vietnamese" };
 
@@ -34,6 +40,14 @@ export default async function StylePage({ params }: { params: Promise<{ id: stri
 
   return (
     <main>
+      <JsonLd
+        items={[
+          breadcrumbLd([
+            { name: "Handwriting styles", path: "/styles" },
+            { name: `${st.name} handwriting`, path: `/styles/${st.id}` },
+          ]),
+        ]}
+      />
       <PageHero eyebrow={`${category} handwriting`} title={<>{st.name} handwriting</>} lede={st.blurb} />
       <AdBand placement="top" tone="page" desktopOnly />
       <div className={d.work}>

@@ -8,6 +8,14 @@
   padding: 48px var(--gutter) 32px;
 }
 
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  color: var(--blue);
+}
+
 .title {
   max-width: 18ch;
   margin: 0;
@@ -159,6 +167,45 @@
 
 .textLink:hover svg {
   transform: translateX(3px);
+}
+
+.samples {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.samples a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.samples a:hover {
+  color: var(--blue);
+}
+
+.samples svg {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  color: var(--blue);
+}
+
+@media (max-width: 800px) {
+  .samples {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .uses {

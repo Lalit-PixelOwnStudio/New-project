@@ -6,7 +6,9 @@ import { AdBand } from "@/components/AdBand";
 import { PageHero, Section } from "@/components/Section";
 import { USE_CASES, useCaseBySlug } from "@/content/use-cases";
 import { AdSlot } from "@/components/AdSlot";
+import { JsonLd } from "@/components/JsonLd";
 import { Editor } from "@/editor/Editor";
+import { breadcrumbLd } from "@/lib/seo";
 import d from "../../styles/[id]/detail.module.css";
 import s from "./use.module.css";
 
@@ -30,6 +32,7 @@ export default async function UseCasePage({ params }: { params: Promise<{ slug: 
   const others = USE_CASES.filter((o) => o.slug !== u.slug);
   return (
     <main>
+      <JsonLd items={[breadcrumbLd([{ name: u.name, path: `/use/${u.slug}` }])]} />
       <PageHero eyebrow={u.name} title={u.title} lede={u.lede} />
       <AdBand placement="top" tone="page" desktopOnly />
       <div className={d.work}>

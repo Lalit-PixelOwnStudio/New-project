@@ -3,7 +3,11 @@ import Link from "next/link";
 import { Prose } from "@/components/Prose";
 import { BUSINESS, LEGAL_UPDATED } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Terms of use", alternates: { canonical: "/legal/terms" } };
+export const metadata: Metadata = {
+  title: "Terms of use",
+  description: "The terms for using Truehand: fair use, accounts, plans and one-time payments, and your rights.",
+  alternates: { canonical: "/legal/terms" },
+};
 
 export default function TermsPage() {
   return (

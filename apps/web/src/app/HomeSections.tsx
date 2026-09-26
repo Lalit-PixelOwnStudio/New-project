@@ -6,6 +6,7 @@ import { Faq } from "@/components/Faq";
 import { Section } from "@/components/Section";
 import { ButtonLink } from "@/components/ui/Button";
 import { ProTag } from "@/components/ui/ProTag";
+import { BLOG } from "@/content/blog";
 import { USE_CASES } from "@/content/use-cases";
 import s from "./home.module.css";
 
@@ -101,6 +102,18 @@ export function HomeSections() {
                   <strong>{u.name}</strong>
                   <span>{u.lede}</span>
                 </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      <Section label="Samples" title="Copy a sample, get it handwritten">
+        <ul className={s.samples}>
+          {BLOG.map((b) => (
+            <li key={b.slug}>
+              <Link href={`/blog/${b.slug}`}>
+                {b.title} <ArrowRight aria-hidden="true" />
               </Link>
             </li>
           ))}

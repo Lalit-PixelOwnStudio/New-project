@@ -7,9 +7,10 @@ import { ProTag } from "@/components/ui/ProTag";
 import s from "./papers.module.css";
 
 export const metadata: Metadata = {
-  title: "Paper types",
+  title: "Ruled, grid and plain paper for handwriting",
   description:
     "College, wide and narrow ruled, grid, dot grid, legal pad, Cornell notes, engineering, vintage, recycled and kraft paper for handwritten pages.",
+  alternates: { canonical: "/papers" },
 };
 
 export default function PapersPage() {

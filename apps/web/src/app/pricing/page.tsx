@@ -7,14 +7,15 @@ import { Faq } from "@/components/Faq";
 import { PageHero, Section } from "@/components/Section";
 import { ButtonLink } from "@/components/ui/Button";
 import { LIMITS, PLANS, type PaidPlan } from "@/lib/plans";
-import { countryFromHeaders, priceFor, PRODUCTS, regionFor, yearlyPerMonth, type Currency, type ProductId } from "@/lib/pricing";
+import { countryFromHeaders, priceFor, PRODUCTS, RAZORPAY_ABROAD, regionFor, USD_METHODS, yearlyPerMonth, type Currency, type ProductId } from "@/lib/pricing";
 import { resolutionName } from "@/lib/resolution";
 import { PlanRow } from "./PlanRow";
 import s from "./pricing.module.css";
 
 export const metadata: Metadata = {
-  title: "Pricing",
+  title: "Pricing: free text to handwriting, paid plans",
   description: `Truehand is free with ads. Three one-time plans add pages, every hand, paper and pen, and up to 4K quality: Week, Month or Year. Nothing renews.`,
+  alternates: { canonical: "/pricing" },
 };
 
 const freeStyles = STYLES.filter((st) => st.tier === "free").length;
@@ -74,10 +75,10 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
                   $ USD
                 </Link>
               </span>
-              <span>{currency === "INR" ? "UPI, cards, net banking" : "PayPal and cards"}</span>
+              <span>{currency === "INR" ? "UPI, cards, net banking" : USD_METHODS}</span>
             </>
           ) : (
-            <span>Prices for your region · USD · PayPal and cards</span>
+            <span>Prices for your region · USD · {USD_METHODS}</span>
           )}
         </div>
       </PageHero>
@@ -269,7 +270,9 @@ export default async function PricingPage({ searchParams }: { searchParams: Prom
             },
             {
               q: "How can I pay?",
-              a: "It's picked from where you are. In India, prices are in rupees and you pay through Razorpay: UPI, cards, net banking or wallets (you can also switch to US dollars above and use PayPal). Everywhere else, prices are in US dollars and you pay through PayPal, with a PayPal account or a card.",
+              a: RAZORPAY_ABROAD
+                ? "It's picked from where you are. In India, prices are in rupees and you pay through Razorpay: UPI, cards, net banking or wallets (you can also switch to US dollars above). Everywhere else, prices are in US dollars and you pay by card (Visa, Mastercard or Amex), through Razorpay's secure checkout."
+                : "It's picked from where you are. In India, prices are in rupees and you pay through Razorpay: UPI, cards, net banking or wallets (you can also switch to US dollars above and use PayPal). Everywhere else, prices are in US dollars and you pay through PayPal, with a PayPal account or a card.",
             },
             {
               q: "Why are prices different in different countries?",

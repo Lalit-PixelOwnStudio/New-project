@@ -47,7 +47,8 @@ function loadScript(src: string) {
 
 /**
  * Starts a one-time purchase. India pays through Razorpay Checkout (UPI,
- * cards, net banking); everyone else through PayPal. Signing in is required
+ * cards, net banking); everyone else through PayPal, or through Razorpay with
+ * a card once international payments are on (see providerFor). Signing in is required
  * first so the purchase lands on an account.
  */
 export function BuyButton({

@@ -9,7 +9,7 @@ import s from "./business.module.css";
 export const metadata: Metadata = {
   title: "Handwritten letters for business",
   description:
-    "Personalised handwritten letters, thank-you cards and envelopes from a spreadsheet, rendered in realistic handwriting. Print-ready PDFs and transparent PNGs; API coming soon.",
+    "Personalised handwritten letters, thank-you cards and envelopes from a spreadsheet, in realistic handwriting. Print-ready PDFs and transparent PNGs.",
   alternates: { canonical: "/business" },
 };
 
