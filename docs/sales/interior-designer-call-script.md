@@ -44,13 +44,41 @@ Seedha pitch mat karo, ek sawaal poochho:
 
 ---
 
-## Step 5: Discussion ke liye poochho
+## Step 5: Discussion
 
-> "Kya hum is hafte **10-15 minute** baat kar sakte hain? Main aapko kuch samples dikha dungi, bilkul free, koi commitment nahi."
+Agar woh thoda bhi interest dikhayein ("hmm", "haan", "achha", "batao"), toh yeh 3 parts follow karo:
 
-**Ya:**
+### 5a. Batao ki website se unhe kya fayda hoga
 
-> "Main aapko WhatsApp pe kuch samples bhej doon? Aap aaram se dekh lena."
+> "Main simple mein batati hoon. Aajkal jab kisi ko ghar ya office ka interior karwana hota hai, toh woh pehle **Google pe search** karta hai, jaise _'interior designer near me'_."
+>
+> "Agar aapki website hogi, toh woh log **seedha aapka kaam dekh payenge**: aapke projects, photos aur aapka style. Unhe accha laga toh woh wahin se **WhatsApp ya call karke aapko hire kar sakte hain**."
+>
+> "Matlab sirf referrals pe depend nahi rehna padega. **Naye clients online se bhi aayenge**, aur isse aapki **earning bhi badh sakti hai**."
+>
+> "Aur jab client ko pata chalta hai ki aapki proper website hai, toh woh aap pe zyada trust karta hai, aur aap apne kaam ki **sahi value** le paate ho."
+
+### 5b. Demo link bhejne ki permission lo
+
+> "Agar aapko thoda sa bhi interesting laga ho, toh kya main aapko **hamari demo website ka link** WhatsApp pe bhej sakti hoon? Aap free time mein aaram se dekh lena."
+
+_(Haan bolein toh:)_
+
+> "Thank you! Kya yeh number hi WhatsApp pe hai? Main abhi bhej deti hoon."
+
+### 5c. Google Meet ka time fix karo
+
+> "Aap demo dekh lena. Agar aapko theek lagega, toh hum **10-15 minute Google Meet** pe baat kar lenge. Main aapko poora samjha dungi ki aapki website kaisi banegi, aur aapke koi sawaal ho toh woh bhi clear ho jayenge."
+>
+> "Aapke liye kaunsa din aur time better rahega?"
+
+_(Time note karo aur bolo:)_
+
+> "Perfect! Main Google Meet ka link bhi WhatsApp pe bhej dungi."
+
+**Agar woh bolein "pehle demo dekh leta hoon, phir batata hoon":**
+
+> "Bilkul, koi jaldi nahi hai. Main 2 din baad ek baar message kar loongi, theek hai?"
 
 ---
 
